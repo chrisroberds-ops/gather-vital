@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom'
 import { isTestMode } from '@/config/firebase'
+import { useAppConfig } from '@/services/app-config-context'
 
 export default function PublicLandingPage() {
+  const { config } = useAppConfig()
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -32,7 +34,7 @@ export default function PublicLandingPage() {
 
         {/* Hero */}
         <div className="text-center mb-14">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Welcome to Community Church</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Welcome to {config.church_name}!</h1>
           <p className="text-xl text-gray-500 max-w-2xl mx-auto">
             We're glad you're here. Explore our groups, check out upcoming events, or let us know you visited.
           </p>
