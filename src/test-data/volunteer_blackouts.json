@@ -1,0 +1,35 @@
+[
+  {
+    "id": "c96fc8a4-344b-42c8-a648-56babbd3f7ba",
+    "person_id": "5c67adfc-66b3-4154-9430-0f66a3fc16ef",
+    "start_date": "2026-04-21",
+    "end_date": "2026-04-12",
+    "reason": "Business travel"
+  },
+  {
+    "id": "22b0ea75-2eb5-4152-8cb7-e27b15957951",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "start_date": "2026-04-15",
+    "end_date": "2026-04-11"
+  },
+  {
+    "id": "d5d829a1-5055-4a30-a5d6-67c713380495",
+    "person_id": "d25b2dd8-049f-4a4a-88c1-c8f5ae1eb14b",
+    "start_date": "2026-04-13",
+    "end_date": "2026-04-28"
+  },
+  {
+    "id": "cf3c5b54-f3ca-4472-9efb-d165929a220c",
+    "person_id": "b31aa4f2-6f6a-464f-b6e3-30a5d7f2dccd",
+    "start_date": "2026-04-10",
+    "end_date": "2026-04-24",
+    "reason": "Vacation"
+  },
+  {
+    "id": "6b982290-d564-4ea7-a967-5651024e9f56",
+    "person_id": "6794bdc0-713f-4279-8b80-581501629bc3",
+    "start_date": "2026-04-15",
+    "end_date": "2026-04-18",
+    "reason": "Family commitment"
+  }
+]

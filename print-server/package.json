@@ -1,0 +1,14 @@
+{
+  "name": "gather-print-server",
+  "version": "1.0.0",
+  "description": "Local print server for Gather Kids Check-In — relays label jobs to PrintNode",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}

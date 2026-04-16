@@ -1,0 +1,48 @@
+{
+  "47f6a608-1ec6-4a1b-add4-48fe5ce4d453": [
+    "Lead Vocals",
+    "Keys",
+    "Drums",
+    "Electric Guitar",
+    "Bass",
+    "Acoustic Guitar",
+    "Backup Vocals"
+  ],
+  "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a": [
+    "Camera 1",
+    "Camera 2",
+    "Switcher",
+    "Sound Engineer",
+    "Lyrics",
+    "Lighting"
+  ],
+  "2b2d9fd1-2982-4290-9dcc-008f552aa17a": [
+    "Room 1 Lead",
+    "Room 2 Lead",
+    "Floater",
+    "Check-in Desk"
+  ],
+  "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2": [
+    "Front Door",
+    "Parking Lot",
+    "Welcome Desk"
+  ],
+  "1579f5c8-39f1-4805-a9db-7e4c7ece3abb": [
+    "Coffee Bar",
+    "Setup",
+    "Teardown"
+  ],
+  "045dd1f2-63db-45a2-9663-ea430584b65f": [
+    "South Section",
+    "North Section",
+    "Offering"
+  ],
+  "66334dca-7841-4570-8145-6134151b6523": [
+    "Prayer Team Lead",
+    "Prayer Team Member"
+  ],
+  "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c": [
+    "Coordinator",
+    "New Visitor Host"
+  ]
+}

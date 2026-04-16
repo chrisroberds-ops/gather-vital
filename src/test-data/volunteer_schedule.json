@@ -1,0 +1,2536 @@
+[
+  {
+    "id": "ff6ca145-99ec-4dec-b539-b6df97d02db6",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "8dbcabd3-73ff-40be-a29e-0b4eff7dd5d0",
+    "scheduled_date": "2026-03-22",
+    "position": "Lead Vocals",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.268Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.268Z"
+  },
+  {
+    "id": "5aa24e22-71e1-495c-896f-19fbb000ff54",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "adc2e8ce-5136-4dd0-9863-15f58b5ff474",
+    "scheduled_date": "2026-03-22",
+    "position": "Keys",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.269Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.269Z"
+  },
+  {
+    "id": "55bdbacb-754a-4f9e-90cd-ae9338e19c11",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "f8cfd372-f93a-4951-8a8c-8d88e620c9b3",
+    "scheduled_date": "2026-03-22",
+    "position": "Drums",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.269Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.269Z"
+  },
+  {
+    "id": "43329bb8-fef6-4ec5-91a2-48ae9a4a7d67",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "e512c911-b1db-411f-955d-ffc61c86e170",
+    "scheduled_date": "2026-03-22",
+    "position": "Electric Guitar",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.269Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.269Z"
+  },
+  {
+    "id": "be715862-0afe-4ad4-890b-fd8cf3c4e12b",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "f8ab7a9e-04fe-4794-b375-91ffb84da2ed",
+    "scheduled_date": "2026-03-29",
+    "position": "Lead Vocals",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.269Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.269Z"
+  },
+  {
+    "id": "28d4dc9a-0542-465b-89e2-080c87556018",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "4fb89635-c010-40db-8717-72669a05a8da",
+    "scheduled_date": "2026-03-29",
+    "position": "Keys",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.269Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.269Z"
+  },
+  {
+    "id": "c4135025-4cd3-41ac-8f06-bd0a4172bbd6",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "5c67adfc-66b3-4154-9430-0f66a3fc16ef",
+    "scheduled_date": "2026-03-29",
+    "position": "Drums",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.269Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.269Z"
+  },
+  {
+    "id": "47b68829-7cb1-47b1-ac38-f9602975e589",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "0130296e-d546-4949-a686-4fc2d7ec6048",
+    "scheduled_date": "2026-03-29",
+    "position": "Electric Guitar",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.269Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.269Z"
+  },
+  {
+    "id": "8a1c8acd-6c4a-4101-950a-5b03662f4b3e",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "e512c911-b1db-411f-955d-ffc61c86e170",
+    "scheduled_date": "2026-04-05",
+    "position": "Lead Vocals",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.269Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.269Z"
+  },
+  {
+    "id": "e508813c-078b-4090-947e-22a59ff58e17",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "d99a2e66-802b-4193-9645-b497aeb30490",
+    "scheduled_date": "2026-04-05",
+    "position": "Keys",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.269Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.269Z"
+  },
+  {
+    "id": "4fb6d7d4-3384-42fe-aaee-a8e9257eaec4",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "5d0d41ba-ebc4-42cc-bf65-c5ed6cc1e8d5",
+    "scheduled_date": "2026-04-05",
+    "position": "Drums",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.269Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.269Z"
+  },
+  {
+    "id": "36c9d4b3-8682-45a8-b88f-e5581433a62e",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "f8cfd372-f93a-4951-8a8c-8d88e620c9b3",
+    "scheduled_date": "2026-04-05",
+    "position": "Electric Guitar",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.269Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.269Z"
+  },
+  {
+    "id": "3dfdb9cf-9229-45e9-8a07-6b6faaef3c27",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "adc2e8ce-5136-4dd0-9863-15f58b5ff474",
+    "scheduled_date": "2026-04-12",
+    "position": "Lead Vocals",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "7aa94d87-f48a-425c-937a-abd6bb4fd4ab",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "0564d548-2c1f-4c30-bdbb-c151d95145ba",
+    "scheduled_date": "2026-04-12",
+    "position": "Keys",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.269Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "ba366b91-47bb-4714-94c2-7afffbbcdf76",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "e512c911-b1db-411f-955d-ffc61c86e170",
+    "scheduled_date": "2026-04-12",
+    "position": "Drums",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "cd75f33b-2642-4957-93c5-54678fe9091b",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "d99a2e66-802b-4193-9645-b497aeb30490",
+    "scheduled_date": "2026-04-12",
+    "position": "Electric Guitar",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.269Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "3e62c329-a9a1-475f-a04f-fd186c0372bd",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "5c67adfc-66b3-4154-9430-0f66a3fc16ef",
+    "scheduled_date": "2026-04-19",
+    "position": "Lead Vocals",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.269Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "e247016f-e722-4631-aa94-cc71ea396a77",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "e512c911-b1db-411f-955d-ffc61c86e170",
+    "scheduled_date": "2026-04-19",
+    "position": "Keys",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "11464a3b-c1af-43e9-990b-7bc8422d165d",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "8dbcabd3-73ff-40be-a29e-0b4eff7dd5d0",
+    "scheduled_date": "2026-04-19",
+    "position": "Drums",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "bd1427b2-2937-40a8-9a44-cb9a1dc9e2af",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "d99a2e66-802b-4193-9645-b497aeb30490",
+    "scheduled_date": "2026-04-19",
+    "position": "Electric Guitar",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "a63eb54b-dba3-4db8-989d-bd89d379e033",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "1f891b3e-3307-491c-a787-6822df54a602",
+    "scheduled_date": "2026-04-26",
+    "position": "Lead Vocals",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "9ea3da35-cb92-4c4c-8a43-232999ade391",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "scheduled_date": "2026-04-26",
+    "position": "Keys",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "7c62d134-f68c-4ad7-8fc6-6ea9c825806c",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "90de9beb-2996-4bee-971f-d1ed89605c05",
+    "scheduled_date": "2026-04-26",
+    "position": "Drums",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "d92ca562-d88e-4012-a0aa-322fb9561fc9",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "0d9b0fd3-2248-4649-9245-7c3890921ffc",
+    "scheduled_date": "2026-04-26",
+    "position": "Electric Guitar",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "18ee019d-fda3-4109-a0bb-1e8ee362c8e3",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "f8cfd372-f93a-4951-8a8c-8d88e620c9b3",
+    "scheduled_date": "2026-05-03",
+    "position": "Lead Vocals",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "a192054c-5b00-4035-a9f5-03ebc121d3a8",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "ada91543-f6ea-4c89-b73b-40a2ffe50e6f",
+    "scheduled_date": "2026-05-03",
+    "position": "Keys",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "a0f005d4-7019-43bc-bd27-fc18e7d71203",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "de88cabc-e561-4907-a849-00d528c39108",
+    "scheduled_date": "2026-05-03",
+    "position": "Drums",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "b963e87f-6dd3-41f6-b079-cfef0b33c6e0",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "312222a2-5e7a-4230-b242-117358b0ca1d",
+    "scheduled_date": "2026-05-03",
+    "position": "Electric Guitar",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "fa426794-c189-43d9-aa7e-b6312f6e26f1",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "5d0d41ba-ebc4-42cc-bf65-c5ed6cc1e8d5",
+    "scheduled_date": "2026-05-10",
+    "position": "Lead Vocals",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "fdda3bf8-49b3-4b99-9429-95457fcd883b",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "f8ab7a9e-04fe-4794-b375-91ffb84da2ed",
+    "scheduled_date": "2026-05-10",
+    "position": "Keys",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "612c44ea-1249-4c4d-813f-2eb178e671a3",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "scheduled_date": "2026-05-10",
+    "position": "Drums",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "42bd1110-a9a8-4d8e-87c6-6d19bc974e5c",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "5209a083-a2b6-4e25-a1ee-4ad8831eea55",
+    "scheduled_date": "2026-05-10",
+    "position": "Electric Guitar",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "02423c66-f7e4-4668-a93c-709c40cf1f5f",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "f8ab7a9e-04fe-4794-b375-91ffb84da2ed",
+    "scheduled_date": "2026-03-22",
+    "position": "Camera 1",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.270Z"
+  },
+  {
+    "id": "ec01827f-476a-434d-bccc-7b61626495b8",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "0130296e-d546-4949-a686-4fc2d7ec6048",
+    "scheduled_date": "2026-03-22",
+    "position": "Camera 2",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.270Z"
+  },
+  {
+    "id": "1baf5424-8d42-441e-9d43-e09e803e06cd",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "f8cfd372-f93a-4951-8a8c-8d88e620c9b3",
+    "scheduled_date": "2026-03-22",
+    "position": "Switcher",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.270Z"
+  },
+  {
+    "id": "3944c205-7bca-4aa4-9691-4687b7e6804d",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "e512c911-b1db-411f-955d-ffc61c86e170",
+    "scheduled_date": "2026-03-22",
+    "position": "Sound Engineer",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.270Z"
+  },
+  {
+    "id": "46ca79cb-2453-402c-a859-b5719566a960",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "b83e68e9-1fa5-42c9-88ec-243b09ce5d1d",
+    "scheduled_date": "2026-03-29",
+    "position": "Camera 1",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.270Z"
+  },
+  {
+    "id": "ecf23830-644f-4322-9cb2-3b4f83d545c2",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "ada91543-f6ea-4c89-b73b-40a2ffe50e6f",
+    "scheduled_date": "2026-03-29",
+    "position": "Camera 2",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.270Z"
+  },
+  {
+    "id": "0d539bd5-c71d-489e-a80d-4834a6ad59cb",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "90de9beb-2996-4bee-971f-d1ed89605c05",
+    "scheduled_date": "2026-03-29",
+    "position": "Switcher",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.270Z"
+  },
+  {
+    "id": "6665b2fc-40bb-4f41-8e4b-0c2b8f041e98",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "f8ab7a9e-04fe-4794-b375-91ffb84da2ed",
+    "scheduled_date": "2026-03-29",
+    "position": "Sound Engineer",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.270Z"
+  },
+  {
+    "id": "0adeb492-1ad1-4193-8931-8dad4e6d7449",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "8dbcabd3-73ff-40be-a29e-0b4eff7dd5d0",
+    "scheduled_date": "2026-04-05",
+    "position": "Camera 1",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.270Z"
+  },
+  {
+    "id": "e4530b9c-0e5e-41b9-b519-089bf455beff",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "f8ab7a9e-04fe-4794-b375-91ffb84da2ed",
+    "scheduled_date": "2026-04-05",
+    "position": "Camera 2",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.270Z"
+  },
+  {
+    "id": "f6fc203c-a3b2-4dcf-92e5-67af9e4685fb",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "4605351e-9ac7-4189-8b62-45a95f931232",
+    "scheduled_date": "2026-04-05",
+    "position": "Switcher",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.270Z"
+  },
+  {
+    "id": "c708af08-1293-4b83-870d-009fd43ad561",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "b83e68e9-1fa5-42c9-88ec-243b09ce5d1d",
+    "scheduled_date": "2026-04-05",
+    "position": "Sound Engineer",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.270Z"
+  },
+  {
+    "id": "07e0ad42-0a83-4db4-bc3a-1b392b0220bf",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "6794bdc0-713f-4279-8b80-581501629bc3",
+    "scheduled_date": "2026-04-12",
+    "position": "Camera 1",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "018fa522-5b0d-4fee-90f5-d2700fc88b5c",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "5d0d41ba-ebc4-42cc-bf65-c5ed6cc1e8d5",
+    "scheduled_date": "2026-04-12",
+    "position": "Camera 2",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "f76eef85-30b3-49ef-a05d-8cd757a5ce4f",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "de88cabc-e561-4907-a849-00d528c39108",
+    "scheduled_date": "2026-04-12",
+    "position": "Switcher",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "14542d6f-928f-490e-a3b8-54ee84128407",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "1f891b3e-3307-491c-a787-6822df54a602",
+    "scheduled_date": "2026-04-12",
+    "position": "Sound Engineer",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "bb68eaac-18f5-4493-a829-9663573cb410",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "f8cfd372-f93a-4951-8a8c-8d88e620c9b3",
+    "scheduled_date": "2026-04-19",
+    "position": "Camera 1",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "05fbd210-f476-4b48-af78-8c42c6ea91ba",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "d99a2e66-802b-4193-9645-b497aeb30490",
+    "scheduled_date": "2026-04-19",
+    "position": "Camera 2",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "f52fb6e1-1a2e-4d4e-908e-d5238906d72f",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "1f891b3e-3307-491c-a787-6822df54a602",
+    "scheduled_date": "2026-04-19",
+    "position": "Switcher",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "36788387-3fde-4a29-9d07-636fb4939e8b",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "6794bdc0-713f-4279-8b80-581501629bc3",
+    "scheduled_date": "2026-04-19",
+    "position": "Sound Engineer",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "dcd4697d-03e0-435c-88f3-d4371652d6fe",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "1f891b3e-3307-491c-a787-6822df54a602",
+    "scheduled_date": "2026-04-26",
+    "position": "Camera 1",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "9de907eb-da0f-4e21-98c6-2855ae8ba846",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "5c67adfc-66b3-4154-9430-0f66a3fc16ef",
+    "scheduled_date": "2026-04-26",
+    "position": "Camera 2",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "d9eee3b9-b4b6-4dc3-92b8-8cd38dd413f7",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "d99a2e66-802b-4193-9645-b497aeb30490",
+    "scheduled_date": "2026-04-26",
+    "position": "Switcher",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "0a9915c2-e127-4f5a-b923-e2bf16331aba",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "90de9beb-2996-4bee-971f-d1ed89605c05",
+    "scheduled_date": "2026-04-26",
+    "position": "Sound Engineer",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "7df2dd61-faf7-463f-a408-64a560913b52",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "5d0d41ba-ebc4-42cc-bf65-c5ed6cc1e8d5",
+    "scheduled_date": "2026-05-03",
+    "position": "Camera 1",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "49bb77c3-2a6b-445e-9691-206fdad952a3",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "32d3f52c-a78b-43ff-ba3a-1047dbb655f0",
+    "scheduled_date": "2026-05-03",
+    "position": "Camera 2",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "22384848-4f7b-4b73-98a7-1052e26bd724",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "f8cfd372-f93a-4951-8a8c-8d88e620c9b3",
+    "scheduled_date": "2026-05-03",
+    "position": "Switcher",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "52e07fa5-2f0a-4e0b-bfa6-d8b90311062d",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "4fb89635-c010-40db-8717-72669a05a8da",
+    "scheduled_date": "2026-05-03",
+    "position": "Sound Engineer",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "c1bb8388-7712-4134-933b-d54d94b59f4e",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "4605351e-9ac7-4189-8b62-45a95f931232",
+    "scheduled_date": "2026-05-10",
+    "position": "Camera 1",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "7c0ac713-ae68-4365-8afd-391325a7e355",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "e512c911-b1db-411f-955d-ffc61c86e170",
+    "scheduled_date": "2026-05-10",
+    "position": "Camera 2",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "6f631d0f-6392-41d6-a820-58c8c112cc20",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "b83e68e9-1fa5-42c9-88ec-243b09ce5d1d",
+    "scheduled_date": "2026-05-10",
+    "position": "Switcher",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "c39c4853-fe72-4b42-9681-90eeb74be275",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "1f891b3e-3307-491c-a787-6822df54a602",
+    "scheduled_date": "2026-05-10",
+    "position": "Sound Engineer",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "f7d0f3f2-7464-4f4a-a2d8-f635bac19e11",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "b31aa4f2-6f6a-464f-b6e3-30a5d7f2dccd",
+    "scheduled_date": "2026-03-22",
+    "position": "Room 1 Lead",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.270Z"
+  },
+  {
+    "id": "5a8fea44-e9c7-4152-8cb1-9db84e6dcdfb",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "f8cfd372-f93a-4951-8a8c-8d88e620c9b3",
+    "scheduled_date": "2026-03-22",
+    "position": "Room 2 Lead",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.270Z"
+  },
+  {
+    "id": "3030807e-bf38-4578-b03b-c9461fd1293e",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "d25b2dd8-049f-4a4a-88c1-c8f5ae1eb14b",
+    "scheduled_date": "2026-03-22",
+    "position": "Floater",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.270Z"
+  },
+  {
+    "id": "40c6a42a-7329-4b4b-825b-a410d1137c38",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "68319492-7805-421f-85c4-ac9765edf1bf",
+    "scheduled_date": "2026-03-22",
+    "position": "Check-in Desk",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.270Z"
+  },
+  {
+    "id": "cb6148df-a5b5-4a34-9169-ccf178c415fe",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "312222a2-5e7a-4230-b242-117358b0ca1d",
+    "scheduled_date": "2026-03-29",
+    "position": "Room 1 Lead",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.270Z"
+  },
+  {
+    "id": "e05b33d9-f254-4e45-b2c3-16622e113f1d",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "d25b2dd8-049f-4a4a-88c1-c8f5ae1eb14b",
+    "scheduled_date": "2026-03-29",
+    "position": "Room 2 Lead",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.270Z"
+  },
+  {
+    "id": "64abcd4a-2892-4136-9e8b-21358e68001b",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "f8ab7a9e-04fe-4794-b375-91ffb84da2ed",
+    "scheduled_date": "2026-03-29",
+    "position": "Floater",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.270Z"
+  },
+  {
+    "id": "3981ac4a-3ce7-4364-b0a0-3ba1ae16ba32",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "b83e68e9-1fa5-42c9-88ec-243b09ce5d1d",
+    "scheduled_date": "2026-03-29",
+    "position": "Check-in Desk",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.270Z"
+  },
+  {
+    "id": "ebe2d308-50fa-4ef6-8428-976271d061c5",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "90de9beb-2996-4bee-971f-d1ed89605c05",
+    "scheduled_date": "2026-04-05",
+    "position": "Room 1 Lead",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.270Z"
+  },
+  {
+    "id": "8ee3b027-3ce0-4379-9eea-4c3f0916abc9",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "scheduled_date": "2026-04-05",
+    "position": "Room 2 Lead",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.270Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.270Z"
+  },
+  {
+    "id": "ec2dfa49-5a8e-493b-9446-0f8c4b96f7a0",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "8dbcabd3-73ff-40be-a29e-0b4eff7dd5d0",
+    "scheduled_date": "2026-04-05",
+    "position": "Floater",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.271Z"
+  },
+  {
+    "id": "ec8e7969-56f1-4105-a618-9cf911ca24c9",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "b31aa4f2-6f6a-464f-b6e3-30a5d7f2dccd",
+    "scheduled_date": "2026-04-05",
+    "position": "Check-in Desk",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.271Z"
+  },
+  {
+    "id": "9a73e89f-f906-4e4f-9198-4f936b4e2421",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "8dbcabd3-73ff-40be-a29e-0b4eff7dd5d0",
+    "scheduled_date": "2026-04-12",
+    "position": "Room 1 Lead",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "1349bc0a-a86c-4534-8739-e97cb59b351f",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "d99a2e66-802b-4193-9645-b497aeb30490",
+    "scheduled_date": "2026-04-12",
+    "position": "Room 2 Lead",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "7d5caad0-edfc-4e35-a51b-20cecd9e7f1c",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "1f891b3e-3307-491c-a787-6822df54a602",
+    "scheduled_date": "2026-04-12",
+    "position": "Floater",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "bdd23024-b7c7-481c-9c45-3db932002185",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "f8ab7a9e-04fe-4794-b375-91ffb84da2ed",
+    "scheduled_date": "2026-04-12",
+    "position": "Check-in Desk",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "e50ee00d-4e3d-414f-b32d-115abe865dbe",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "f8ab7a9e-04fe-4794-b375-91ffb84da2ed",
+    "scheduled_date": "2026-04-19",
+    "position": "Room 1 Lead",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "8a20d898-c297-4e8f-95fe-956c96ab0113",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "b31aa4f2-6f6a-464f-b6e3-30a5d7f2dccd",
+    "scheduled_date": "2026-04-19",
+    "position": "Room 2 Lead",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "507f5f12-b8cd-44a9-9d60-9f035c53a026",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "0130296e-d546-4949-a686-4fc2d7ec6048",
+    "scheduled_date": "2026-04-19",
+    "position": "Floater",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "15c6921e-55eb-4ca1-bfe3-c6a282837ae2",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "1f891b3e-3307-491c-a787-6822df54a602",
+    "scheduled_date": "2026-04-19",
+    "position": "Check-in Desk",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "85fc62cf-4e2f-4b54-ba9e-c8e9dde19777",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "d99a2e66-802b-4193-9645-b497aeb30490",
+    "scheduled_date": "2026-04-26",
+    "position": "Room 1 Lead",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "734a1380-2dd5-45e0-a99c-f57afead1602",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "b83e68e9-1fa5-42c9-88ec-243b09ce5d1d",
+    "scheduled_date": "2026-04-26",
+    "position": "Room 2 Lead",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "aa1a7a59-6826-45bb-bea5-c73b22ccc4db",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "5c67adfc-66b3-4154-9430-0f66a3fc16ef",
+    "scheduled_date": "2026-04-26",
+    "position": "Floater",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "91bb4b88-513c-440f-93ae-9cfd857ddd97",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "68319492-7805-421f-85c4-ac9765edf1bf",
+    "scheduled_date": "2026-04-26",
+    "position": "Check-in Desk",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "0e0f71ae-7bf3-4d46-9470-47aa94f638b0",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "scheduled_date": "2026-05-03",
+    "position": "Room 1 Lead",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "86e19513-a09f-4c52-b76f-f62ec857e2c0",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "f8cfd372-f93a-4951-8a8c-8d88e620c9b3",
+    "scheduled_date": "2026-05-03",
+    "position": "Room 2 Lead",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "3083a418-9779-4823-92b8-6c591bbcecd5",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "d99a2e66-802b-4193-9645-b497aeb30490",
+    "scheduled_date": "2026-05-03",
+    "position": "Floater",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "e85d52a0-6c4e-4fdf-b89d-769acaba72c0",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "4fb89635-c010-40db-8717-72669a05a8da",
+    "scheduled_date": "2026-05-03",
+    "position": "Check-in Desk",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "8457c874-834c-4505-aadf-b642a8a354c2",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "90de9beb-2996-4bee-971f-d1ed89605c05",
+    "scheduled_date": "2026-05-10",
+    "position": "Room 1 Lead",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "812155d3-19a4-49c5-8820-f44fb9bbc164",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "scheduled_date": "2026-05-10",
+    "position": "Room 2 Lead",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "924a9dcf-9bdd-4b84-9ecd-256de4a167ce",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "0130296e-d546-4949-a686-4fc2d7ec6048",
+    "scheduled_date": "2026-05-10",
+    "position": "Floater",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "a5fe4838-a1d9-4f0d-ac25-e86e17a949b9",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "5c67adfc-66b3-4154-9430-0f66a3fc16ef",
+    "scheduled_date": "2026-05-10",
+    "position": "Check-in Desk",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "06283be3-2e56-4363-8a7c-584e8241085f",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "90de9beb-2996-4bee-971f-d1ed89605c05",
+    "scheduled_date": "2026-03-22",
+    "position": "Front Door",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.271Z"
+  },
+  {
+    "id": "c53fcabf-911a-4ab1-af8a-0f99fe3eb036",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "4605351e-9ac7-4189-8b62-45a95f931232",
+    "scheduled_date": "2026-03-22",
+    "position": "Parking Lot",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.271Z"
+  },
+  {
+    "id": "b3ddaed3-cf2f-408c-8cb8-ab79d580a373",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "1f891b3e-3307-491c-a787-6822df54a602",
+    "scheduled_date": "2026-03-22",
+    "position": "Welcome Desk",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.271Z"
+  },
+  {
+    "id": "7663f0eb-27fa-4277-ace1-54f8e6b4e7c4",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "312222a2-5e7a-4230-b242-117358b0ca1d",
+    "scheduled_date": "2026-03-22",
+    "position": "Front Door",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.271Z"
+  },
+  {
+    "id": "22757722-d2a6-4f1d-9704-655e56cc1b72",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "1f891b3e-3307-491c-a787-6822df54a602",
+    "scheduled_date": "2026-03-29",
+    "position": "Front Door",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.271Z"
+  },
+  {
+    "id": "05469b9a-ddd2-4485-824f-560b61fcbf6b",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "4605351e-9ac7-4189-8b62-45a95f931232",
+    "scheduled_date": "2026-03-29",
+    "position": "Parking Lot",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.271Z"
+  },
+  {
+    "id": "b0260789-129a-408c-a165-e25e580fda01",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "f8ab7a9e-04fe-4794-b375-91ffb84da2ed",
+    "scheduled_date": "2026-03-29",
+    "position": "Welcome Desk",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.271Z"
+  },
+  {
+    "id": "499d49c7-d2bf-4551-9a80-cde87e6a9510",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "68319492-7805-421f-85c4-ac9765edf1bf",
+    "scheduled_date": "2026-03-29",
+    "position": "Front Door",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.271Z"
+  },
+  {
+    "id": "7311503c-31f9-4009-a813-e97426e0f360",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "f8cfd372-f93a-4951-8a8c-8d88e620c9b3",
+    "scheduled_date": "2026-04-05",
+    "position": "Front Door",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.271Z"
+  },
+  {
+    "id": "7a86b081-6c2e-4e60-8ce2-ee7c7952b09d",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "4605351e-9ac7-4189-8b62-45a95f931232",
+    "scheduled_date": "2026-04-05",
+    "position": "Parking Lot",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.271Z"
+  },
+  {
+    "id": "593d5930-2079-4017-aca1-ee597f8f35cc",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "1f891b3e-3307-491c-a787-6822df54a602",
+    "scheduled_date": "2026-04-05",
+    "position": "Welcome Desk",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.271Z"
+  },
+  {
+    "id": "dba77696-21e0-4174-b612-cc1a9b74a536",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "68319492-7805-421f-85c4-ac9765edf1bf",
+    "scheduled_date": "2026-04-05",
+    "position": "Front Door",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.271Z"
+  },
+  {
+    "id": "590bc620-a476-4287-8943-dbc139ded0de",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "1f891b3e-3307-491c-a787-6822df54a602",
+    "scheduled_date": "2026-04-12",
+    "position": "Front Door",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "838edf76-a60b-4400-8e47-f71811d4a838",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "90de9beb-2996-4bee-971f-d1ed89605c05",
+    "scheduled_date": "2026-04-12",
+    "position": "Parking Lot",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "83a07b6d-af4f-49be-a8d8-9728fcba5230",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "312222a2-5e7a-4230-b242-117358b0ca1d",
+    "scheduled_date": "2026-04-12",
+    "position": "Welcome Desk",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "4154745e-5ca5-4d90-b1c7-622cd84e9c07",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "68319492-7805-421f-85c4-ac9765edf1bf",
+    "scheduled_date": "2026-04-12",
+    "position": "Front Door",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "1bffc8ab-0190-4e74-86de-1c99c3851129",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "f8cfd372-f93a-4951-8a8c-8d88e620c9b3",
+    "scheduled_date": "2026-04-19",
+    "position": "Front Door",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "9eaf0b0b-6942-4be2-8e2b-f2656caf287e",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "b83e68e9-1fa5-42c9-88ec-243b09ce5d1d",
+    "scheduled_date": "2026-04-19",
+    "position": "Parking Lot",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "7a5d8aa5-1c4d-4959-8abd-2f6d3095f100",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "90de9beb-2996-4bee-971f-d1ed89605c05",
+    "scheduled_date": "2026-04-19",
+    "position": "Welcome Desk",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "85132bcc-fe76-4e94-99fd-4ff3ee0a4ae7",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "4605351e-9ac7-4189-8b62-45a95f931232",
+    "scheduled_date": "2026-04-19",
+    "position": "Front Door",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "5ccb02e1-1da5-42ef-9084-d5b88d7d5277",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "90de9beb-2996-4bee-971f-d1ed89605c05",
+    "scheduled_date": "2026-04-26",
+    "position": "Front Door",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "9e832d01-1680-486c-bda7-3d55efefdb4f",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "f8ab7a9e-04fe-4794-b375-91ffb84da2ed",
+    "scheduled_date": "2026-04-26",
+    "position": "Parking Lot",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "71f934f9-6711-4985-891f-412126b46e4c",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "0130296e-d546-4949-a686-4fc2d7ec6048",
+    "scheduled_date": "2026-04-26",
+    "position": "Welcome Desk",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "73e0991b-7bd5-4743-b0f7-0040510ae6d0",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "d99a2e66-802b-4193-9645-b497aeb30490",
+    "scheduled_date": "2026-04-26",
+    "position": "Front Door",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "84a707a0-9a26-4fe6-a510-4ffd529a6bbc",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "b83e68e9-1fa5-42c9-88ec-243b09ce5d1d",
+    "scheduled_date": "2026-05-03",
+    "position": "Front Door",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "0a3413f6-e238-45a6-ac69-5ba649f2c88f",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "0130296e-d546-4949-a686-4fc2d7ec6048",
+    "scheduled_date": "2026-05-03",
+    "position": "Parking Lot",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "83bed358-933c-4bde-84da-f44bedb6bcca",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "1f891b3e-3307-491c-a787-6822df54a602",
+    "scheduled_date": "2026-05-03",
+    "position": "Welcome Desk",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "7f99f14a-55e9-4141-882d-904958e55d51",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "f8ab7a9e-04fe-4794-b375-91ffb84da2ed",
+    "scheduled_date": "2026-05-03",
+    "position": "Front Door",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "a20d51dc-ae72-4051-a807-25a55fb89901",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "4605351e-9ac7-4189-8b62-45a95f931232",
+    "scheduled_date": "2026-05-10",
+    "position": "Front Door",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "042e32a8-967c-436f-8343-040250cc6fab",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "f8cfd372-f93a-4951-8a8c-8d88e620c9b3",
+    "scheduled_date": "2026-05-10",
+    "position": "Parking Lot",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "f3ab4712-08ae-4840-be7b-0750c85c70f4",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "0130296e-d546-4949-a686-4fc2d7ec6048",
+    "scheduled_date": "2026-05-10",
+    "position": "Welcome Desk",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "2705b318-8acb-4d39-a5f7-fcb7784ecc61",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "d99a2e66-802b-4193-9645-b497aeb30490",
+    "scheduled_date": "2026-05-10",
+    "position": "Front Door",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "9b9833c0-c8ef-4a67-9319-c468e23e0aa6",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "b83e68e9-1fa5-42c9-88ec-243b09ce5d1d",
+    "scheduled_date": "2026-03-22",
+    "position": "Coffee Bar",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.271Z"
+  },
+  {
+    "id": "d23869ee-342e-467c-a817-aba14be00a82",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "2d73d785-926f-44a5-8c2f-731285d639b2",
+    "scheduled_date": "2026-03-22",
+    "position": "Setup",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.271Z"
+  },
+  {
+    "id": "fa7d3688-e40e-4368-9f87-9fd2cdba7ab1",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "49b4612a-28b1-494f-97c8-0af9de3396de",
+    "scheduled_date": "2026-03-22",
+    "position": "Teardown",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.271Z"
+  },
+  {
+    "id": "3da7dbe1-8b35-46c7-9763-e5926ef5255a",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "8dbcabd3-73ff-40be-a29e-0b4eff7dd5d0",
+    "scheduled_date": "2026-03-22",
+    "position": "Coffee Bar",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.271Z"
+  },
+  {
+    "id": "d9ec9e98-5e17-488a-884d-ad4ab6c0998a",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "2fe8d891-c2dc-4b04-b451-e846798e7fd3",
+    "scheduled_date": "2026-03-29",
+    "position": "Coffee Bar",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.271Z"
+  },
+  {
+    "id": "a57579d7-57b5-4694-8325-09264ada8a01",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "1f891b3e-3307-491c-a787-6822df54a602",
+    "scheduled_date": "2026-03-29",
+    "position": "Setup",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.271Z"
+  },
+  {
+    "id": "1481edf0-dce8-4c01-91e0-1e1dc008fe46",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "2d73d785-926f-44a5-8c2f-731285d639b2",
+    "scheduled_date": "2026-03-29",
+    "position": "Teardown",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.271Z"
+  },
+  {
+    "id": "b52b71c9-7a8a-4d9a-9982-5b66c0a76525",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "6d180556-b673-4531-b9a9-76d870566989",
+    "scheduled_date": "2026-03-29",
+    "position": "Coffee Bar",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.271Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.271Z"
+  },
+  {
+    "id": "a341fe19-fb73-44bc-981e-d208441fd1ea",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "2d73d785-926f-44a5-8c2f-731285d639b2",
+    "scheduled_date": "2026-04-05",
+    "position": "Coffee Bar",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.272Z"
+  },
+  {
+    "id": "d9d78469-f920-4d55-9cfb-26cef8d045f0",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "5c67adfc-66b3-4154-9430-0f66a3fc16ef",
+    "scheduled_date": "2026-04-05",
+    "position": "Setup",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.272Z"
+  },
+  {
+    "id": "e43bb7f3-ec5c-422e-a106-1de76834179e",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "32d3f52c-a78b-43ff-ba3a-1047dbb655f0",
+    "scheduled_date": "2026-04-05",
+    "position": "Teardown",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.272Z"
+  },
+  {
+    "id": "b4efe09a-4f43-475e-b76a-1cc7f9bea60b",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "scheduled_date": "2026-04-05",
+    "position": "Coffee Bar",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.272Z"
+  },
+  {
+    "id": "ee81a281-95dc-4f40-9712-990784d2421e",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "32d3f52c-a78b-43ff-ba3a-1047dbb655f0",
+    "scheduled_date": "2026-04-12",
+    "position": "Coffee Bar",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "6aed1d75-af1c-436d-8818-c827eabc1962",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "9c286251-02f8-4f64-b871-a39a20c70f0b",
+    "scheduled_date": "2026-04-12",
+    "position": "Setup",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "24407c01-b9b3-4c79-b13c-31989987e894",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "d99a2e66-802b-4193-9645-b497aeb30490",
+    "scheduled_date": "2026-04-12",
+    "position": "Teardown",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "8695b06d-407f-4119-846d-3b8ef79b53f6",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "scheduled_date": "2026-04-12",
+    "position": "Coffee Bar",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "ee4d7a58-4024-4ffd-8377-6081cb5a345c",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "4605351e-9ac7-4189-8b62-45a95f931232",
+    "scheduled_date": "2026-04-19",
+    "position": "Coffee Bar",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "343a8b30-a134-4ba2-a9b6-3a91a7c34876",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "90de9beb-2996-4bee-971f-d1ed89605c05",
+    "scheduled_date": "2026-04-19",
+    "position": "Setup",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "b2b70307-5fdd-48c4-8862-181be27b4ee1",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "b31aa4f2-6f6a-464f-b6e3-30a5d7f2dccd",
+    "scheduled_date": "2026-04-19",
+    "position": "Teardown",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "f6094eca-4b40-487c-bd57-75b8ea325562",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "49b4612a-28b1-494f-97c8-0af9de3396de",
+    "scheduled_date": "2026-04-19",
+    "position": "Coffee Bar",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "6799adeb-1ffb-484c-beaa-35b0ac51d25b",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "8dbcabd3-73ff-40be-a29e-0b4eff7dd5d0",
+    "scheduled_date": "2026-04-26",
+    "position": "Coffee Bar",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "87d99657-55f5-4459-becd-de3766a69645",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "4605351e-9ac7-4189-8b62-45a95f931232",
+    "scheduled_date": "2026-04-26",
+    "position": "Setup",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "fd73ab73-84fa-443b-9b99-95e7052590d9",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "32d3f52c-a78b-43ff-ba3a-1047dbb655f0",
+    "scheduled_date": "2026-04-26",
+    "position": "Teardown",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "7300510d-4820-4b10-b906-450f89ac9c75",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "90de9beb-2996-4bee-971f-d1ed89605c05",
+    "scheduled_date": "2026-04-26",
+    "position": "Coffee Bar",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "e8a24147-d830-496f-9cc0-c39792700afc",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "6794bdc0-713f-4279-8b80-581501629bc3",
+    "scheduled_date": "2026-05-03",
+    "position": "Coffee Bar",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "02f6db9f-37d8-433c-90e0-a997dac1002a",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "d25b2dd8-049f-4a4a-88c1-c8f5ae1eb14b",
+    "scheduled_date": "2026-05-03",
+    "position": "Setup",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "35eeedbe-bf0e-4813-9d8f-1658aa010d55",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "b83e68e9-1fa5-42c9-88ec-243b09ce5d1d",
+    "scheduled_date": "2026-05-03",
+    "position": "Teardown",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "01afa48f-856f-4ba3-b853-e64e3baedb57",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "f2b66bbf-21b9-4411-9e35-35181c38ea85",
+    "scheduled_date": "2026-05-03",
+    "position": "Coffee Bar",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "0fd8b8cd-37af-4aed-89e6-6c2496ff88b7",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "90de9beb-2996-4bee-971f-d1ed89605c05",
+    "scheduled_date": "2026-05-10",
+    "position": "Coffee Bar",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "b3d93a34-de4e-4310-a36e-35b4a63b0457",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "1f891b3e-3307-491c-a787-6822df54a602",
+    "scheduled_date": "2026-05-10",
+    "position": "Setup",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "995ef917-273b-41f3-bae3-e6ff3d3312a7",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "ff0fad78-7a20-44b3-8af1-a7d2bdfa79d9",
+    "scheduled_date": "2026-05-10",
+    "position": "Teardown",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "f01bec74-0875-49bb-9492-1cbc2e2d5142",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "4605351e-9ac7-4189-8b62-45a95f931232",
+    "scheduled_date": "2026-05-10",
+    "position": "Coffee Bar",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "a5f28c0b-424f-4e31-b59d-fc92198d506f",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "2fe8d891-c2dc-4b04-b451-e846798e7fd3",
+    "scheduled_date": "2026-03-22",
+    "position": "South Section",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.272Z"
+  },
+  {
+    "id": "0d75598a-924d-4a72-8040-7d4db2a2a269",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "2d73d785-926f-44a5-8c2f-731285d639b2",
+    "scheduled_date": "2026-03-22",
+    "position": "North Section",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.272Z"
+  },
+  {
+    "id": "257d2574-a4c8-41a9-9503-639bdab9f442",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "scheduled_date": "2026-03-22",
+    "position": "Offering",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.272Z"
+  },
+  {
+    "id": "147ffb6d-eea3-41e0-8470-e40f4e7a384f",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "b110fb54-5ca2-421a-8c40-1f4c96319ca8",
+    "scheduled_date": "2026-03-22",
+    "position": "South Section",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.272Z"
+  },
+  {
+    "id": "a10f46a3-b7d4-43d5-86ca-73c2e2c62632",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "32d3f52c-a78b-43ff-ba3a-1047dbb655f0",
+    "scheduled_date": "2026-03-29",
+    "position": "South Section",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.272Z"
+  },
+  {
+    "id": "d1f0ade2-b15b-4551-911e-0bc9ba76ffa3",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "6794bdc0-713f-4279-8b80-581501629bc3",
+    "scheduled_date": "2026-03-29",
+    "position": "North Section",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.272Z"
+  },
+  {
+    "id": "7ca8a0c3-a110-4e95-bca9-7041a3752fe1",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "9c286251-02f8-4f64-b871-a39a20c70f0b",
+    "scheduled_date": "2026-03-29",
+    "position": "Offering",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.272Z"
+  },
+  {
+    "id": "7c22ee7d-a252-4cf8-8ab3-569d47c1828c",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "5c67adfc-66b3-4154-9430-0f66a3fc16ef",
+    "scheduled_date": "2026-03-29",
+    "position": "South Section",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.272Z"
+  },
+  {
+    "id": "e15a515d-f091-4a00-9c14-ff2887ecc467",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "b31aa4f2-6f6a-464f-b6e3-30a5d7f2dccd",
+    "scheduled_date": "2026-04-05",
+    "position": "South Section",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.272Z"
+  },
+  {
+    "id": "12233478-4e8c-4e26-b650-d1fc92844d67",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "d99a2e66-802b-4193-9645-b497aeb30490",
+    "scheduled_date": "2026-04-05",
+    "position": "North Section",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.272Z"
+  },
+  {
+    "id": "1996df77-8ba3-41f4-8ad4-a1f078c1744c",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "scheduled_date": "2026-04-05",
+    "position": "Offering",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.272Z"
+  },
+  {
+    "id": "bcea56fe-7fde-4ade-b1f5-7cae6507b473",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "9c286251-02f8-4f64-b871-a39a20c70f0b",
+    "scheduled_date": "2026-04-05",
+    "position": "South Section",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.272Z"
+  },
+  {
+    "id": "79babc95-3ef5-413a-b2ce-f0fb16bf227f",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "90de9beb-2996-4bee-971f-d1ed89605c05",
+    "scheduled_date": "2026-04-12",
+    "position": "South Section",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "5ebfe3c0-d9ff-4027-bedf-9403ae5e6487",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "d25b2dd8-049f-4a4a-88c1-c8f5ae1eb14b",
+    "scheduled_date": "2026-04-12",
+    "position": "North Section",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "4dfa4301-e17b-4d27-b444-9062f9d3c62c",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "49b4612a-28b1-494f-97c8-0af9de3396de",
+    "scheduled_date": "2026-04-12",
+    "position": "Offering",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "c2572c8f-9812-4df6-8caf-38684791bbe6",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "1f891b3e-3307-491c-a787-6822df54a602",
+    "scheduled_date": "2026-04-12",
+    "position": "South Section",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "10ff83ee-d811-4ee6-b5ac-b934bc12a699",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "90de9beb-2996-4bee-971f-d1ed89605c05",
+    "scheduled_date": "2026-04-19",
+    "position": "South Section",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "481dd421-91aa-49e6-ae01-69094e89fc77",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "ff0fad78-7a20-44b3-8af1-a7d2bdfa79d9",
+    "scheduled_date": "2026-04-19",
+    "position": "North Section",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "14c423a9-b5e7-48ff-baf8-45897e640fd9",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "0130296e-d546-4949-a686-4fc2d7ec6048",
+    "scheduled_date": "2026-04-19",
+    "position": "Offering",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "e681ffc7-7648-40f6-aeb4-3fc31b43ba7f",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "6794bdc0-713f-4279-8b80-581501629bc3",
+    "scheduled_date": "2026-04-19",
+    "position": "South Section",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "ffc8c808-9434-492b-a65c-86e5d8394213",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "1f891b3e-3307-491c-a787-6822df54a602",
+    "scheduled_date": "2026-04-26",
+    "position": "South Section",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "d4a39e0f-dcbc-4fc5-895f-e9ce397c6b61",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "5c67adfc-66b3-4154-9430-0f66a3fc16ef",
+    "scheduled_date": "2026-04-26",
+    "position": "North Section",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "08a29926-c02f-4b7a-8dd5-7a1f65e10a6c",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "d99a2e66-802b-4193-9645-b497aeb30490",
+    "scheduled_date": "2026-04-26",
+    "position": "Offering",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "3b37deb6-9bde-4ec2-8bde-e8a097fec06b",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "06704c28-303f-4cf7-b187-d1725b7667ce",
+    "scheduled_date": "2026-04-26",
+    "position": "South Section",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "fdfc6f65-7de5-47e0-bc76-76ce7db59a06",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "90de9beb-2996-4bee-971f-d1ed89605c05",
+    "scheduled_date": "2026-05-03",
+    "position": "South Section",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "54363259-2004-4387-a5d8-14ff42776831",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "0130296e-d546-4949-a686-4fc2d7ec6048",
+    "scheduled_date": "2026-05-03",
+    "position": "North Section",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "2b74d797-1961-4903-ac0a-f26979621b3d",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "9c286251-02f8-4f64-b871-a39a20c70f0b",
+    "scheduled_date": "2026-05-03",
+    "position": "Offering",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "349c0362-8758-4554-8873-02063658b700",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "8dbcabd3-73ff-40be-a29e-0b4eff7dd5d0",
+    "scheduled_date": "2026-05-03",
+    "position": "South Section",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "fddd1221-5d43-4a15-b4d8-a2e5bf8816d2",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "f2b66bbf-21b9-4411-9e35-35181c38ea85",
+    "scheduled_date": "2026-05-10",
+    "position": "South Section",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "682346e5-82b8-47fe-bae9-d61f242549f0",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "scheduled_date": "2026-05-10",
+    "position": "North Section",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "0ad252e4-7e8e-4e79-a3f4-c55183234861",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "90de9beb-2996-4bee-971f-d1ed89605c05",
+    "scheduled_date": "2026-05-10",
+    "position": "Offering",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "9f1d8885-5a09-4b53-9311-2044ff237286",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "b31aa4f2-6f6a-464f-b6e3-30a5d7f2dccd",
+    "scheduled_date": "2026-05-10",
+    "position": "South Section",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "e89efb57-9da5-460e-819d-6cc06b689260",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "8dbcabd3-73ff-40be-a29e-0b4eff7dd5d0",
+    "scheduled_date": "2026-03-22",
+    "position": "Prayer Team Lead",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.272Z"
+  },
+  {
+    "id": "892c5e62-c965-4250-98ec-0e73c54271c7",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "ff0fad78-7a20-44b3-8af1-a7d2bdfa79d9",
+    "scheduled_date": "2026-03-22",
+    "position": "Prayer Team Member",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.272Z"
+  },
+  {
+    "id": "0d77c159-7244-4f53-8d67-8990d342c9ca",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "32d3f52c-a78b-43ff-ba3a-1047dbb655f0",
+    "scheduled_date": "2026-03-22",
+    "position": "Prayer Team Lead",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.272Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.273Z"
+  },
+  {
+    "id": "4843db5c-a064-434f-a7d3-2e7e1e62ac0f",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "2d73d785-926f-44a5-8c2f-731285d639b2",
+    "scheduled_date": "2026-03-22",
+    "position": "Prayer Team Member",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.273Z"
+  },
+  {
+    "id": "7ca61f44-acff-4e62-b903-02765dae741a",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "2d73d785-926f-44a5-8c2f-731285d639b2",
+    "scheduled_date": "2026-03-29",
+    "position": "Prayer Team Lead",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.273Z"
+  },
+  {
+    "id": "2e82a806-c84e-4345-8e8a-fc2cb35b33be",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "ff0fad78-7a20-44b3-8af1-a7d2bdfa79d9",
+    "scheduled_date": "2026-03-29",
+    "position": "Prayer Team Member",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.273Z"
+  },
+  {
+    "id": "79afa9f0-1851-44ae-8184-a8e0738de6c4",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "8dbcabd3-73ff-40be-a29e-0b4eff7dd5d0",
+    "scheduled_date": "2026-03-29",
+    "position": "Prayer Team Lead",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.273Z"
+  },
+  {
+    "id": "d10561d6-748c-4ef6-af40-c20ec1cde8bc",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "scheduled_date": "2026-03-29",
+    "position": "Prayer Team Member",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.273Z"
+  },
+  {
+    "id": "51c3819f-b3f4-467f-a1b5-1e9c3cd69fd7",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "ff0fad78-7a20-44b3-8af1-a7d2bdfa79d9",
+    "scheduled_date": "2026-04-05",
+    "position": "Prayer Team Lead",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.273Z"
+  },
+  {
+    "id": "c09ffd1f-93ad-41ee-90ef-0455c5ff5889",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "scheduled_date": "2026-04-05",
+    "position": "Prayer Team Member",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.273Z"
+  },
+  {
+    "id": "201e4191-1990-4768-bb46-cee788dd4264",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "d25b2dd8-049f-4a4a-88c1-c8f5ae1eb14b",
+    "scheduled_date": "2026-04-05",
+    "position": "Prayer Team Lead",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.273Z"
+  },
+  {
+    "id": "42e14795-7396-4d67-a912-c4a1df587e0a",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "6794bdc0-713f-4279-8b80-581501629bc3",
+    "scheduled_date": "2026-04-05",
+    "position": "Prayer Team Member",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.273Z"
+  },
+  {
+    "id": "9448e9c9-b6e8-4885-831b-46e91c488313",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "b31aa4f2-6f6a-464f-b6e3-30a5d7f2dccd",
+    "scheduled_date": "2026-04-12",
+    "position": "Prayer Team Lead",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "f6d8a248-e080-47ab-8227-f5661c4b790e",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "2d73d785-926f-44a5-8c2f-731285d639b2",
+    "scheduled_date": "2026-04-12",
+    "position": "Prayer Team Member",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "c85f4f26-2041-4fc0-93a6-d8a9a35097c3",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "8dbcabd3-73ff-40be-a29e-0b4eff7dd5d0",
+    "scheduled_date": "2026-04-12",
+    "position": "Prayer Team Lead",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "9dcffc43-7f63-4f6b-8cdd-da6ad54580c2",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "scheduled_date": "2026-04-12",
+    "position": "Prayer Team Member",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "dd9dcf10-2e96-48de-8bc5-7eca10298fb4",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "32d3f52c-a78b-43ff-ba3a-1047dbb655f0",
+    "scheduled_date": "2026-04-19",
+    "position": "Prayer Team Lead",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "7a91065a-afd7-48a1-8f8e-f9199c07ef3d",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "5c67adfc-66b3-4154-9430-0f66a3fc16ef",
+    "scheduled_date": "2026-04-19",
+    "position": "Prayer Team Member",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "4fb643ae-cdcf-4c3c-85f6-43a1f4403654",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "b31aa4f2-6f6a-464f-b6e3-30a5d7f2dccd",
+    "scheduled_date": "2026-04-19",
+    "position": "Prayer Team Lead",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "c74484af-0227-407e-a05c-21a0c18b312d",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "8dbcabd3-73ff-40be-a29e-0b4eff7dd5d0",
+    "scheduled_date": "2026-04-19",
+    "position": "Prayer Team Member",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "d7e12dd4-9600-4094-92f1-ae239888f0c3",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "2d73d785-926f-44a5-8c2f-731285d639b2",
+    "scheduled_date": "2026-04-26",
+    "position": "Prayer Team Lead",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "7c1451cc-d984-4a7f-afe5-5dbb4d97d6a7",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "b31aa4f2-6f6a-464f-b6e3-30a5d7f2dccd",
+    "scheduled_date": "2026-04-26",
+    "position": "Prayer Team Member",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "787d4e6b-13c0-4f3e-8891-5288be735d2a",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "6794bdc0-713f-4279-8b80-581501629bc3",
+    "scheduled_date": "2026-04-26",
+    "position": "Prayer Team Lead",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "977a34a8-0a91-4b83-989e-b41dd20bb2a4",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "8dbcabd3-73ff-40be-a29e-0b4eff7dd5d0",
+    "scheduled_date": "2026-04-26",
+    "position": "Prayer Team Member",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "e0cc43d8-0e55-4aa5-b28a-d7a0e5aecabe",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "ff0fad78-7a20-44b3-8af1-a7d2bdfa79d9",
+    "scheduled_date": "2026-05-03",
+    "position": "Prayer Team Lead",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "a2746a20-656e-4b52-99a7-3047cd6cfbbe",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "6794bdc0-713f-4279-8b80-581501629bc3",
+    "scheduled_date": "2026-05-03",
+    "position": "Prayer Team Member",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "f7cc6883-1815-42bd-b96f-044534486a82",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "d25b2dd8-049f-4a4a-88c1-c8f5ae1eb14b",
+    "scheduled_date": "2026-05-03",
+    "position": "Prayer Team Lead",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "22cb847a-e840-42a2-a7b4-a97eb5cbca65",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "scheduled_date": "2026-05-03",
+    "position": "Prayer Team Member",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "8ba41de2-44e3-422b-be62-931edf74c234",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "d25b2dd8-049f-4a4a-88c1-c8f5ae1eb14b",
+    "scheduled_date": "2026-05-10",
+    "position": "Prayer Team Lead",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "21dca379-e282-473d-9466-dc01864c2f01",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "5c67adfc-66b3-4154-9430-0f66a3fc16ef",
+    "scheduled_date": "2026-05-10",
+    "position": "Prayer Team Member",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "3b50ef9c-145f-4806-b037-5018b6b21d56",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "32d3f52c-a78b-43ff-ba3a-1047dbb655f0",
+    "scheduled_date": "2026-05-10",
+    "position": "Prayer Team Lead",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "0f0a5786-ce1c-421f-b729-479d0311feba",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "8dbcabd3-73ff-40be-a29e-0b4eff7dd5d0",
+    "scheduled_date": "2026-05-10",
+    "position": "Prayer Team Member",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "783ae595-c756-41df-b73a-740ecd7c95df",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "49b4612a-28b1-494f-97c8-0af9de3396de",
+    "scheduled_date": "2026-03-22",
+    "position": "Coordinator",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.273Z"
+  },
+  {
+    "id": "cbad72ce-5c4f-4a9c-8dee-01df4056c03e",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "6794bdc0-713f-4279-8b80-581501629bc3",
+    "scheduled_date": "2026-03-22",
+    "position": "New Visitor Host",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.273Z"
+  },
+  {
+    "id": "c5a146d9-0c0e-4371-b876-0eca9b2e4a9a",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "d25b2dd8-049f-4a4a-88c1-c8f5ae1eb14b",
+    "scheduled_date": "2026-03-22",
+    "position": "Coordinator",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.273Z"
+  },
+  {
+    "id": "4b916d57-79e2-4864-be01-b4bd43234dc0",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "scheduled_date": "2026-03-22",
+    "position": "New Visitor Host",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.273Z"
+  },
+  {
+    "id": "c7961bd0-6899-4bf6-88b9-69a938edcb27",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "scheduled_date": "2026-03-29",
+    "position": "Coordinator",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.273Z"
+  },
+  {
+    "id": "d4cdec99-5222-4e2b-a2f5-66d3da31c3e2",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "06704c28-303f-4cf7-b187-d1725b7667ce",
+    "scheduled_date": "2026-03-29",
+    "position": "New Visitor Host",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.273Z"
+  },
+  {
+    "id": "ba5ec899-fe34-4f3f-9a05-7d54e1880162",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "6d180556-b673-4531-b9a9-76d870566989",
+    "scheduled_date": "2026-03-29",
+    "position": "Coordinator",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.273Z"
+  },
+  {
+    "id": "9b86236e-36bb-4f30-9528-eb21e7ebfd6c",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "d25b2dd8-049f-4a4a-88c1-c8f5ae1eb14b",
+    "scheduled_date": "2026-03-29",
+    "position": "New Visitor Host",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.273Z"
+  },
+  {
+    "id": "28f9633a-d68b-405b-9a03-a4d034ece7dd",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "d25b2dd8-049f-4a4a-88c1-c8f5ae1eb14b",
+    "scheduled_date": "2026-04-05",
+    "position": "Coordinator",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.273Z"
+  },
+  {
+    "id": "fdfdcf6c-3bcb-4d68-802a-8335b91c4a1f",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "32d3f52c-a78b-43ff-ba3a-1047dbb655f0",
+    "scheduled_date": "2026-04-05",
+    "position": "New Visitor Host",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.273Z"
+  },
+  {
+    "id": "b8105c0b-a41e-441a-a370-f7f65e561f1c",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "b31aa4f2-6f6a-464f-b6e3-30a5d7f2dccd",
+    "scheduled_date": "2026-04-05",
+    "position": "Coordinator",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.273Z"
+  },
+  {
+    "id": "00eba73a-9b5f-411e-ba5c-70a31370e84a",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "6794bdc0-713f-4279-8b80-581501629bc3",
+    "scheduled_date": "2026-04-05",
+    "position": "New Visitor Host",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": true,
+    "reminder_sent_at": "2026-04-07T19:13:26.273Z"
+  },
+  {
+    "id": "0a2fd9d7-ca0f-4dfb-b632-238a585bfb07",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "49b4612a-28b1-494f-97c8-0af9de3396de",
+    "scheduled_date": "2026-04-12",
+    "position": "Coordinator",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "f043c824-8f52-4749-a7be-3df51db3792b",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "d25b2dd8-049f-4a4a-88c1-c8f5ae1eb14b",
+    "scheduled_date": "2026-04-12",
+    "position": "New Visitor Host",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "9994cadc-a2e5-4f62-becc-1e97ea28ae4c",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "b31aa4f2-6f6a-464f-b6e3-30a5d7f2dccd",
+    "scheduled_date": "2026-04-12",
+    "position": "Coordinator",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "09c8d9a0-1bc8-4991-aa79-9c556c62f71a",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "6d180556-b673-4531-b9a9-76d870566989",
+    "scheduled_date": "2026-04-12",
+    "position": "New Visitor Host",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "69798524-3bdb-4a4b-890e-188def9a17e7",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "6794bdc0-713f-4279-8b80-581501629bc3",
+    "scheduled_date": "2026-04-19",
+    "position": "Coordinator",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "636551eb-996d-4e01-aa3e-a56b2e0f2b06",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "d25b2dd8-049f-4a4a-88c1-c8f5ae1eb14b",
+    "scheduled_date": "2026-04-19",
+    "position": "New Visitor Host",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "7478c116-ed8e-4c42-a439-993c67f46ae2",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "6d180556-b673-4531-b9a9-76d870566989",
+    "scheduled_date": "2026-04-19",
+    "position": "Coordinator",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "64a36e91-5a7a-4c7f-be04-4246021075e1",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "ff0fad78-7a20-44b3-8af1-a7d2bdfa79d9",
+    "scheduled_date": "2026-04-19",
+    "position": "New Visitor Host",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "f037cf6c-b9b0-47c7-addd-230f3540416f",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "49b4612a-28b1-494f-97c8-0af9de3396de",
+    "scheduled_date": "2026-04-26",
+    "position": "Coordinator",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "7cef1e36-5a91-4c70-b681-2fd296870527",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "b31aa4f2-6f6a-464f-b6e3-30a5d7f2dccd",
+    "scheduled_date": "2026-04-26",
+    "position": "New Visitor Host",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "ff0b4dd6-744f-4e34-b1fe-8bb3e81695be",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "6d180556-b673-4531-b9a9-76d870566989",
+    "scheduled_date": "2026-04-26",
+    "position": "Coordinator",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "8474ee2d-bf7b-4810-b144-bbf4f97ab2cb",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "d25b2dd8-049f-4a4a-88c1-c8f5ae1eb14b",
+    "scheduled_date": "2026-04-26",
+    "position": "New Visitor Host",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "dc1d4965-4dc8-4af6-a88e-5f4136a868dd",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "f2b66bbf-21b9-4411-9e35-35181c38ea85",
+    "scheduled_date": "2026-05-03",
+    "position": "Coordinator",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "90458ed3-8af0-47ff-a509-d5e59b557d1a",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "6d180556-b673-4531-b9a9-76d870566989",
+    "scheduled_date": "2026-05-03",
+    "position": "New Visitor Host",
+    "status": "declined",
+    "reminder_sent": false
+  },
+  {
+    "id": "e9a9b2e0-a930-424e-9d14-e3f4b624a593",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "49b4612a-28b1-494f-97c8-0af9de3396de",
+    "scheduled_date": "2026-05-03",
+    "position": "Coordinator",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "637bfc24-1243-4334-924b-3217d08a9ed0",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "9c286251-02f8-4f64-b871-a39a20c70f0b",
+    "scheduled_date": "2026-05-03",
+    "position": "New Visitor Host",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "c7891dd7-aa31-40e5-8171-1789aa6a4765",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "d25b2dd8-049f-4a4a-88c1-c8f5ae1eb14b",
+    "scheduled_date": "2026-05-10",
+    "position": "Coordinator",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "885f8e93-fe73-43c1-aaa2-bb57d8962f85",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "06704c28-303f-4cf7-b187-d1725b7667ce",
+    "scheduled_date": "2026-05-10",
+    "position": "New Visitor Host",
+    "status": "pending",
+    "reminder_sent": false
+  },
+  {
+    "id": "3e1975da-c6f5-48e1-91ff-c78466077a8d",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "9c286251-02f8-4f64-b871-a39a20c70f0b",
+    "scheduled_date": "2026-05-10",
+    "position": "Coordinator",
+    "status": "confirmed",
+    "confirmed_at": "2026-04-07T19:13:26.273Z",
+    "reminder_sent": false
+  },
+  {
+    "id": "936a6e92-7cae-4b01-ba39-c96a2bb84c80",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "49b4612a-28b1-494f-97c8-0af9de3396de",
+    "scheduled_date": "2026-05-10",
+    "position": "New Visitor Host",
+    "status": "pending",
+    "reminder_sent": false
+  }
+]

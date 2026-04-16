@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(npx --version)",
+      "Bash(git --version)",
+      "Bash(npm list:*)",
+      "Bash(npx create-react-app:*)",
+      "Bash(npx vite:*)",
+      "Read(//home/chrisroberds/**)",
+      "Bash(npm info:*)",
+      "Bash(npm create:*)",
+      "Bash(cp -r /home/chrisroberds/gather-app/. /home/chrisroberds/gather/)",
+      "Bash(rm -rf /home/chrisroberds/gather-app)",
+      "Bash(npm install:*)",
+      "Bash(npx tailwindcss:*)",
+      "Bash(node:*)",
+      "Bash(node_modules/.bin/vitest --version)",
+      "Bash(node_modules/.bin/vitest run:*)",
+      "Bash(npm run:*)",
+      "Bash(npm test:*)",
+      "Bash(npx vitest:*)",
+      "Bash(npx tsc:*)",
+      "Bash(/home/chrisroberds/gather/PROGRESS.md:*)",
+      "Bash(/home/chrisroberds/gather/src/tests/group-service.test.ts:*)",
+      "Bash(/home/chrisroberds/gather/src/test-data/app_config.json:*)",
+      "Bash(/home/chrisroberds/gather/tailwind.config.js:*)",
+      "Bash(grep -E \"\\\\.\\(tsx?|jsx?\\)$\")",
+      "Bash(xargs cat:*)"
+    ]
+  }
+}

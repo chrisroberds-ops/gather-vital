@@ -1,0 +1,47 @@
+[
+  {
+    "id": "82209feb-c645-41a2-bc33-f1711aa3db43",
+    "step_number": 1,
+    "step_name": "Welcome Text",
+    "method": "text",
+    "delay_days": 0,
+    "template_text": "Hi {{first_name}}, so glad you joined us today! We'd love to get to know you better.",
+    "is_active": true
+  },
+  {
+    "id": "b25344fc-c400-4843-b0e9-1cc43d5d072a",
+    "step_number": 2,
+    "step_name": "Welcome Email",
+    "method": "email",
+    "delay_days": 3,
+    "template_text": "Hi {{first_name}}, thanks for visiting! Here's some info about what we're doing next...",
+    "is_active": true
+  },
+  {
+    "id": "615ec3f9-297d-45dc-aa4f-8e3fdf36124f",
+    "step_number": 3,
+    "step_name": "Follow-Up Call",
+    "method": "call",
+    "delay_days": 6,
+    "template_text": "Call to check in and answer questions before next Sunday.",
+    "is_active": true
+  },
+  {
+    "id": "5fbeec3f-5ad2-4963-b0d2-e99d85298497",
+    "step_number": 4,
+    "step_name": "Group Invitation",
+    "method": "email",
+    "delay_days": 10,
+    "template_text": "Hi {{first_name}}, we thought you might enjoy one of our small groups!",
+    "is_active": true
+  },
+  {
+    "id": "8e8e8856-e31d-4946-b89d-6add459ec9f7",
+    "step_number": 5,
+    "step_name": "Check-In",
+    "method": "text",
+    "delay_days": 21,
+    "template_text": "Hi {{first_name}}, just checking in! We hope to see you again soon.",
+    "is_active": true
+  }
+]

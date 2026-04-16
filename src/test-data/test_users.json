@@ -1,0 +1,44 @@
+[
+  {
+    "uid": "test-public",
+    "tier": 0,
+    "isFinanceAdmin": false,
+    "personId": "0d9b0fd3-2248-4649-9245-7c3890921ffc",
+    "email": "public@test.com"
+  },
+  {
+    "uid": "test-authenticated",
+    "tier": 1,
+    "isFinanceAdmin": false,
+    "personId": "0564d548-2c1f-4c30-bdbb-c151d95145ba",
+    "email": "user@test.com"
+  },
+  {
+    "uid": "test-leader",
+    "tier": 2,
+    "isFinanceAdmin": false,
+    "personId": "adc2e8ce-5136-4dd0-9863-15f58b5ff474",
+    "email": "leader@test.com"
+  },
+  {
+    "uid": "test-staff",
+    "tier": 3,
+    "isFinanceAdmin": false,
+    "personId": "5209a083-a2b6-4e25-a1ee-4ad8831eea55",
+    "email": "staff@test.com"
+  },
+  {
+    "uid": "test-executive",
+    "tier": 4,
+    "isFinanceAdmin": false,
+    "personId": "ada91543-f6ea-4c89-b73b-40a2ffe50e6f",
+    "email": "executive@test.com"
+  },
+  {
+    "uid": "test-finance",
+    "tier": 3,
+    "isFinanceAdmin": true,
+    "personId": "de88cabc-e561-4907-a849-00d528c39108",
+    "email": "finance@test.com"
+  }
+]

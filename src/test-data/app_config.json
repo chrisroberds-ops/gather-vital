@@ -1,0 +1,17 @@
+[
+  {
+    "church_id": "church-test-default",
+    "church_name": "Grace Community Church",
+    "primary_color": "#6366f1",
+    "terminology": {
+      "groups_label": "Small Groups",
+      "volunteers_label": "Volunteers",
+      "members_label": "Members",
+      "giving_label": "Giving",
+      "kids_label": "Kids Check-In",
+      "service_label": "Service Order"
+    },
+    "setup_complete": true,
+    "updated_at": "2024-01-01T00:00:00.000Z"
+  }
+]

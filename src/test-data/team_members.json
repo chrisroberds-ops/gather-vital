@@ -1,0 +1,1114 @@
+[
+  {
+    "id": "349e9ac4-d625-4334-92a9-a5c29485ceb2",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "0d9b0fd3-2248-4649-9245-7c3890921ffc",
+    "role": "coordinator",
+    "rotation_preference": "as_needed",
+    "joined_at": "2025-09-14"
+  },
+  {
+    "id": "f6fea06e-e26d-49dd-ae12-1e7155cbb0e3",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "0564d548-2c1f-4c30-bdbb-c151d95145ba",
+    "role": "leader",
+    "rotation_preference": "every_week",
+    "joined_at": "2025-05-07"
+  },
+  {
+    "id": "09a04d13-6d4f-4561-8a3a-36db29a1747c",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "adc2e8ce-5136-4dd0-9863-15f58b5ff474",
+    "role": "leader",
+    "rotation_preference": "every_week",
+    "joined_at": "2025-07-15"
+  },
+  {
+    "id": "fb064a7f-39bd-46a4-96ef-b5d01a4f66ac",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "5209a083-a2b6-4e25-a1ee-4ad8831eea55",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2026-01-15"
+  },
+  {
+    "id": "52a1faf5-f200-4718-a55a-2c9e5f9f0bd0",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "ada91543-f6ea-4c89-b73b-40a2ffe50e6f",
+    "role": "member",
+    "rotation_preference": "every_other",
+    "joined_at": "2025-10-29"
+  },
+  {
+    "id": "1b0d024a-f125-4d75-a846-5cec782b9e3c",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "de88cabc-e561-4907-a849-00d528c39108",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2025-12-07"
+  },
+  {
+    "id": "eeb0da42-10c3-4067-b203-a182361255b1",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "4fb89635-c010-40db-8717-72669a05a8da",
+    "role": "member",
+    "rotation_preference": "every_other",
+    "joined_at": "2026-01-12"
+  },
+  {
+    "id": "4d210f4e-4eee-47df-856b-4c18144d3cc7",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "5d0d41ba-ebc4-42cc-bf65-c5ed6cc1e8d5",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2025-09-24"
+  },
+  {
+    "id": "08f29fdd-d4ef-4756-9539-971c219605c9",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "e512c911-b1db-411f-955d-ffc61c86e170",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2025-11-24"
+  },
+  {
+    "id": "ead8bece-6e9d-40ad-82ad-469801143b9c",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "f8ab7a9e-04fe-4794-b375-91ffb84da2ed",
+    "role": "member",
+    "rotation_preference": "3rd_sunday",
+    "joined_at": "2025-08-03"
+  },
+  {
+    "id": "dbd0b8d8-80a4-401f-a5df-fee42a71a9d9",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "f8cfd372-f93a-4951-8a8c-8d88e620c9b3",
+    "role": "member",
+    "rotation_preference": "3rd_sunday",
+    "joined_at": "2025-09-23"
+  },
+  {
+    "id": "f27a6443-5d83-461e-b6f5-d410947d34d7",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "312222a2-5e7a-4230-b242-117358b0ca1d",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2025-08-31"
+  },
+  {
+    "id": "2eef6d67-d235-4c55-af63-9c1908447ebe",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "4605351e-9ac7-4189-8b62-45a95f931232",
+    "role": "member",
+    "rotation_preference": "every_week",
+    "joined_at": "2025-07-13"
+  },
+  {
+    "id": "eaf24554-7a41-4b78-b7e8-e84588a3aca7",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "68319492-7805-421f-85c4-ac9765edf1bf",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2025-05-16"
+  },
+  {
+    "id": "d3b20261-3ccd-4d6d-887b-3c6212ef543d",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "b83e68e9-1fa5-42c9-88ec-243b09ce5d1d",
+    "role": "member",
+    "rotation_preference": "as_needed",
+    "joined_at": "2025-12-07"
+  },
+  {
+    "id": "e8b9dd9a-eea0-41d1-8339-943ce02accbe",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "90de9beb-2996-4bee-971f-d1ed89605c05",
+    "role": "member",
+    "rotation_preference": "every_week",
+    "joined_at": "2025-11-18"
+  },
+  {
+    "id": "d9fcb01c-30ee-43c0-949c-053fa619ad4f",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "1f891b3e-3307-491c-a787-6822df54a602",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2025-08-12"
+  },
+  {
+    "id": "8eb9228b-c316-4e85-a527-cf82ac1dd78b",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "0130296e-d546-4949-a686-4fc2d7ec6048",
+    "role": "member",
+    "rotation_preference": "every_week",
+    "joined_at": "2025-05-22"
+  },
+  {
+    "id": "2c78c5b7-65fc-40fc-8214-994730858f20",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "d99a2e66-802b-4193-9645-b497aeb30490",
+    "role": "member",
+    "rotation_preference": "3rd_sunday",
+    "joined_at": "2025-12-21"
+  },
+  {
+    "id": "9754692c-948f-4037-ba3e-ae5d64e1f7f8",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "8dbcabd3-73ff-40be-a29e-0b4eff7dd5d0",
+    "role": "member",
+    "rotation_preference": "every_week",
+    "joined_at": "2025-10-06"
+  },
+  {
+    "id": "bc26617c-46f0-49bc-bbb0-8c10db6fcfe7",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "5c67adfc-66b3-4154-9430-0f66a3fc16ef",
+    "role": "member",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2026-01-28"
+  },
+  {
+    "id": "c234dc79-d507-4ec5-81ad-a61e43dfa950",
+    "team_id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "role": "member",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2025-06-02"
+  },
+  {
+    "id": "38895d7b-a198-4ee2-914f-0a9a33611196",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "5209a083-a2b6-4e25-a1ee-4ad8831eea55",
+    "role": "coordinator",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2025-06-22"
+  },
+  {
+    "id": "63b1f1fd-ae22-4434-b906-39f865c1f65f",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "ada91543-f6ea-4c89-b73b-40a2ffe50e6f",
+    "role": "leader",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2025-04-14"
+  },
+  {
+    "id": "b5628b4f-31ad-4fc3-bfe2-887f0a38c36f",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "de88cabc-e561-4907-a849-00d528c39108",
+    "role": "leader",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2025-06-27"
+  },
+  {
+    "id": "6cd3a108-31b7-4cab-9449-3d83af11d105",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "4fb89635-c010-40db-8717-72669a05a8da",
+    "role": "member",
+    "rotation_preference": "3rd_sunday",
+    "joined_at": "2025-10-09"
+  },
+  {
+    "id": "ecf71f0c-0cf6-4337-82a5-5782be42c209",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "5d0d41ba-ebc4-42cc-bf65-c5ed6cc1e8d5",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2026-04-01"
+  },
+  {
+    "id": "4e2d81be-2b7c-4b02-a7e5-a0b9be24f2bb",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "e512c911-b1db-411f-955d-ffc61c86e170",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2025-06-25"
+  },
+  {
+    "id": "a2a764f8-8faf-41d5-8cd4-6b1c1e491467",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "f8ab7a9e-04fe-4794-b375-91ffb84da2ed",
+    "role": "member",
+    "rotation_preference": "as_needed",
+    "joined_at": "2025-04-10"
+  },
+  {
+    "id": "c7839823-1103-4a55-8295-ab9484ec7f85",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "f8cfd372-f93a-4951-8a8c-8d88e620c9b3",
+    "role": "member",
+    "rotation_preference": "3rd_sunday",
+    "joined_at": "2026-02-15"
+  },
+  {
+    "id": "d96ac67a-ec01-4dd6-99ee-c3b1e2a9c80b",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "312222a2-5e7a-4230-b242-117358b0ca1d",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2026-04-04"
+  },
+  {
+    "id": "9b8ccaf7-bc67-4f05-a70e-44d4adcc1140",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "4605351e-9ac7-4189-8b62-45a95f931232",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2025-10-28"
+  },
+  {
+    "id": "4753aadd-ba01-4d35-823c-472ab5c3bbf3",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "68319492-7805-421f-85c4-ac9765edf1bf",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2025-05-22"
+  },
+  {
+    "id": "256e3fce-ecc7-48e6-80c9-d193e1d1035a",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "b83e68e9-1fa5-42c9-88ec-243b09ce5d1d",
+    "role": "member",
+    "rotation_preference": "3rd_sunday",
+    "joined_at": "2025-06-21"
+  },
+  {
+    "id": "d05aede1-dce4-4e6a-a668-5cab3fa3c218",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "90de9beb-2996-4bee-971f-d1ed89605c05",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2025-08-12"
+  },
+  {
+    "id": "f42f4a38-6f69-4ff1-8d69-6629838fb7e9",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "1f891b3e-3307-491c-a787-6822df54a602",
+    "role": "member",
+    "rotation_preference": "3rd_sunday",
+    "joined_at": "2025-06-12"
+  },
+  {
+    "id": "cf5664c9-1d2f-4691-b5c7-e9ef79d3d9b1",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "0130296e-d546-4949-a686-4fc2d7ec6048",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2026-01-26"
+  },
+  {
+    "id": "84fcf5a9-b04e-46f3-9fbc-6e8a1ae2b0ef",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "d99a2e66-802b-4193-9645-b497aeb30490",
+    "role": "member",
+    "rotation_preference": "every_week",
+    "joined_at": "2025-12-04"
+  },
+  {
+    "id": "07470009-83ae-44da-a068-b4fa51277cb3",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "8dbcabd3-73ff-40be-a29e-0b4eff7dd5d0",
+    "role": "member",
+    "rotation_preference": "every_week",
+    "joined_at": "2025-08-31"
+  },
+  {
+    "id": "c6df9260-9dac-4cd4-8da4-ff9d462873a1",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "5c67adfc-66b3-4154-9430-0f66a3fc16ef",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2025-09-04"
+  },
+  {
+    "id": "54526e3a-255e-46b9-82f5-045195a0f2ab",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "role": "member",
+    "rotation_preference": "every_week",
+    "joined_at": "2025-06-02"
+  },
+  {
+    "id": "32a680d2-512a-4ba8-9f87-318583df5ddf",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "d25b2dd8-049f-4a4a-88c1-c8f5ae1eb14b",
+    "role": "member",
+    "rotation_preference": "every_other",
+    "joined_at": "2025-06-30"
+  },
+  {
+    "id": "9bb3d638-dfb0-4211-8651-e9c565797de7",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "b31aa4f2-6f6a-464f-b6e3-30a5d7f2dccd",
+    "role": "member",
+    "rotation_preference": "as_needed",
+    "joined_at": "2026-01-01"
+  },
+  {
+    "id": "ab112262-d951-491b-8c82-c437e4e01b35",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "6794bdc0-713f-4279-8b80-581501629bc3",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2025-07-19"
+  },
+  {
+    "id": "bbfbbbe4-4b3e-484c-a4ff-a148d2118e03",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "32d3f52c-a78b-43ff-ba3a-1047dbb655f0",
+    "role": "member",
+    "rotation_preference": "every_other",
+    "joined_at": "2026-01-27"
+  },
+  {
+    "id": "c26ff9bf-72af-4bc6-912f-70f7d819f0d3",
+    "team_id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "person_id": "2d73d785-926f-44a5-8c2f-731285d639b2",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2026-03-01"
+  },
+  {
+    "id": "7d010b8e-73c4-4e42-9700-73047629ba62",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "4fb89635-c010-40db-8717-72669a05a8da",
+    "role": "coordinator",
+    "rotation_preference": "as_needed",
+    "joined_at": "2025-09-25"
+  },
+  {
+    "id": "31fb54e2-8b60-43e8-bd8f-e759a7d25a37",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "5d0d41ba-ebc4-42cc-bf65-c5ed6cc1e8d5",
+    "role": "leader",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2026-03-20"
+  },
+  {
+    "id": "bb9284f4-3980-42c7-9274-3f50fc46d598",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "e512c911-b1db-411f-955d-ffc61c86e170",
+    "role": "leader",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2025-09-27"
+  },
+  {
+    "id": "0d179b6b-2ade-4952-a583-fe08c38639f5",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "f8ab7a9e-04fe-4794-b375-91ffb84da2ed",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2026-02-21"
+  },
+  {
+    "id": "d2e21a68-a047-4401-ace2-3af4d8f2f7f7",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "f8cfd372-f93a-4951-8a8c-8d88e620c9b3",
+    "role": "member",
+    "rotation_preference": "every_other",
+    "joined_at": "2025-12-27"
+  },
+  {
+    "id": "96cf09da-cecb-4fdd-9138-b414cee6566a",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "312222a2-5e7a-4230-b242-117358b0ca1d",
+    "role": "member",
+    "rotation_preference": "every_week",
+    "joined_at": "2025-09-15"
+  },
+  {
+    "id": "3073749f-8ae5-4246-8a0d-1effc2b3e55e",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "4605351e-9ac7-4189-8b62-45a95f931232",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2025-09-08"
+  },
+  {
+    "id": "baae18ba-7001-4516-b2cd-68f8f2d70ff6",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "68319492-7805-421f-85c4-ac9765edf1bf",
+    "role": "member",
+    "rotation_preference": "every_week",
+    "joined_at": "2025-12-12"
+  },
+  {
+    "id": "33c6063a-3d46-44a1-975e-1d21318f0765",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "b83e68e9-1fa5-42c9-88ec-243b09ce5d1d",
+    "role": "member",
+    "rotation_preference": "as_needed",
+    "joined_at": "2025-04-14"
+  },
+  {
+    "id": "c4664114-d2b4-4e62-bf29-95fddf71c637",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "90de9beb-2996-4bee-971f-d1ed89605c05",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2026-02-11"
+  },
+  {
+    "id": "62df446d-03b6-45de-8f4e-b290bbc2a2fa",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "1f891b3e-3307-491c-a787-6822df54a602",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2025-12-05"
+  },
+  {
+    "id": "7b4a28fa-0f2b-4842-a2dd-71e7765897e5",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "0130296e-d546-4949-a686-4fc2d7ec6048",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2026-01-07"
+  },
+  {
+    "id": "13c2af82-5d5b-4c8c-b58a-24aa7c7eb56a",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "d99a2e66-802b-4193-9645-b497aeb30490",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2025-10-12"
+  },
+  {
+    "id": "14a1aef3-be16-4e3e-b817-548771c7dd50",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "8dbcabd3-73ff-40be-a29e-0b4eff7dd5d0",
+    "role": "member",
+    "rotation_preference": "every_other",
+    "joined_at": "2025-05-16"
+  },
+  {
+    "id": "b0081fea-1557-4296-9fe9-a23eb39e52f7",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "5c67adfc-66b3-4154-9430-0f66a3fc16ef",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2026-02-27"
+  },
+  {
+    "id": "d6072261-f062-4b18-bcfb-11b37fddd9b5",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2025-11-09"
+  },
+  {
+    "id": "41959881-7c57-47da-a1dd-c7c7bee7d118",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "d25b2dd8-049f-4a4a-88c1-c8f5ae1eb14b",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2025-09-27"
+  },
+  {
+    "id": "19db6fad-afd8-45a9-aa56-8dc13003ce69",
+    "team_id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "person_id": "b31aa4f2-6f6a-464f-b6e3-30a5d7f2dccd",
+    "role": "member",
+    "rotation_preference": "as_needed",
+    "joined_at": "2026-03-07"
+  },
+  {
+    "id": "309b4d7f-0140-4c0b-b04d-f6fa6c44a621",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "f8ab7a9e-04fe-4794-b375-91ffb84da2ed",
+    "role": "coordinator",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2025-09-05"
+  },
+  {
+    "id": "e6bed8a6-a463-409d-9037-a208d05a238f",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "f8cfd372-f93a-4951-8a8c-8d88e620c9b3",
+    "role": "leader",
+    "rotation_preference": "3rd_sunday",
+    "joined_at": "2025-08-31"
+  },
+  {
+    "id": "e19dfb66-59bd-46be-beba-821729a80012",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "312222a2-5e7a-4230-b242-117358b0ca1d",
+    "role": "leader",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2025-07-23"
+  },
+  {
+    "id": "0aa2ec37-75d1-4667-ad31-9216354180f5",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "4605351e-9ac7-4189-8b62-45a95f931232",
+    "role": "member",
+    "rotation_preference": "every_other",
+    "joined_at": "2025-07-18"
+  },
+  {
+    "id": "bd3f03c3-bdf7-4f63-88a7-968f74c5d051",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "68319492-7805-421f-85c4-ac9765edf1bf",
+    "role": "member",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2025-08-26"
+  },
+  {
+    "id": "d84b9ca2-a67e-4595-b179-66d04ce6e33d",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "b83e68e9-1fa5-42c9-88ec-243b09ce5d1d",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2025-04-29"
+  },
+  {
+    "id": "14c879e1-be3d-4b03-a988-3a465a133139",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "90de9beb-2996-4bee-971f-d1ed89605c05",
+    "role": "member",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2025-09-28"
+  },
+  {
+    "id": "0f2aeb35-099b-40db-b25a-711c22d99799",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "1f891b3e-3307-491c-a787-6822df54a602",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2025-06-25"
+  },
+  {
+    "id": "0a81525f-a040-4b7f-ab8c-b38872340eab",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "0130296e-d546-4949-a686-4fc2d7ec6048",
+    "role": "member",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2026-04-01"
+  },
+  {
+    "id": "6b5dde04-2774-4b4d-9259-91d9dd8edfdd",
+    "team_id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "person_id": "d99a2e66-802b-4193-9645-b497aeb30490",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2026-03-06"
+  },
+  {
+    "id": "45a712b5-8cc2-419b-b25d-f71433791e99",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "4605351e-9ac7-4189-8b62-45a95f931232",
+    "role": "coordinator",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2026-03-12"
+  },
+  {
+    "id": "43883b0b-7b7f-45f1-ba7d-cc1d3037b31a",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "68319492-7805-421f-85c4-ac9765edf1bf",
+    "role": "leader",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2025-12-16"
+  },
+  {
+    "id": "8cf86df2-9c86-4a45-bfad-cad4a992449f",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "b83e68e9-1fa5-42c9-88ec-243b09ce5d1d",
+    "role": "leader",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2025-07-28"
+  },
+  {
+    "id": "06de3435-cac9-4430-9cdc-1c0177da2341",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "90de9beb-2996-4bee-971f-d1ed89605c05",
+    "role": "member",
+    "rotation_preference": "every_other",
+    "joined_at": "2025-07-04"
+  },
+  {
+    "id": "d756b80e-1f0c-4881-b3ce-850a40a701b1",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "1f891b3e-3307-491c-a787-6822df54a602",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2025-05-10"
+  },
+  {
+    "id": "c8460a5b-aaca-4661-8cc3-d9706a17fb88",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "0130296e-d546-4949-a686-4fc2d7ec6048",
+    "role": "member",
+    "rotation_preference": "as_needed",
+    "joined_at": "2026-03-12"
+  },
+  {
+    "id": "a13283b8-0b3d-4550-8f96-1b4ffbf1441f",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "d99a2e66-802b-4193-9645-b497aeb30490",
+    "role": "member",
+    "rotation_preference": "every_other",
+    "joined_at": "2026-01-13"
+  },
+  {
+    "id": "6003779c-62c5-44ce-8e28-1f33efb17d92",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "8dbcabd3-73ff-40be-a29e-0b4eff7dd5d0",
+    "role": "member",
+    "rotation_preference": "as_needed",
+    "joined_at": "2025-10-17"
+  },
+  {
+    "id": "b58f5a21-cda2-43e4-ad4f-e0c237959209",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "5c67adfc-66b3-4154-9430-0f66a3fc16ef",
+    "role": "member",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2025-11-30"
+  },
+  {
+    "id": "e70aa8b5-2a37-4779-a0fb-631a5369aad3",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "role": "member",
+    "rotation_preference": "every_week",
+    "joined_at": "2025-10-24"
+  },
+  {
+    "id": "936d26e8-bd33-4cc0-b56d-6efca61955b7",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "d25b2dd8-049f-4a4a-88c1-c8f5ae1eb14b",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2025-06-01"
+  },
+  {
+    "id": "7fc36e14-4961-4a19-b871-a6699023a9cb",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "b31aa4f2-6f6a-464f-b6e3-30a5d7f2dccd",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2025-08-11"
+  },
+  {
+    "id": "d373e63b-3f5a-45ce-bcd1-e9da391b62fe",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "6794bdc0-713f-4279-8b80-581501629bc3",
+    "role": "member",
+    "rotation_preference": "every_other",
+    "joined_at": "2025-12-16"
+  },
+  {
+    "id": "a1eebe87-f7a5-4ab9-984a-e021eaf97c26",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "32d3f52c-a78b-43ff-ba3a-1047dbb655f0",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2025-08-21"
+  },
+  {
+    "id": "135c2518-9dd4-422f-8a02-73c99749b58d",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "2d73d785-926f-44a5-8c2f-731285d639b2",
+    "role": "member",
+    "rotation_preference": "3rd_sunday",
+    "joined_at": "2025-08-12"
+  },
+  {
+    "id": "b0a11bae-88b5-4033-b5fc-ef638e782665",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "ff0fad78-7a20-44b3-8af1-a7d2bdfa79d9",
+    "role": "member",
+    "rotation_preference": "every_week",
+    "joined_at": "2026-03-28"
+  },
+  {
+    "id": "0f8b2ae2-2421-4a3a-9da1-9655eb275ff5",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "6d180556-b673-4531-b9a9-76d870566989",
+    "role": "member",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2025-09-29"
+  },
+  {
+    "id": "3a5a6ba8-b712-431b-b51d-a7327e39fa7b",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "49b4612a-28b1-494f-97c8-0af9de3396de",
+    "role": "member",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2026-02-20"
+  },
+  {
+    "id": "8df899cd-0bcb-4b07-ade3-9cc90bcbc6fc",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "f2b66bbf-21b9-4411-9e35-35181c38ea85",
+    "role": "member",
+    "rotation_preference": "as_needed",
+    "joined_at": "2026-03-05"
+  },
+  {
+    "id": "d9854893-e886-40e5-8a99-8248c631a62a",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "2fe8d891-c2dc-4b04-b451-e846798e7fd3",
+    "role": "member",
+    "rotation_preference": "3rd_sunday",
+    "joined_at": "2025-07-28"
+  },
+  {
+    "id": "e36f5a51-ae7a-4969-a467-d5a34ac75e2b",
+    "team_id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "person_id": "9c286251-02f8-4f64-b871-a39a20c70f0b",
+    "role": "member",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2026-03-15"
+  },
+  {
+    "id": "4560e1bb-d8b4-4b5e-a257-cb324786a6f4",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "90de9beb-2996-4bee-971f-d1ed89605c05",
+    "role": "coordinator",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2025-07-19"
+  },
+  {
+    "id": "65276276-22ab-4f11-8089-6caf2040e485",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "1f891b3e-3307-491c-a787-6822df54a602",
+    "role": "leader",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2025-08-02"
+  },
+  {
+    "id": "9f880d0e-827f-4441-891c-ee1819d8dc4a",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "0130296e-d546-4949-a686-4fc2d7ec6048",
+    "role": "leader",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2025-07-03"
+  },
+  {
+    "id": "e6abcb4a-8904-4e47-8223-8e5595e678c9",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "d99a2e66-802b-4193-9645-b497aeb30490",
+    "role": "member",
+    "rotation_preference": "every_week",
+    "joined_at": "2026-03-16"
+  },
+  {
+    "id": "c0d980c3-b0c0-4342-a74f-99361c5c5f20",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "8dbcabd3-73ff-40be-a29e-0b4eff7dd5d0",
+    "role": "member",
+    "rotation_preference": "as_needed",
+    "joined_at": "2025-11-29"
+  },
+  {
+    "id": "18e02deb-f18a-4bce-a505-a3c308b5b721",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "5c67adfc-66b3-4154-9430-0f66a3fc16ef",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2026-03-06"
+  },
+  {
+    "id": "855299c3-4146-4fac-9524-495df5ba3e3b",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2025-09-21"
+  },
+  {
+    "id": "d2060bcd-bebe-437f-8ae0-db204eae7e73",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "d25b2dd8-049f-4a4a-88c1-c8f5ae1eb14b",
+    "role": "member",
+    "rotation_preference": "as_needed",
+    "joined_at": "2025-08-07"
+  },
+  {
+    "id": "204e8ae8-d5f1-4ba3-a651-9f88028fe588",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "b31aa4f2-6f6a-464f-b6e3-30a5d7f2dccd",
+    "role": "member",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2026-01-21"
+  },
+  {
+    "id": "0f17e713-9165-4d1a-b693-9a1dd19905f8",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "6794bdc0-713f-4279-8b80-581501629bc3",
+    "role": "member",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2025-04-18"
+  },
+  {
+    "id": "1b829cc3-4fe5-4d23-b21d-94dc1abbb25d",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "32d3f52c-a78b-43ff-ba3a-1047dbb655f0",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2025-04-16"
+  },
+  {
+    "id": "d6556691-feee-4a30-a158-f68b2e84ea79",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "2d73d785-926f-44a5-8c2f-731285d639b2",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2026-02-17"
+  },
+  {
+    "id": "f9ad5fa6-a81c-49c2-b8cf-ed3d231d1239",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "ff0fad78-7a20-44b3-8af1-a7d2bdfa79d9",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2025-10-24"
+  },
+  {
+    "id": "242694df-10c3-456e-9a00-357d5650f242",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "6d180556-b673-4531-b9a9-76d870566989",
+    "role": "member",
+    "rotation_preference": "as_needed",
+    "joined_at": "2025-05-14"
+  },
+  {
+    "id": "70cab7e6-8b83-4516-991a-e53eb16a999c",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "49b4612a-28b1-494f-97c8-0af9de3396de",
+    "role": "member",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2026-04-04"
+  },
+  {
+    "id": "6c34e037-6a31-4588-b983-c13b47585f5a",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "f2b66bbf-21b9-4411-9e35-35181c38ea85",
+    "role": "member",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2025-10-31"
+  },
+  {
+    "id": "97c0e9d0-d1b6-4aa2-8848-b1894f821863",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "2fe8d891-c2dc-4b04-b451-e846798e7fd3",
+    "role": "member",
+    "rotation_preference": "3rd_sunday",
+    "joined_at": "2025-11-12"
+  },
+  {
+    "id": "29ffec32-79d3-47a7-873f-7838434096e0",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "9c286251-02f8-4f64-b871-a39a20c70f0b",
+    "role": "member",
+    "rotation_preference": "as_needed",
+    "joined_at": "2025-05-24"
+  },
+  {
+    "id": "02dc5a8e-0d26-43ba-98ba-c3626bbb4a5f",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "06704c28-303f-4cf7-b187-d1725b7667ce",
+    "role": "member",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2026-01-06"
+  },
+  {
+    "id": "e7565ae2-8e17-4de8-a019-12ccd13dbcfd",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "b110fb54-5ca2-421a-8c40-1f4c96319ca8",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2025-11-01"
+  },
+  {
+    "id": "a5c1c07d-182e-4ded-8b24-79c3272b9b1f",
+    "team_id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "person_id": "ea4ddde4-c7db-4ca2-98fe-022bd38db898",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2025-12-11"
+  },
+  {
+    "id": "119e8950-0e1f-42af-95b5-43d44f56f55d",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "d99a2e66-802b-4193-9645-b497aeb30490",
+    "role": "coordinator",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2025-09-09"
+  },
+  {
+    "id": "b0553a49-8342-409a-a29f-17b0cf1d6271",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "8dbcabd3-73ff-40be-a29e-0b4eff7dd5d0",
+    "role": "leader",
+    "rotation_preference": "every_week",
+    "joined_at": "2025-12-29"
+  },
+  {
+    "id": "77352b39-4a86-4a6d-ab8e-d81958aaaa13",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "5c67adfc-66b3-4154-9430-0f66a3fc16ef",
+    "role": "leader",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2026-01-11"
+  },
+  {
+    "id": "13884600-19d4-40bd-a262-1afaf6e31b55",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2025-11-02"
+  },
+  {
+    "id": "4c480c93-3498-44be-b069-90309a255d38",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "d25b2dd8-049f-4a4a-88c1-c8f5ae1eb14b",
+    "role": "member",
+    "rotation_preference": "every_other",
+    "joined_at": "2025-12-07"
+  },
+  {
+    "id": "4dbb10bf-cd84-4aba-af50-e2bd4d5c1aa7",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "b31aa4f2-6f6a-464f-b6e3-30a5d7f2dccd",
+    "role": "member",
+    "rotation_preference": "as_needed",
+    "joined_at": "2025-12-31"
+  },
+  {
+    "id": "f784f054-6e5e-46d8-a476-442596bf6726",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "6794bdc0-713f-4279-8b80-581501629bc3",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2025-06-13"
+  },
+  {
+    "id": "6d9fe206-8821-40df-9131-ef4458a8f1c5",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "32d3f52c-a78b-43ff-ba3a-1047dbb655f0",
+    "role": "member",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2026-03-13"
+  },
+  {
+    "id": "bcc5cc88-cd5c-4d3b-a219-e0d8ddecd243",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "2d73d785-926f-44a5-8c2f-731285d639b2",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2025-06-13"
+  },
+  {
+    "id": "ebe26404-6196-40bb-8d7f-e870b9f9fdf5",
+    "team_id": "66334dca-7841-4570-8145-6134151b6523",
+    "person_id": "ff0fad78-7a20-44b3-8af1-a7d2bdfa79d9",
+    "role": "member",
+    "rotation_preference": "every_other",
+    "joined_at": "2026-01-19"
+  },
+  {
+    "id": "c918e8c0-bf75-4ae2-9627-8f69e5ac5285",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "b2d33899-1e42-4efd-9ca8-1654b713a1d7",
+    "role": "coordinator",
+    "rotation_preference": "as_needed",
+    "joined_at": "2025-10-08"
+  },
+  {
+    "id": "d3fcc679-cd1e-4e92-ad8d-d197f43e2a49",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "d25b2dd8-049f-4a4a-88c1-c8f5ae1eb14b",
+    "role": "leader",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2026-03-29"
+  },
+  {
+    "id": "266a61f6-5731-4223-a69a-0edf5a2d2579",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "b31aa4f2-6f6a-464f-b6e3-30a5d7f2dccd",
+    "role": "leader",
+    "rotation_preference": "every_week",
+    "joined_at": "2025-09-08"
+  },
+  {
+    "id": "ed991347-b727-42c2-a7b3-1909c57e7f2b",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "6794bdc0-713f-4279-8b80-581501629bc3",
+    "role": "member",
+    "rotation_preference": "as_needed",
+    "joined_at": "2025-05-11"
+  },
+  {
+    "id": "42e6e424-9d6e-43bb-8405-0efbb31c8ac6",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "32d3f52c-a78b-43ff-ba3a-1047dbb655f0",
+    "role": "member",
+    "rotation_preference": "every_other",
+    "joined_at": "2025-09-20"
+  },
+  {
+    "id": "d732b967-8364-4682-9664-f1a2de6d3255",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "2d73d785-926f-44a5-8c2f-731285d639b2",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2025-09-04"
+  },
+  {
+    "id": "b3077028-3e20-47fa-a507-3a941c9d4a14",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "ff0fad78-7a20-44b3-8af1-a7d2bdfa79d9",
+    "role": "member",
+    "rotation_preference": "every_other",
+    "joined_at": "2025-08-02"
+  },
+  {
+    "id": "ca5e8a77-d40e-4d52-aa16-190aa72157a0",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "6d180556-b673-4531-b9a9-76d870566989",
+    "role": "member",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2025-09-17"
+  },
+  {
+    "id": "5dcf5e16-77a2-4d8e-a0a6-8b33b8377b09",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "49b4612a-28b1-494f-97c8-0af9de3396de",
+    "role": "member",
+    "rotation_preference": "every_other",
+    "joined_at": "2026-02-26"
+  },
+  {
+    "id": "75151cc6-41de-4494-9309-2015a3e45341",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "f2b66bbf-21b9-4411-9e35-35181c38ea85",
+    "role": "member",
+    "rotation_preference": "as_needed",
+    "joined_at": "2025-12-15"
+  },
+  {
+    "id": "e173bfd0-5001-4446-b6c2-2a92d5565864",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "2fe8d891-c2dc-4b04-b451-e846798e7fd3",
+    "role": "member",
+    "rotation_preference": "2nd_sunday",
+    "joined_at": "2025-12-18"
+  },
+  {
+    "id": "563cb00e-e87c-42a7-8b09-8daee62ad181",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "9c286251-02f8-4f64-b871-a39a20c70f0b",
+    "role": "member",
+    "rotation_preference": "4th_sunday",
+    "joined_at": "2025-12-12"
+  },
+  {
+    "id": "9d11d84b-ebc4-44d9-a38a-3a04a23ea735",
+    "team_id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "person_id": "06704c28-303f-4cf7-b187-d1725b7667ce",
+    "role": "member",
+    "rotation_preference": "1st_sunday",
+    "joined_at": "2025-09-30"
+  }
+]

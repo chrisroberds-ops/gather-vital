@@ -1,0 +1,58 @@
+[
+  {
+    "id": "47f6a608-1ec6-4a1b-add4-48fe5ce4d453",
+    "name": "Music",
+    "description": "The Music team serves our congregation each week.",
+    "coordinator_id": "0d9b0fd3-2248-4649-9245-7c3890921ffc",
+    "is_active": true
+  },
+  {
+    "id": "d8149991-ce8b-4eaa-bb49-d4e9696d7e8a",
+    "name": "Tech",
+    "description": "The Tech team serves our congregation each week.",
+    "coordinator_id": "adc2e8ce-5136-4dd0-9863-15f58b5ff474",
+    "is_active": true
+  },
+  {
+    "id": "2b2d9fd1-2982-4290-9dcc-008f552aa17a",
+    "name": "Kids Ministry",
+    "description": "The Kids Ministry team serves our congregation each week.",
+    "coordinator_id": "ada91543-f6ea-4c89-b73b-40a2ffe50e6f",
+    "is_active": true
+  },
+  {
+    "id": "ada9de62-d3e0-4e9c-86f3-40f7aada8bc2",
+    "name": "Greeting",
+    "description": "The Greeting team serves our congregation each week.",
+    "coordinator_id": "4fb89635-c010-40db-8717-72669a05a8da",
+    "is_active": true
+  },
+  {
+    "id": "1579f5c8-39f1-4805-a9db-7e4c7ece3abb",
+    "name": "Hospitality",
+    "description": "The Hospitality team serves our congregation each week.",
+    "coordinator_id": "e512c911-b1db-411f-955d-ffc61c86e170",
+    "is_active": true
+  },
+  {
+    "id": "045dd1f2-63db-45a2-9663-ea430584b65f",
+    "name": "Ushers",
+    "description": "The Ushers team serves our congregation each week.",
+    "coordinator_id": "f8cfd372-f93a-4951-8a8c-8d88e620c9b3",
+    "is_active": true
+  },
+  {
+    "id": "66334dca-7841-4570-8145-6134151b6523",
+    "name": "Prayer",
+    "description": "The Prayer team serves our congregation each week.",
+    "coordinator_id": "4605351e-9ac7-4189-8b62-45a95f931232",
+    "is_active": true
+  },
+  {
+    "id": "fd0941b2-7a8f-4cc5-80bf-6f2427c5e87c",
+    "name": "First Impressions",
+    "description": "The First Impressions team serves our congregation each week.",
+    "coordinator_id": "b83e68e9-1fa5-42c9-88ec-243b09ce5d1d",
+    "is_active": true
+  }
+]

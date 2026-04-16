@@ -1,0 +1,40 @@
+[
+  {
+    "id": "34ad80ad-4080-4603-b611-d0bd23a57d29",
+    "name": "Spring Picnic & Family Celebration",
+    "description": "Join us for a fun afternoon of food, games, and fellowship!",
+    "event_date": "2026-04-09",
+    "event_time": "12:00 PM",
+    "location": "Riverside Park Pavilion",
+    "max_capacity": null,
+    "registration_required": false,
+    "has_cost": false,
+    "is_active": true
+  },
+  {
+    "id": "08f35150-68fd-4d31-a988-17260d0fdcf0",
+    "name": "Marriage Enrichment Retreat",
+    "description": "A weekend retreat for couples to grow together.",
+    "event_date": "2026-05-28",
+    "event_time": "5:00 PM",
+    "location": "Blue Ridge Conference Center",
+    "max_capacity": 30,
+    "registration_required": true,
+    "has_cost": true,
+    "cost_amount": 149,
+    "cost_description": "Includes lodging and meals",
+    "is_active": true
+  },
+  {
+    "id": "2966e81e-2efe-4abb-8744-ba9acb15480c",
+    "name": "Leadership Development Workshop",
+    "description": "Training for current and future ministry leaders.",
+    "event_date": "2026-04-11",
+    "event_time": "9:00 AM",
+    "location": "Church Multipurpose Room",
+    "max_capacity": 25,
+    "registration_required": true,
+    "has_cost": false,
+    "is_active": true
+  }
+]

@@ -1,0 +1,83 @@
+[
+  {
+    "id": "564b535d-b5e1-4021-a1a9-abc399f30ab4",
+    "person_id": "e934c0f2-c67e-4680-803a-116ab21f4ddc",
+    "flag_type": "custody_alert",
+    "flag_message": "Court order: only Barton Keebler may pick up this child.",
+    "is_active": true,
+    "created_by": "0d9b0fd3-2248-4649-9245-7c3890921ffc",
+    "created_at": "2026-04-07T19:13:26.265Z"
+  },
+  {
+    "id": "1be4a064-3a2d-4abe-9f87-5b8e345c1761",
+    "person_id": "9be4f190-e8ad-420e-b527-90406efa2e82",
+    "flag_type": "custody_alert",
+    "flag_message": "Court order: only Jimmy Lemke-Larkin may pick up this child.",
+    "is_active": true,
+    "created_by": "0d9b0fd3-2248-4649-9245-7c3890921ffc",
+    "created_at": "2026-04-07T19:13:26.265Z"
+  },
+  {
+    "id": "4f47051b-894d-405a-ae38-8d06202f3e3e",
+    "person_id": "1437e1ba-1e95-4c4b-80d7-a3ac797e7dc6",
+    "flag_type": "custody_alert",
+    "flag_message": "Court order: only Emilie Jones may pick up this child.",
+    "is_active": true,
+    "created_by": "0d9b0fd3-2248-4649-9245-7c3890921ffc",
+    "created_at": "2026-04-07T19:13:26.265Z"
+  },
+  {
+    "id": "ac5ef006-944a-492e-9a5a-172052aa20c0",
+    "person_id": "40b71b0d-222f-4bc6-9537-8a4f2f075796",
+    "flag_type": "behavioral",
+    "flag_message": "Tends to wander — extra supervision needed.",
+    "is_active": true,
+    "created_by": "0564d548-2c1f-4c30-bdbb-c151d95145ba",
+    "created_at": "2026-04-07T19:13:26.265Z"
+  },
+  {
+    "id": "ddb3b338-a00c-4d96-9db9-5364582c27b7",
+    "person_id": "0ed79f8e-1379-4df6-80c9-37bc74fa64b3",
+    "flag_type": "behavioral",
+    "flag_message": "Tends to wander — extra supervision needed.",
+    "is_active": true,
+    "created_by": "0564d548-2c1f-4c30-bdbb-c151d95145ba",
+    "created_at": "2026-04-07T19:13:26.265Z"
+  },
+  {
+    "id": "dfac0ef9-c84d-499a-9db3-7f8fda54a6cc",
+    "person_id": "4e548d1f-c2b6-46cf-8267-650a63dc74a4",
+    "flag_type": "behavioral",
+    "flag_message": "Separation anxiety — needs 5 min settling time with parent.",
+    "is_active": true,
+    "created_by": "0564d548-2c1f-4c30-bdbb-c151d95145ba",
+    "created_at": "2026-04-07T19:13:26.265Z"
+  },
+  {
+    "id": "756e5453-82d3-492f-87dc-bd1a4cfe1551",
+    "person_id": "365a4913-6e6a-4420-b422-c0868954bd31",
+    "flag_type": "behavioral",
+    "flag_message": "Tends to wander — extra supervision needed.",
+    "is_active": true,
+    "created_by": "0564d548-2c1f-4c30-bdbb-c151d95145ba",
+    "created_at": "2026-04-07T19:13:26.265Z"
+  },
+  {
+    "id": "f997af91-7f69-412d-8446-f1d5df522c24",
+    "person_id": "a065a39e-cef0-496d-84f9-c12c0d0a59b5",
+    "flag_type": "medical",
+    "flag_message": "Has epi-pen in bag. Aestas umerus undique cupiditate perspiciatis.",
+    "is_active": true,
+    "created_by": "adc2e8ce-5136-4dd0-9863-15f58b5ff474",
+    "created_at": "2026-04-07T19:13:26.265Z"
+  },
+  {
+    "id": "ab88ab55-4858-46d1-9996-6c4deac98f42",
+    "person_id": "18fb13cd-9a0d-4c4b-b303-2568740964db",
+    "flag_type": "medical",
+    "flag_message": "Has epi-pen in bag. Audacia ver cunctatio ullam carpo coma adulatio.",
+    "is_active": true,
+    "created_by": "adc2e8ce-5136-4dd0-9863-15f58b5ff474",
+    "created_at": "2026-04-07T19:13:26.265Z"
+  }
+]
