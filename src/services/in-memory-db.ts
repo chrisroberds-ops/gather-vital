@@ -62,6 +62,7 @@ import visitorFollowupData from '@/test-data/visitor_followup.json'
 import followupTemplatesData from '@/test-data/followup_templates.json'
 import appConfigData from '@/test-data/app_config.json'
 import churchesData from '@/test-data/churches.json'
+import songsData from '@/test-data/songs.json'
 
 // ── Church scoping helpers ────────────────────────────────────────────────────
 // Seed data predates multi-tenancy and lacks church_id.
@@ -184,7 +185,7 @@ const store = {
   communicationsLog: [] as CommunicationsLogEntry[],
   attendanceEntries: [] as AttendanceEntry[],
   pickupAttempts: [] as PickupAttempt[],
-  songs: [] as Song[],
+  songs: songsData as Song[],
   servicePlans: [] as ServicePlan[],
   servicePlanItems: [] as ServicePlanItem[],
   serviceAssignments: [] as ServiceAssignment[],

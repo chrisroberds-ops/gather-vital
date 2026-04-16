@@ -1,0 +1,80 @@
+[
+  {
+    "id": "song-amazing-grace",
+    "church_id": "church-test-default",
+    "title": "Amazing Grace",
+    "artist": "John Newton",
+    "key": "G",
+    "bpm": 72,
+    "lyrics": "Amazing grace! How sweet the sound\nThat saved a wretch like me!\nI once was lost, but now am found,\nWas blind, but now I see.",
+    "tags": ["hymn", "worship"],
+    "is_active": true,
+    "created_at": "2024-01-01T00:00:00.000Z",
+    "updated_at": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "song-how-great-thou-art",
+    "church_id": "church-test-default",
+    "title": "How Great Thou Art",
+    "artist": "Carl Boberg",
+    "key": "Bb",
+    "bpm": 68,
+    "lyrics": "O Lord my God, when I in awesome wonder\nConsider all the worlds Thy hands have made,\nI see the stars, I hear the rolling thunder,\nThy power throughout the universe displayed.",
+    "tags": ["hymn", "worship"],
+    "is_active": true,
+    "created_at": "2024-01-01T00:00:00.000Z",
+    "updated_at": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "song-great-is-thy-faithfulness",
+    "church_id": "church-test-default",
+    "title": "Great Is Thy Faithfulness",
+    "artist": "Thomas Chisholm",
+    "key": "D",
+    "bpm": 76,
+    "lyrics": "Great is Thy faithfulness, O God my Father,\nThere is no shadow of turning with Thee;\nThou changest not, Thy compassions, they fail not;\nAs Thou hast been, Thou forever wilt be.",
+    "tags": ["hymn", "worship"],
+    "is_active": true,
+    "created_at": "2024-01-01T00:00:00.000Z",
+    "updated_at": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "song-it-is-well",
+    "church_id": "church-test-default",
+    "title": "It Is Well With My Soul",
+    "artist": "Horatio Spafford",
+    "key": "Eb",
+    "bpm": 80,
+    "lyrics": "When peace like a river attendeth my way,\nWhen sorrows like sea billows roll;\nWhatever my lot, Thou hast taught me to say,\nIt is well, it is well with my soul.",
+    "tags": ["hymn", "worship"],
+    "is_active": true,
+    "created_at": "2024-01-01T00:00:00.000Z",
+    "updated_at": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "song-holy-holy-holy",
+    "church_id": "church-test-default",
+    "title": "Holy Holy Holy",
+    "artist": "Reginald Heber",
+    "key": "D",
+    "bpm": 84,
+    "lyrics": "Holy, holy, holy! Lord God Almighty!\nEarly in the morning our song shall rise to Thee;\nHoly, holy, holy! Merciful and mighty!\nGod in three persons, blessed Trinity!",
+    "tags": ["hymn", "worship"],
+    "is_active": true,
+    "created_at": "2024-01-01T00:00:00.000Z",
+    "updated_at": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "song-be-thou-my-vision",
+    "church_id": "church-test-default",
+    "title": "Be Thou My Vision",
+    "artist": "Irish hymn",
+    "key": "D",
+    "bpm": 78,
+    "lyrics": "Be Thou my vision, O Lord of my heart;\nNaught be all else to me, save that Thou art.\nThou my best thought, by day or by night,\nWaking or sleeping, Thy presence my light.",
+    "tags": ["hymn", "worship"],
+    "is_active": true,
+    "created_at": "2024-01-01T00:00:00.000Z",
+    "updated_at": "2024-01-01T00:00:00.000Z"
+  }
+]
