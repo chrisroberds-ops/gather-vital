@@ -199,6 +199,54 @@ function applyMapping(row: Record<string, string>, mapping: Record<string, strin
 }
 
 /**
+ * Apply Planning Center-specific transforms to a mapped row.
+ *
+ * - Strips the leading ", " that PC adds to the Themes column value
+ *   (e.g. ", Adoration, Creator" → "Adoration, Creator").
+ * - Collects Arrangement 2–4 names and primary keys into a readable note
+ *   (e.g. "Also available: Acoustic (Ab), Rock (D)") and prepends it to
+ *   chord_chart_text so worship leaders can see alternate arrangements.
+ * - Arrangement 2–4 chord chart text is intentionally NOT imported.
+ *
+ * @param mapped  The result of applyMapping for this row.
+ * @param rawRow  The original CSV row, needed to read arrangement columns that
+ *                are not included in the standard mapping.
+ */
+function applyPcTransforms(
+  mapped: Record<string, string>,
+  rawRow: Record<string, string>,
+): Record<string, string> {
+  const result = { ...mapped }
+
+  // Strip leading comma/whitespace from Themes (PC always emits ", Tag1, Tag2")
+  if (result.tags) {
+    result.tags = result.tags.replace(/^[,\s]+/, '').trim()
+    if (!result.tags) delete result.tags
+  }
+
+  // Build a note from Arrangement 2–4 names and keys
+  const arrNotes: string[] = []
+  for (let n = 2; n <= 4; n++) {
+    // Try both "Arrangement N Name" and case variations PC might use
+    const name = (rawRow[`Arrangement ${n} Name`] ?? rawRow[`arrangement ${n} name`] ?? '').trim()
+    const keys = (rawRow[`Arrangement ${n} Keys`] ?? rawRow[`arrangement ${n} keys`] ?? '').trim()
+    if (name) {
+      const firstKey = keys ? keys.split(/[,\s]+/).find(k => k.trim()) : undefined
+      arrNotes.push(firstKey ? `${name} (${firstKey})` : name)
+    }
+  }
+
+  if (arrNotes.length > 0) {
+    const note = `Also available: ${arrNotes.join(', ')}`
+    result.chord_chart_text = result.chord_chart_text
+      ? `${note}\n\n${result.chord_chart_text}`
+      : note
+  }
+
+  return result
+}
+
+/**
  * Build the preview rows, detecting duplicates against existing songs.
  *
  * Duplicate rule: a song is considered a duplicate if an existing active song
@@ -208,10 +256,14 @@ function applyMapping(row: Record<string, string>, mapping: Record<string, strin
  *
  * This avoids false positives for songs with the same name but different CCLI,
  * while still catching the common case of re-importing the same song.
+ *
+ * @param isPc  When true, Planning Center-specific post-processing is applied
+ *              (Themes cleaning, Arrangement 2–4 note building).
  */
 export async function buildSongPreview(
   rows: Record<string, string>[],
   mapping: Record<string, string>,
+  isPc = false,
 ): Promise<SongPreviewRow[]> {
   const existing = await db.getSongs()
 
@@ -229,7 +281,8 @@ export async function buildSongPreview(
   const preview: SongPreviewRow[] = []
 
   for (let i = 0; i < rows.length; i++) {
-    const mapped = applyMapping(rows[i], mapping)
+    let mapped = applyMapping(rows[i], mapping)
+    if (isPc) mapped = applyPcTransforms(mapped, rows[i])
 
     if (!mapped.title?.trim()) {
       preview.push({

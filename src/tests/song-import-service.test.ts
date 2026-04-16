@@ -352,6 +352,99 @@ describe('parseCsv — multi-line quoted fields', () => {
   })
 })
 
+describe('PC Themes — leading comma stripping', () => {
+  it('strips the leading ", " PC adds to the Themes column', async () => {
+    const rows = [{ Title: 'Themes Test', Themes: ', Adoration, Creator' }]
+    const mapping = { Title: 'title', Themes: 'tags' }
+    const preview = await buildSongPreview(rows, mapping, true)
+    expect(preview[0].mapped.tags).toBe('Adoration, Creator')
+  })
+
+  it('handles Themes with no leading comma gracefully', async () => {
+    const rows = [{ Title: 'Clean Themes Song', Themes: 'Worship, Praise' }]
+    const mapping = { Title: 'title', Themes: 'tags' }
+    const preview = await buildSongPreview(rows, mapping, true)
+    expect(preview[0].mapped.tags).toBe('Worship, Praise')
+  })
+
+  it('does NOT strip Themes when isPc is false (generic CSV)', async () => {
+    const rows = [{ Title: 'Generic Song', Themes: ', Adoration' }]
+    const mapping = { Title: 'title', Themes: 'tags' }
+    const preview = await buildSongPreview(rows, mapping, false)
+    // Generic CSV — raw value preserved
+    expect(preview[0].mapped.tags).toBe(', Adoration')
+  })
+})
+
+describe('PC Arrangement notes', () => {
+  it('prepends arrangement 2-4 names and keys to chord_chart_text', async () => {
+    const rows = [{
+      Title: 'Multi Arr Song',
+      'Arrangement 1 Chord Chart': '[Verse]\nG C G',
+      'Arrangement 2 Name': 'Acoustic',
+      'Arrangement 2 Keys': 'Ab',
+      'Arrangement 3 Name': 'Rock',
+      'Arrangement 3 Keys': 'D',
+      'Arrangement 4 Name': 'Capo',
+      'Arrangement 4 Keys': 'E',
+    }]
+    const mapping = {
+      Title: 'title',
+      'Arrangement 1 Chord Chart': 'chord_chart_text',
+      'Arrangement 2 Name': 'ignore',
+      'Arrangement 2 Keys': 'ignore',
+      'Arrangement 3 Name': 'ignore',
+      'Arrangement 3 Keys': 'ignore',
+      'Arrangement 4 Name': 'ignore',
+      'Arrangement 4 Keys': 'ignore',
+    }
+    const preview = await buildSongPreview(rows, mapping, true)
+    const ct = preview[0].mapped.chord_chart_text ?? ''
+    expect(ct).toContain('Also available: Acoustic (Ab), Rock (D), Capo (E)')
+    expect(ct).toContain('[Verse]')
+    expect(ct).toContain('G C G')
+    // Note appears BEFORE chord chart
+    expect(ct.indexOf('Also available')).toBeLessThan(ct.indexOf('[Verse]'))
+  })
+
+  it('omits the note when no extra arrangements are populated', async () => {
+    const rows = [{
+      Title: 'Single Arr Song',
+      'Arrangement 1 Chord Chart': '[Verse]\nG D G',
+      'Arrangement 2 Name': '',
+      'Arrangement 3 Name': '',
+      'Arrangement 4 Name': '',
+    }]
+    const mapping = { Title: 'title', 'Arrangement 1 Chord Chart': 'chord_chart_text' }
+    const preview = await buildSongPreview(rows, mapping, true)
+    expect(preview[0].mapped.chord_chart_text).not.toContain('Also available')
+  })
+
+  it('stores the note in chord_chart_text even when no Arrangement 1 chart exists', async () => {
+    const rows = [{
+      Title: 'No Chart Song',
+      'Arrangement 2 Name': 'Acoustic',
+      'Arrangement 2 Keys': 'Bb',
+    }]
+    const mapping = { Title: 'title' }
+    const preview = await buildSongPreview(rows, mapping, true)
+    expect(preview[0].mapped.chord_chart_text).toBe('Also available: Acoustic (Bb)')
+  })
+
+  it('handles arrangement name without a key gracefully', async () => {
+    const rows = [{
+      Title: 'No Key Song',
+      'Arrangement 2 Name': 'Acoustic',
+      'Arrangement 2 Keys': '',
+    }]
+    const mapping = { Title: 'title' }
+    const preview = await buildSongPreview(rows, mapping, true)
+    expect(preview[0].mapped.chord_chart_text).toContain('Acoustic')
+    // No parentheses when no key
+    expect(preview[0].mapped.chord_chart_text).not.toContain('()')
+  })
+})
+
 describe('buildPlanningCenterMapping — PC-specific columns', () => {
   it('maps "Arrangement 1 Chord Chart" → chord_chart_text', () => {
     const m = buildPlanningCenterMapping(['Title', 'Arrangement 1 Chord Chart'])
@@ -414,6 +507,49 @@ describe('commitSongImport — chord_chart_text and key normalization', () => {
     const songs = await db.getSongs()
     const imported = songs.find(s => s.title === 'Single Key Song')!
     expect(imported.key).toBe('Bb')
+  })
+
+  it('end-to-end: PC CSV with 4 arrangements imports exactly one song record', async () => {
+    // Mirrors the actual PC export format: one row, many arrangement columns
+    const pcCsv = [
+      'Title,CCLI Number,Themes,Arrangement 1 Name,Arrangement 1 Keys,Arrangement 1 BPM,Arrangement 1 Chord Chart,Arrangement 2 Name,Arrangement 2 Keys,Arrangement 2 BPM,Arrangement 2 Chord Chart,Arrangement 3 Name,Arrangement 3 Keys,Arrangement 3 Chord Chart,Arrangement 4 Name,Arrangement 4 Keys,Arrangement 4 Chord Chart',
+      '"Four Arr Song","77777",", Praise, Worship","Original","G, D","120","[Verse 1]\nG  D  G\nSong line 1\nSong line 2","Acoustic","Ab","110","[Verse 1]\nAb Eb Ab\nAcoustic line","Rock","D","[Verse 1]\nD  A  D","Capo","E","[Verse 1]\nE  B  E"',
+    ].join('\n')
+
+    const { headers, rows } = parseCsv(pcCsv)
+
+    // One CSV row → one song, regardless of how many arrangements or chart lines
+    expect(rows).toHaveLength(1)
+
+    const mapping = buildPlanningCenterMapping(headers)
+    const preview = await buildSongPreview(rows, mapping, true)
+
+    expect(preview).toHaveLength(1)
+    expect(preview[0].status).toBe('ready')
+
+    await commitSongImport(preview)
+    const all = await db.getSongs()
+    const matches = all.filter(s => s.title === 'Four Arr Song')
+
+    // Exactly ONE song record, not one per arrangement
+    expect(matches).toHaveLength(1)
+    const song = matches[0]
+
+    // Arrangement 1 fields mapped correctly
+    expect(song.key).toBe('G')          // first key only
+    expect(song.bpm).toBe(120)
+    expect(song.chord_chart_text).toContain('[Verse 1]')
+    expect(song.chord_chart_text).toContain('G  D  G')
+
+    // Arrangement 2-4 names surfaced as a note, NOT as extra song records
+    expect(song.chord_chart_text).toContain('Also available: Acoustic (Ab), Rock (D), Capo (E)')
+
+    // Arrangement 2-4 chord chart text NOT included (only Arr 1)
+    expect(song.chord_chart_text).not.toContain('Acoustic line')
+    expect(song.chord_chart_text).not.toContain('Ab Eb Ab')
+
+    // Themes leading comma stripped
+    expect(song.tags).toEqual(['Praise', 'Worship'])
   })
 
   it('end-to-end: PC CSV with multi-line chord chart imports as one song', async () => {

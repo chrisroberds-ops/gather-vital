@@ -77,7 +77,7 @@ export default function SongImportModal({ isOpen, onClose, onImported }: Props) 
       if (pc) {
         setMapping(buildPlanningCenterMapping(parsed.headers))
         // Skip mapping step for PC imports — go straight to preview
-        void buildAndPreview(parsed.rows, buildPlanningCenterMapping(parsed.headers))
+        void buildAndPreview(parsed.rows, buildPlanningCenterMapping(parsed.headers), true)
       } else {
         setMapping(buildAutoMapping(parsed.headers))
         setStep('map')
@@ -89,9 +89,10 @@ export default function SongImportModal({ isOpen, onClose, onImported }: Props) 
   const buildAndPreview = useCallback(async (
     r: Record<string, string>[],
     m: Record<string, string>,
+    pc = false,
   ) => {
     setPreviewing(true)
-    const p = await buildSongPreview(r, m)
+    const p = await buildSongPreview(r, m, pc)
     setPreview(p)
     setPreviewing(false)
     setStep('preview')
