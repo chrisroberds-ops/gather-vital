@@ -1,7 +1,7 @@
 # Gather — Build Progress
 
 > Read `Gather-Church-Management-System-Spec.md` alongside this file.
-> **Current state: 330 tests passing across 24 test files. Last completed: Session F — Song Import (2026-04-15).**
+> **Current state: 360 tests passing across 25 test files. Last completed: Session G — Household Checkout, File Attachments, PC CSV & Music Stand (2026-04-16).**
 
 ---
 
@@ -534,6 +534,89 @@ Added "Import" button (with download icon) in the header bar next to "Add Song".
 
 ---
 
+## Session G — Household Checkout, File Attachments, PC CSV & Music Stand ✅ Complete (2026-04-16)
+
+**+30 tests (360 total).** Baseline: 330 tests.
+
+### What was built
+
+#### 1. Household Grouped Checkout with Authorization Controls
+
+**Types added (`src/shared/types/index.ts`):**
+- `HouseholdMember.authorized_children: string[]` — list of child IDs this member is authorized to pick up
+- `HouseholdMember.pickup_notes?: string` — free-text notes shown to staff at checkout
+
+**DB methods added:**
+- `getHouseholdCheckoutGroup(churchId, householdId)` — returns all checked-in children for a household grouped together, enabling single-scan multi-child checkout
+
+**UI changes:**
+- `CheckoutPanel` — redesigned to show all household children in a grouped card; staff sees each child's photo, room, and authorization status in one view
+- `AuthorizationForm` in `HouseholdManager` — staff can mark which adults are authorized for each child, and add pickup notes
+- `HouseholdSummary` — new badges showing authorization count and pickup notes indicator
+
+**Tests added:** 11 tests in `src/tests/household-checkout.test.ts` covering grouped fetch, authorization filtering, notes display, and edge cases (no children checked in, unauthorized adult, partial authorization).
+
+#### 2. PDF and Audio File Attachments for Songs
+
+**New service functions (`src/services/storage-service.ts`):**
+
+| Export | Purpose |
+|--------|---------|
+| `validateSongPdf(file)` | Size check (≤ 10 MB), MIME type check |
+| `uploadSongPdf(songId, file)` | TEST_MODE: base64 data URL; prod: Firebase Storage upload |
+| `validateSongAudio(file)` | Size check (≤ 50 MB), MP3/M4A MIME check |
+| `uploadSongAudio(songId, file)` | TEST_MODE: base64 data URL; prod: Firebase Storage upload |
+
+**UI changes (`src/features/worship/SongForm.tsx`):**
+- New `SongFileAttachments` component with drag-and-drop zones for PDF and audio
+- Files upload immediately on drop/select (not on form save) via `updateSong`
+- Shows file list with remove buttons; TEST_MODE notice explains data-URL storage
+- Read-only chord chart text preview shown in edit mode when `chord_chart_text` is present
+
+**`mergeIntoStore` fix (`src/services/in-memory-db.ts`):**
+- Previously only *added* new records, never replaced existing ones — seed songs edited in localStorage (e.g. `chord_chart_url` set on `song-amazing-grace`) were silently ignored on reload
+- Fixed to replace existing records with the persisted (localStorage) version: localStorage is the source of truth in TEST_MODE
+
+#### 3. PC CSV Importer — Multi-line Chord Charts & Multiple Arrangements
+
+**RFC-4180 compliant CSV parser (`src/features/worship/song-import-service.ts`):**
+- Rewrote `parseCsv` to parse character-by-character; newlines inside quoted fields are part of the field value and do NOT start a new row
+- Previously: a chord chart with 40 lines of text would create 40 song records from one CSV row
+
+**`chord_chart_text` field:**
+- Added `chord_chart_text?: string` to `Song` type
+- Added `chord_chart_text` to `SONG_FIELDS` and `PC_COLUMN_MAP` (`'arrangement 1 chord chart'`, `'chord chart'`)
+- `commitSongImport` saves `chord_chart_text`; key normalization takes only the first key from "G, Ab, F#m"-style values
+
+**Planning Center multiple arrangements (`applyPcTransforms`):**
+- Each CSV row is exactly one song (Arrangement 1 = primary)
+- Arrangement 2–4 names and primary keys → "Also available: Acoustic (Ab), Rock (D)" note prepended to `chord_chart_text`
+- Arrangement 2–4 chord chart text intentionally ignored
+- Themes column leading `, ` stripped (PC always emits `, Adoration, Creator`)
+
+**Import preview:** chord chart snippet column added to preview table for PC imports.
+
+**Tests added:** 19 tests in `src/tests/song-import-service.test.ts` covering multi-line quoted fields, Themes stripping, arrangement note building (2/3/4 arrangements, no-key fallback), PC column mapping, `chord_chart_text` commit, key normalization, and 4-arrangement end-to-end (one CSV row → exactly one song record).
+
+#### 4. Chord Chart Text View in Music Stand
+
+**New component (`src/features/stand/SongView.tsx` — `ChordChartTextView`):**
+- Dark background, monospace font, `whitespace-pre-wrap`, 18px base size × zoom multiplier
+- Indicator banner: "Text chord chart — upload a PDF for annotation support"
+- Zoom controls (A+/A−) active in text view; same zoom state as PDF view
+- Auto-initializes to text view when no PDFs exist but `chord_chart_text` is present
+- "T" toggle button shown when song has both a PDF and chord chart text — PDF is default when both exist
+- Metronome and audio player remain accessible in text view
+
+### Tests added (Session G)
+
+| File | Tests | Coverage |
+|------|-------|---------|
+| `src/tests/household-checkout.test.ts` | 11 | Grouped fetch, authorization filtering, pickup notes, edge cases |
+| `src/tests/song-import-service.test.ts` | +19 | RFC-4180 multi-line parser, Themes cleanup, arrangement notes, PC columns, chord_chart_text commit |
+
+---
+
 ## Manually Verified (as of 2026-04-09)
 
 The following flows were confirmed working end-to-end in the running app (`VITE_TEST_MODE=true`):
@@ -568,15 +651,24 @@ The following flows were confirmed working end-to-end in the running app (`VITE_
 | Session C (2026-04-09) | 7 | 235 |
 | Session D (2026-04-14) | 41 | 276 |
 | Session E (2026-04-15) | 19 | 295 |
-| Session F (2026-04-15) | 35 | **330** |
+| Session F (2026-04-15) | 35 | 330 |
+| Session G (2026-04-16) | 30 | **360** |
 
-All 330 tests pass. TypeScript clean. No Firebase credentials required to run.
+All 360 tests pass. TypeScript clean. No Firebase credentials required to run.
 
 ---
 
 ## Up Next — Build Queue
 
-> **Recommended next step: Home church trial before Phase 7.**
+> **Music Stand is now fully functional end to end.** PC-imported songs display chord charts in Music Stand immediately, with PDF upload path available when annotation support is needed.
+
+### Immediate Queue
+
+1. **Bulk PDF drag-and-drop upload** — multi-file drop zone in Song Library; match PDFs to songs by filename similarity; batch upload with progress indicator
+2. **Annotation support via PDF.js** — replace the `<iframe>` PDF viewer with PDF.js; enable freehand ink annotations saved per-song per-user; useful for worship leaders marking their personal charts
+3. **Phase 7 — Giving & Finance** (see spec below)
+
+> **Recommended: Home church trial before Phase 7.**
 > The core feature set is now substantial enough for real use. Running the app with an actual congregation (even a small one) for 2–4 weeks will surface friction, missing edge cases, and priority mismatches that are hard to anticipate in isolation. Suggested trial checklist:
 > - Run the setup wizard end-to-end for your church
 > - Check in kids for at least one service
@@ -585,7 +677,7 @@ All 330 tests pass. TypeScript clean. No Firebase credentials required to run.
 > - Import your song library from Planning Center
 > - Log group attendance for a small group
 >
-> Observations from the trial should inform whether Phase 7 (Giving) or Phase 8 polish comes first.
+> Observations from the trial should inform whether bulk PDF upload or Phase 7 (Giving) comes first.
 
 ### Phase 7 — Giving Module (`/admin/giving`)
 
