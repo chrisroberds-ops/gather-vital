@@ -50,6 +50,9 @@ export default function SongView() {
   const [showSongList, setShowSongList] = useState(false)
   const [landscape, setLandscape] = useState(false)
   const [loading, setLoading] = useState(true)
+  // Text chord chart view — active when no PDF exists, or toggled when both exist
+  const [showTextView, setShowTextView] = useState(false)
+  const [textZoom, setTextZoom] = useState(1.0)
 
   // Touch tracking for vertical swipe (song navigation)
   const touchStartY = useRef<number | null>(null)
@@ -75,9 +78,12 @@ export default function SongView() {
         console.log('[SongView] PDF attachments for', s.title, {
           chord_chart_url: s.chord_chart_url,
           pdf_urls: s.pdf_urls,
+          chord_chart_text: s.chord_chart_text ? `${s.chord_chart_text.slice(0, 80)}…` : undefined,
           attachments,
         })
         setPdfs(attachments)
+        // Default to text view when no PDF exists but chord chart text is present
+        setShowTextView(attachments.length === 0 && !!s.chord_chart_text)
       }
       setSession(sess)
       setLoading(false)
@@ -168,6 +174,10 @@ export default function SongView() {
   const activePdf = pdfs[activePdfIdx]
   const bgClass = darkMode ? 'bg-black' : 'bg-gray-950'
   const chromeOpacity = darkMode ? 'opacity-40' : 'opacity-100'
+  const hasChordText = !!song.chord_chart_text
+  const hasPdfs = pdfs.length > 0
+  // When both exist, showTextView toggles between them; when only text, always text
+  const useTextView = showTextView || (!hasPdfs && hasChordText)
 
   return (
     <div
@@ -195,8 +205,8 @@ export default function SongView() {
 
         {/* Toolbar icons */}
         <div className="flex items-center gap-1">
-          {/* PDF selector */}
-          {pdfs.length > 1 && (
+          {/* PDF selector (only when multiple PDFs and showing PDF view) */}
+          {pdfs.length > 1 && !useTextView && (
             <select
               value={activePdfIdx}
               onChange={e => { setActivePdfIdx(Number(e.target.value)); setCurrentPage(0) }}
@@ -206,6 +216,34 @@ export default function SongView() {
                 <option key={i} value={i}>{pdf.label}</option>
               ))}
             </select>
+          )}
+
+          {/* Text/PDF toggle — only when both are available */}
+          {hasPdfs && hasChordText && (
+            <ToolButton
+              active={useTextView}
+              onClick={() => setShowTextView(v => !v)}
+              label="T"
+              title={useTextView ? 'Switch to PDF view' : 'Switch to text view'}
+            />
+          )}
+
+          {/* Text zoom controls — only in text view */}
+          {useTextView && (
+            <>
+              <ToolButton
+                active={false}
+                onClick={() => setTextZoom(z => Math.min(z + 0.2, 2.4))}
+                label="A+"
+                title="Larger text"
+              />
+              <ToolButton
+                active={false}
+                onClick={() => setTextZoom(z => Math.max(z - 0.2, 0.6))}
+                label="A−"
+                title="Smaller text"
+              />
+            </>
           )}
 
           <ToolButton
@@ -262,9 +300,16 @@ export default function SongView() {
         </div>
       )}
 
-      {/* Main PDF area */}
+      {/* Main content area */}
       <div className="flex-1 flex flex-col min-h-0">
-        {activePdf ? (
+        {useTextView && song.chord_chart_text ? (
+          <ChordChartTextView
+            text={song.chord_chart_text}
+            zoom={textZoom}
+            darkMode={darkMode}
+            hasPdf={hasPdfs}
+          />
+        ) : activePdf ? (
           <PdfViewer
             pdfUrl={activePdf.url}
             currentPage={currentPage}
@@ -348,6 +393,50 @@ export default function SongView() {
     </div>
   )
 }
+
+// ── Chord chart text view ─────────────────────────────────────────────────────
+
+function ChordChartTextView({
+  text,
+  zoom,
+  darkMode,
+  hasPdf,
+}: {
+  text: string
+  zoom: number
+  darkMode: boolean
+  hasPdf: boolean
+}) {
+  const textColor = darkMode ? 'text-gray-100' : 'text-gray-100'
+  const bgColor   = darkMode ? 'bg-black'      : 'bg-gray-950'
+  const bannerBg  = darkMode ? 'bg-gray-900'   : 'bg-gray-900'
+
+  return (
+    <div className={`flex-1 flex flex-col min-h-0 ${bgColor}`}>
+      {/* Indicator banner */}
+      <div className={`${bannerBg} border-b border-gray-800 px-4 py-1.5 flex items-center gap-2`}>
+        <span className="text-xs text-gray-400">
+          Text chord chart
+          {!hasPdf && (
+            <span className="text-gray-600 ml-1">— upload a PDF for annotation support</span>
+          )}
+        </span>
+      </div>
+
+      {/* Scrollable chord chart */}
+      <div className="flex-1 overflow-y-auto px-6 py-6">
+        <pre
+          className={`${textColor} whitespace-pre-wrap font-mono leading-relaxed`}
+          style={{ fontSize: `${Math.round(18 * zoom)}px` }}
+        >
+          {text}
+        </pre>
+      </div>
+    </div>
+  )
+}
+
+// ── Tool button ───────────────────────────────────────────────────────────────
 
 function ToolButton({
   active,
