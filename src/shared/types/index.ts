@@ -134,6 +134,10 @@ export interface HouseholdMember {
   household_id: string
   person_id: string
   role: HouseholdMemberRole
+  /** IDs of children this adult is authorized to pick up. If absent or empty, authorized for all household children. */
+  authorized_children?: string[]
+  /** Staff-visible notes, e.g. 'Only authorized for Jake — see custody agreement on file.' */
+  pickup_notes?: string
 }
 
 export interface ChildPickup {

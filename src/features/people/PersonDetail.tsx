@@ -258,20 +258,31 @@ function HouseholdSummary({ personId }: { personId: string }) {
   return (
     <div className="space-y-2">
       {data.households.map(({ household, memberRecord }) => (
-        <div
-          key={household.id}
-          className="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-lg text-sm cursor-pointer hover:border-primary-300 transition-colors"
-          onClick={() => navigate(`/admin/households/${household.id}`)}
-        >
-          <div className="flex-1">
-            <div className="font-medium text-gray-900">{household.name}</div>
-            {household.address_line_1 && (
-              <div className="text-gray-500 text-xs">
-                {household.address_line_1}{household.city ? `, ${household.city}` : ''}
-              </div>
-            )}
+        <div key={household.id} className="p-3 bg-white border border-gray-200 rounded-lg text-sm space-y-1.5">
+          <div
+            className="flex items-center gap-3 cursor-pointer hover:text-primary-600 transition-colors"
+            onClick={() => navigate(`/admin/households/${household.id}`)}
+          >
+            <div className="flex-1">
+              <div className="font-medium text-gray-900">{household.name}</div>
+              {household.address_line_1 && (
+                <div className="text-gray-500 text-xs">
+                  {household.address_line_1}{household.city ? `, ${household.city}` : ''}
+                </div>
+              )}
+            </div>
+            <Badge variant={memberRecord.role === 'adult' ? 'info' : 'purple'}>{memberRecord.role}</Badge>
           </div>
-          <Badge variant={memberRecord.role === 'adult' ? 'info' : 'purple'}>{memberRecord.role}</Badge>
+          {memberRecord.pickup_notes && (
+            <div className="text-xs text-yellow-800 bg-yellow-50 border border-yellow-200 rounded px-2 py-1">
+              ⚠️ {memberRecord.pickup_notes}
+            </div>
+          )}
+          {memberRecord.authorized_children && memberRecord.authorized_children.length > 0 && (
+            <div className="text-xs text-orange-700 bg-orange-50 border border-orange-200 rounded px-2 py-1">
+              Pickup restricted to {memberRecord.authorized_children.length} authorized child{memberRecord.authorized_children.length !== 1 ? 'ren' : ''}
+            </div>
+          )}
         </div>
       ))}
     </div>

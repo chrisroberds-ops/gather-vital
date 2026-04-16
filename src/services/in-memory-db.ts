@@ -354,6 +354,15 @@ export const inMemoryDb: DatabaseService = {
     return member
   },
 
+  async updateHouseholdMember(householdId, personId, data) {
+    const idx = store.householdMembers.findIndex(
+      m => m.household_id === householdId && m.person_id === personId && cid(m) === getChurchId()
+    )
+    if (idx === -1) throw new Error(`HouseholdMember not found: ${householdId}/${personId}`)
+    store.householdMembers[idx] = { ...store.householdMembers[idx], ...data }
+    return store.householdMembers[idx]
+  },
+
   async removeHouseholdMember(householdId, personId) {
     store.householdMembers = store.householdMembers.filter(
       m => !(m.household_id === householdId && m.person_id === personId && cid(m) === getChurchId())

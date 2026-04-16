@@ -96,6 +96,14 @@ export async function unlinkPersonFromHousehold(personId: string, householdId: s
   return db.removeHouseholdMember(householdId, personId)
 }
 
+export async function updateHouseholdMember(
+  householdId: string,
+  personId: string,
+  data: Partial<Pick<HouseholdMember, 'role' | 'authorized_children' | 'pickup_notes'>>
+): Promise<HouseholdMember> {
+  return db.updateHouseholdMember(householdId, personId, data)
+}
+
 export async function createHousehold(data: Omit<Household, 'id'>): Promise<Household> {
   return db.createHousehold(data)
 }

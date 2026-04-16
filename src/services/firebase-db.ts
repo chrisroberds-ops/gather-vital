@@ -28,6 +28,7 @@ export const firebaseDb: DatabaseService = {
   async getHouseholdMembers() { notImplemented('getHouseholdMembers') },
   async getPersonHouseholds() { notImplemented('getPersonHouseholds') },
   async addHouseholdMember() { notImplemented('addHouseholdMember') },
+  async updateHouseholdMember() { notImplemented('updateHouseholdMember') },
   async removeHouseholdMember() { notImplemented('removeHouseholdMember') },
 
   async getChildPickups() { notImplemented('getChildPickups') },

@@ -68,6 +68,7 @@ export interface DatabaseService {
   getHouseholdMembers(householdId: string): Promise<HouseholdMember[]>
   getPersonHouseholds(personId: string): Promise<Household[]>
   addHouseholdMember(m: CreateInput<HouseholdMember>): Promise<HouseholdMember>
+  updateHouseholdMember(householdId: string, personId: string, data: Partial<Pick<HouseholdMember, 'role' | 'authorized_children' | 'pickup_notes'>>): Promise<HouseholdMember>
   removeHouseholdMember(householdId: string, personId: string): Promise<void>
 
   // ── Child Pickups ────────────────────────────────────────────────────────────

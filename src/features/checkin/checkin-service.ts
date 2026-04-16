@@ -249,6 +249,91 @@ async function triggerPrint(checkin: Checkin, kioskId: string): Promise<void> {
 
 // ── Check-out ─────────────────────────────────────────────────────────────────
 
+export interface HouseholdChildEntry {
+  checkin: Checkin
+  childName: string
+  room: string
+  /** false only when the adult has a restricted authorized_children list that excludes this child */
+  authorized: boolean
+}
+
+export interface HouseholdCheckoutGroup {
+  /** The child matched by the entered code — always present */
+  primary: { checkin: Checkin; childName: string; room: string }
+  /** Other household children currently checked in (may be empty) */
+  additional: HouseholdChildEntry[]
+  /** Staff-visible note from the adult's HouseholdMember record */
+  pickupNotes?: string
+}
+
+/**
+ * After a valid pickup code is found, fetch all other checked-in children from
+ * the same household and check the adult's authorization list.
+ *
+ * Returns a HouseholdCheckoutGroup. If additional is empty, the caller should
+ * show the normal single-child checkout UI unchanged.
+ */
+export async function getHouseholdCheckoutGroup(
+  primaryCheckin: Checkin,
+  code: string,
+  sessionId: string,
+): Promise<HouseholdCheckoutGroup> {
+  const { household_id } = primaryCheckin
+
+  // Resolve primary child name / room
+  const primaryChild = await getPersonCrossTab(primaryCheckin.child_id)
+  const primaryChildName = primaryChild
+    ? `${primaryChild.preferred_name ?? primaryChild.first_name} ${primaryChild.last_name}`
+    : 'Unknown'
+  const primaryRoom = primaryCheckin.override_room ?? primaryChild?.grade ?? 'Lobby'
+
+  // Find the authorized adult via their ChildPickup record (matched by code)
+  const pickups = await db.getPickupsByHousehold(household_id)
+  const matchingPickup = pickups.find(p => p.pickup_code === code)
+
+  let pickupNotes: string | undefined
+  let authorizedChildren: string[] | undefined // undefined = authorized for all
+
+  if (matchingPickup) {
+    const members = await db.getHouseholdMembers(household_id)
+    const adultMember = members.find(m => m.person_id === matchingPickup.authorized_person_id)
+    if (adultMember) {
+      pickupNotes = adultMember.pickup_notes || undefined
+      if (adultMember.authorized_children && adultMember.authorized_children.length > 0) {
+        authorizedChildren = adultMember.authorized_children
+      }
+    }
+  }
+
+  // Find other household members who are currently checked in
+  const members = await db.getHouseholdMembers(household_id)
+  const otherMemberIds = new Set(
+    members.map(m => m.person_id).filter(id => id !== primaryCheckin.child_id)
+  )
+
+  const sessionCheckins = await getSessionCheckins(sessionId)
+  const additionalCheckins = sessionCheckins.filter(
+    c => c.status === 'checked_in' && otherMemberIds.has(c.child_id)
+  )
+
+  const additional: HouseholdChildEntry[] = []
+  for (const checkin of additionalCheckins) {
+    const child = await getPersonCrossTab(checkin.child_id)
+    const childName = child
+      ? `${child.preferred_name ?? child.first_name} ${child.last_name}`
+      : 'Unknown'
+    const room = checkin.override_room ?? child?.grade ?? 'Lobby'
+    const authorized = !authorizedChildren || authorizedChildren.includes(checkin.child_id)
+    additional.push({ checkin, childName, room, authorized })
+  }
+
+  return {
+    primary: { checkin: primaryCheckin, childName: primaryChildName, room: primaryRoom },
+    additional,
+    pickupNotes,
+  }
+}
+
 export async function lookupByPickupCode(
   code: string,
   sessionId: string,
