@@ -127,11 +127,23 @@ function writeLs(key: string, data: unknown[]): void {
   try { localStorage.setItem(key, JSON.stringify(data)) } catch {}
 }
 
-/** Merge persisted records into a store array — adds any record not already present by id. */
+/**
+ * Merge persisted (localStorage) records into a store array.
+ * - New IDs are appended.
+ * - Existing IDs are replaced with the persisted version — localStorage is the
+ *   source of truth in TEST_MODE, so user edits (e.g. chord_chart_url added to
+ *   a seed song) must win over the in-memory seed data on every reload.
+ */
 function mergeIntoStore<T extends { id: string }>(storeArr: T[], persisted: T[]): void {
-  const ids = new Set(storeArr.map(r => r.id))
+  const idxMap = new Map(storeArr.map((r, i) => [r.id, i]))
   for (const r of persisted) {
-    if (!ids.has(r.id)) storeArr.push(r)
+    const i = idxMap.get(r.id)
+    if (i === undefined) {
+      storeArr.push(r)
+      idxMap.set(r.id, storeArr.length - 1)
+    } else {
+      storeArr[i] = r
+    }
   }
 }
 

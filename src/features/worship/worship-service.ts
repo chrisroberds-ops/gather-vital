@@ -45,6 +45,41 @@ export async function deleteSong(id: string): Promise<void> {
   return db.deleteSong(id)
 }
 
+const SEED_IDS = new Set([
+  'song-amazing-grace',
+  'song-how-great-thou-art',
+  'song-great-is-thy-faithfulness',
+  'song-it-is-well',
+  'song-holy-holy-holy',
+  'song-be-thou-my-vision',
+])
+
+/**
+ * Removes junk songs from localStorage (e.g. bad CSV imports) while preserving:
+ *   - The 6 seeded hymns (by ID)
+ *   - Any song with an uploaded file (chord_chart_url or pdf_urls)
+ * Returns the number of songs removed.
+ */
+export function cleanupImportedSongs(): number {
+  const SONGS_LS_KEY = 'gather_songs'
+  let all: import('@/shared/types').Song[]
+  try {
+    all = JSON.parse(localStorage.getItem(SONGS_LS_KEY) ?? '[]') as import('@/shared/types').Song[]
+  } catch {
+    return 0
+  }
+  const keep = all.filter(s =>
+    SEED_IDS.has(s.id) ||
+    !!s.chord_chart_url ||
+    (s.pdf_urls?.length ?? 0) > 0
+  )
+  const removed = all.length - keep.length
+  if (removed > 0) {
+    localStorage.setItem(SONGS_LS_KEY, JSON.stringify(keep))
+  }
+  return removed
+}
+
 export async function searchSongs(query: string): Promise<Song[]> {
   const songs = await db.getSongs()
   if (!query.trim()) return songs

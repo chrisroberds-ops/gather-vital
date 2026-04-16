@@ -72,6 +72,11 @@ export default function SongView() {
       if (s) {
         setSong(s)
         const attachments = getPdfAttachments(s)
+        console.log('[SongView] PDF attachments for', s.title, {
+          chord_chart_url: s.chord_chart_url,
+          pdf_urls: s.pdf_urls,
+          attachments,
+        })
         setPdfs(attachments)
       }
       setSession(sess)
