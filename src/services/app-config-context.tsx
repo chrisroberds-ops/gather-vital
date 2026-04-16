@@ -107,7 +107,7 @@ export function AppConfigProvider({ children }: { children: React.ReactNode }) {
     const c = await db.getAppConfig()
     setConfig(c)
     applyPrimaryColor(c.primary_color)
-    document.title = c.church_name || 'Gather'
+    document.title = c.church_name || 'Gather Vital'
   }
 
   // Reload whenever the user's church changes (login, setup wizard, etc.)
