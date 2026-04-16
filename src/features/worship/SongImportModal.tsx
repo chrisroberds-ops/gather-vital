@@ -29,6 +29,8 @@ interface Props {
   isOpen: boolean
   onClose: () => void
   onImported: () => void
+  /** Called when staff clicks "Upload chord charts" on the Done step. */
+  onUploadChordCharts?: () => void
 }
 
 const STEPS: { id: Step; label: string }[] = [
@@ -38,7 +40,7 @@ const STEPS: { id: Step; label: string }[] = [
   { id: 'done',    label: 'Done' },
 ]
 
-export default function SongImportModal({ isOpen, onClose, onImported }: Props) {
+export default function SongImportModal({ isOpen, onClose, onImported, onUploadChordCharts }: Props) {
   const [step, setStep]       = useState<Step>('upload')
   const [headers, setHeaders] = useState<string[]>([])
   const [rows, setRows]       = useState<Record<string, string>[]>([])
@@ -171,7 +173,7 @@ export default function SongImportModal({ isOpen, onClose, onImported }: Props) 
 
         {/* Done */}
         {step === 'done' && result && (
-          <DoneStep result={result} onImportMore={reset} onClose={handleClose} />
+          <DoneStep result={result} onImportMore={reset} onClose={handleClose} onUploadChordCharts={onUploadChordCharts} />
         )}
       </div>
     </Modal>
@@ -440,10 +442,12 @@ function DoneStep({
   result,
   onImportMore,
   onClose,
+  onUploadChordCharts,
 }: {
   result: SongImportResult
   onImportMore: () => void
   onClose: () => void
+  onUploadChordCharts?: () => void
 }) {
   return (
     <div className="text-center space-y-4 py-4">
@@ -460,6 +464,22 @@ function DoneStep({
           {result.skipped > 0 ? ` ${result.skipped} row${result.skipped !== 1 ? 's' : ''} skipped (missing required fields).` : ''}
         </p>
       </div>
+      {onUploadChordCharts && result.imported > 0 && (
+        <div className="bg-blue-50 border border-blue-200 rounded-xl px-4 py-3 text-left">
+          <p className="text-sm text-blue-800">
+            <strong>Next step:</strong> attach chord chart PDFs to your imported songs so they're available in Music Stand.
+          </p>
+          <button
+            onClick={onUploadChordCharts}
+            className="mt-2 text-sm font-medium text-blue-700 hover:text-blue-900 flex items-center gap-1"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+            </svg>
+            Upload chord charts →
+          </button>
+        </div>
+      )}
       <div className="flex justify-center gap-2 pt-2">
         <Button variant="secondary" size="sm" onClick={onImportMore}>Import another file</Button>
         <Button size="sm" onClick={onClose}>Done</Button>

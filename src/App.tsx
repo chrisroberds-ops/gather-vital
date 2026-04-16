@@ -48,6 +48,7 @@ const PickupDisplay = lazy(() => import('@/features/display/PickupDisplay'))
 const WorshipDashboard = lazy(() => import('@/features/worship/WorshipDashboard'))
 const SongLibrary = lazy(() => import('@/features/worship/SongLibrary'))
 const SongForm = lazy(() => import('@/features/worship/SongForm'))
+const BulkPdfUpload = lazy(() => import('@/features/worship/BulkPdfUpload'))
 const ServicePlanList = lazy(() => import('@/features/worship/ServicePlanList'))
 const ServiceBuilder = lazy(() => import('@/features/worship/ServiceBuilder'))
 
@@ -284,7 +285,8 @@ const router = createBrowserRouter([
           </Wrap>
         ),
         children: [
-          { path: 'songs',            element: <Wrap><SongLibrary /></Wrap> },
+          { path: 'songs',             element: <Wrap><SongLibrary /></Wrap> },
+          { path: 'songs/bulk-pdf',   element: <Wrap><BulkPdfUpload /></Wrap> },
           { path: 'songs/new',        element: <Wrap><SongForm mode="create" /></Wrap> },
           { path: 'songs/:id/edit',   element: <Wrap><SongForm mode="edit" /></Wrap> },
           { path: 'services',         element: <Wrap><ServicePlanList /></Wrap> },
