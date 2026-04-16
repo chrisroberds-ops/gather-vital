@@ -398,7 +398,7 @@ function Step1Identity({
       <div>
         <label className={labelCls}>Church name *</label>
         <input type="text" value={churchName} onChange={e => setChurchName(e.target.value)}
-          placeholder="Grace Community Church" autoFocus className={inputCls} />
+          placeholder="Sample Community Church" autoFocus className={inputCls} />
       </div>
 
       <div className="grid grid-cols-2 gap-3">

@@ -8,7 +8,7 @@
  *   <script
  *     src="https://your-gather-domain.com/embed.js"
  *     data-gather-widget="visitor-form"
- *     data-gather-church="grace-community"
+ *     data-gather-church="sample-community"
  *     data-gather-width="100%"
  *     data-gather-height="560px"
  *     data-gather-border-radius="12px">

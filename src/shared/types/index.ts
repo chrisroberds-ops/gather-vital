@@ -5,7 +5,7 @@
 export interface Church {
   id: string
   name: string
-  /** URL-safe unique identifier, e.g. "grace-community" */
+  /** URL-safe unique identifier, e.g. "sample-community" */
   slug: string
   logo_url?: string
   /** IANA timezone string, e.g. "America/Chicago" */
