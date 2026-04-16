@@ -371,32 +371,43 @@ function PreviewStep({
               <th className="px-3 py-2 text-left font-medium text-gray-500">Title</th>
               <th className="px-3 py-2 text-left font-medium text-gray-500 hidden sm:table-cell">Artist</th>
               <th className="px-3 py-2 text-left font-medium text-gray-500 hidden md:table-cell">CCLI</th>
+              {isPc && <th className="px-3 py-2 text-left font-medium text-gray-500 hidden lg:table-cell">Chord Chart</th>}
               <th className="px-3 py-2 text-left font-medium text-gray-500">Status</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-50">
-            {preview.map(row => (
-              <tr key={row.index} className={
-                row.status === 'ready'     ? 'bg-white'
-                : row.status === 'duplicate' ? 'bg-yellow-50'
-                : 'bg-red-50'
-              }>
-                <td className="px-3 py-2 font-medium text-gray-800">{row.mapped.title || <span className="text-gray-400 italic">—</span>}</td>
-                <td className="px-3 py-2 text-gray-500 hidden sm:table-cell">{row.mapped.artist || '—'}</td>
-                <td className="px-3 py-2 text-gray-400 hidden md:table-cell">{row.mapped.ccli_number || '—'}</td>
-                <td className="px-3 py-2">
-                  {row.status === 'ready' && (
-                    <span className="text-green-600 font-medium">✓ Ready</span>
+            {preview.map(row => {
+              const chartSnippet = row.mapped.chord_chart_text
+                ? row.mapped.chord_chart_text.split('\n').find(l => l.trim()) ?? ''
+                : ''
+              return (
+                <tr key={row.index} className={
+                  row.status === 'ready'     ? 'bg-white'
+                  : row.status === 'duplicate' ? 'bg-yellow-50'
+                  : 'bg-red-50'
+                }>
+                  <td className="px-3 py-2 font-medium text-gray-800">{row.mapped.title || <span className="text-gray-400 italic">—</span>}</td>
+                  <td className="px-3 py-2 text-gray-500 hidden sm:table-cell">{row.mapped.artist || '—'}</td>
+                  <td className="px-3 py-2 text-gray-400 hidden md:table-cell">{row.mapped.ccli_number || '—'}</td>
+                  {isPc && (
+                    <td className="px-3 py-2 text-gray-400 font-mono hidden lg:table-cell max-w-[160px] truncate" title={chartSnippet}>
+                      {chartSnippet ? chartSnippet.slice(0, 40) : <span className="italic">—</span>}
+                    </td>
                   )}
-                  {row.status === 'duplicate' && (
-                    <span className="text-yellow-600 font-medium" title={row.reason}>⚠ Duplicate</span>
-                  )}
-                  {row.status === 'skipped' && (
-                    <span className="text-red-500 font-medium" title={row.reason}>✕ Skipped</span>
-                  )}
-                </td>
-              </tr>
-            ))}
+                  <td className="px-3 py-2">
+                    {row.status === 'ready' && (
+                      <span className="text-green-600 font-medium">✓ Ready</span>
+                    )}
+                    {row.status === 'duplicate' && (
+                      <span className="text-yellow-600 font-medium" title={row.reason}>⚠ Duplicate</span>
+                    )}
+                    {row.status === 'skipped' && (
+                      <span className="text-red-500 font-medium" title={row.reason}>✕ Skipped</span>
+                    )}
+                  </td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>

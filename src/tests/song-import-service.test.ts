@@ -300,5 +300,163 @@ describe('SONG_FIELDS', () => {
     expect(keys).toContain('bpm')
     expect(keys).toContain('ccli_number')
     expect(keys).toContain('tags')
+    expect(keys).toContain('chord_chart_text')
+  })
+})
+
+// ── Multi-line chord chart (Planning Center CSV format) ───────────────────────
+
+describe('parseCsv — multi-line quoted fields', () => {
+  it('treats the entire Arrangement 1 Chord Chart value as one field regardless of internal newlines', () => {
+    const csv = [
+      'Title,Arrangement 1 Chord Chart',
+      '"Amazing Grace","[Verse 1]',
+      'G         D    G',
+      'Amazing grace how sweet the sound',
+      '[Chorus]',
+      'D         G    D"',
+    ].join('\n')
+
+    const { headers, rows } = parseCsv(csv)
+    expect(headers).toEqual(['Title', 'Arrangement 1 Chord Chart'])
+    // The multi-line chord chart must produce exactly ONE row, not one row per chord line
+    expect(rows).toHaveLength(1)
+    expect(rows[0]['Title']).toBe('Amazing Grace')
+    const chart = rows[0]['Arrangement 1 Chord Chart']
+    expect(chart).toContain('[Verse 1]')
+    expect(chart).toContain('[Chorus]')
+    expect(chart).toContain('Amazing grace how sweet the sound')
+  })
+
+  it('produces exactly one song record per CSV row, regardless of chord chart line count', () => {
+    const chart1 = '[Verse]\nG  C  G\nLine 1\nLine 2'
+    const chart2 = '[Verse]\nD  A  D\nLine A\nLine B\nLine C\nLine D'
+    const csv = [
+      'Title,Arrangement 1 Chord Chart',
+      `"Song A","${chart1}"`,
+      `"Song B","${chart2}"`,
+    ].join('\n')
+
+    const { rows } = parseCsv(csv)
+    expect(rows).toHaveLength(2)
+    expect(rows[0]['Title']).toBe('Song A')
+    expect(rows[1]['Title']).toBe('Song B')
+    expect(rows[1]['Arrangement 1 Chord Chart']).toContain('Line D')
+  })
+
+  it('preserves internal newlines in the chord chart value', () => {
+    const csv = 'Title,Arrangement 1 Chord Chart\n"Test","Line 1\nLine 2\nLine 3"'
+    const { rows } = parseCsv(csv)
+    expect(rows[0]['Arrangement 1 Chord Chart']).toContain('\n')
+    expect(rows[0]['Arrangement 1 Chord Chart'].split('\n')).toHaveLength(3)
+  })
+})
+
+describe('buildPlanningCenterMapping — PC-specific columns', () => {
+  it('maps "Arrangement 1 Chord Chart" → chord_chart_text', () => {
+    const m = buildPlanningCenterMapping(['Title', 'Arrangement 1 Chord Chart'])
+    expect(m['Arrangement 1 Chord Chart']).toBe('chord_chart_text')
+  })
+
+  it('maps "Arrangement 1 BPM" → bpm', () => {
+    const m = buildPlanningCenterMapping(['Title', 'Arrangement 1 BPM'])
+    expect(m['Arrangement 1 BPM']).toBe('bpm')
+  })
+
+  it('maps "Arrangement 1 Keys" → key', () => {
+    const m = buildPlanningCenterMapping(['Title', 'Arrangement 1 Keys'])
+    expect(m['Arrangement 1 Keys']).toBe('key')
+  })
+
+  it('isPlanningCenterCsv returns true when Arrangement 1 Chord Chart header present', () => {
+    expect(isPlanningCenterCsv(['Title', 'Arrangement 1 Chord Chart', 'CCLI Number'])).toBe(true)
+  })
+})
+
+describe('commitSongImport — chord_chart_text and key normalization', () => {
+  it('saves chord_chart_text to the song record', async () => {
+    const chartText = '[Verse 1]\nG  C  G\nAmazing grace'
+    const preview: SongPreviewRow[] = [{
+      index: 0,
+      raw: {},
+      mapped: { title: 'Chord Chart Import Test', chord_chart_text: chartText },
+      status: 'ready',
+    }]
+    await commitSongImport(preview)
+    const songs = await db.getSongs()
+    const imported = songs.find(s => s.title === 'Chord Chart Import Test')!
+    expect(imported).toBeDefined()
+    expect(imported.chord_chart_text).toBe(chartText)
+  })
+
+  it('takes only the first key when multiple keys are listed', async () => {
+    const preview: SongPreviewRow[] = [{
+      index: 0,
+      raw: {},
+      mapped: { title: 'Multi Key Test Song', key: 'G, Ab, F#m' },
+      status: 'ready',
+    }]
+    await commitSongImport(preview)
+    const songs = await db.getSongs()
+    const imported = songs.find(s => s.title === 'Multi Key Test Song')!
+    expect(imported).toBeDefined()
+    expect(imported.key).toBe('G')
+  })
+
+  it('handles a single key without splitting issues', async () => {
+    const preview: SongPreviewRow[] = [{
+      index: 0,
+      raw: {},
+      mapped: { title: 'Single Key Song', key: 'Bb' },
+      status: 'ready',
+    }]
+    await commitSongImport(preview)
+    const songs = await db.getSongs()
+    const imported = songs.find(s => s.title === 'Single Key Song')!
+    expect(imported.key).toBe('Bb')
+  })
+
+  it('end-to-end: PC CSV with multi-line chord chart imports as one song', async () => {
+    const csv = [
+      'Title,CCLI Number,Arrangement 1 Keys,Arrangement 1 BPM,Arrangement 1 Chord Chart',
+      '"It Is Well","25376","Bb, Eb","72","[Verse 1]',
+      'Bb         Eb',
+      'When peace like a river',
+      '[Chorus]',
+      'It is well"',
+    ].join('\n')
+
+    const { rows } = parseCsv(csv)
+    expect(rows).toHaveLength(1)
+
+    const mapping = buildPlanningCenterMapping(
+      ['Title', 'CCLI Number', 'Arrangement 1 Keys', 'Arrangement 1 BPM', 'Arrangement 1 Chord Chart']
+    )
+    const preview = await buildSongPreview(rows, mapping)
+    // The song "It Is Well" is a seed song — it will be detected as a duplicate
+    // (same title). We use a unique title to test the full import path.
+    // Re-run with a unique title:
+    const csv2 = [
+      'Title,Arrangement 1 Keys,Arrangement 1 BPM,Arrangement 1 Chord Chart',
+      '"PC Import E2E Song","G, D","120","[Verse]\nG D G\nTest line"',
+    ].join('\n')
+    const { rows: rows2 } = parseCsv(csv2)
+    expect(rows2).toHaveLength(1)
+
+    const mapping2 = buildPlanningCenterMapping(
+      ['Title', 'Arrangement 1 Keys', 'Arrangement 1 BPM', 'Arrangement 1 Chord Chart']
+    )
+    const preview2 = await buildSongPreview(rows2, mapping2)
+    expect(preview2[0].status).toBe('ready')
+    expect(preview2[0].mapped.chord_chart_text).toContain('[Verse]')
+
+    await commitSongImport(preview2)
+    const songs = await db.getSongs()
+    const imported = songs.find(s => s.title === 'PC Import E2E Song')!
+    expect(imported).toBeDefined()
+    expect(imported.key).toBe('G')         // first key only
+    expect(imported.bpm).toBe(120)
+    expect(imported.chord_chart_text).toContain('[Verse]')
+    expect(imported.chord_chart_text).toContain('G D G')
   })
 })

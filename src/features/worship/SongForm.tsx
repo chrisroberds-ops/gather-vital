@@ -35,6 +35,7 @@ export default function SongForm({ mode }: SongFormProps) {
   const [youtube, setYoutube] = useState('')
   const [tagsInput, setTagsInput] = useState('')
   const [lyrics, setLyrics] = useState('')
+  const [chordChartText, setChordChartText] = useState('')
 
   useEffect(() => {
     if (mode === 'edit' && id) {
@@ -48,6 +49,7 @@ export default function SongForm({ mode }: SongFormProps) {
           setYoutube(song.youtube_url ?? '')
           setTagsInput(song.tags?.join(', ') ?? '')
           setLyrics(song.lyrics ?? '')
+          setChordChartText(song.chord_chart_text ?? '')
           // Merge chord_chart_url (first/primary) + pdf_urls (additional)
           const merged = [
             ...(song.chord_chart_url ? [song.chord_chart_url] : []),
@@ -209,6 +211,25 @@ export default function SongForm({ mode }: SongFormProps) {
           </Button>
         </div>
       </div>
+
+      {mode === 'edit' && chordChartText && (
+        <div className="mt-4 bg-white border border-gray-200 rounded-2xl p-6 space-y-3">
+          <div className="flex items-center justify-between">
+            <h2 className="font-semibold text-gray-900">Chord Chart Text</h2>
+            {pdfList.length > 0 && (
+              <span className="text-xs text-gray-400">PDF attached — Music Stand uses the PDF</span>
+            )}
+          </div>
+          {pdfList.length === 0 && (
+            <p className="text-xs text-gray-500">
+              No PDF uploaded — this text is shown to musicians in Music Stand.
+            </p>
+          )}
+          <pre className="text-sm text-gray-800 bg-gray-50 rounded-xl p-4 overflow-x-auto whitespace-pre-wrap font-mono leading-relaxed border border-gray-100">
+            {chordChartText}
+          </pre>
+        </div>
+      )}
 
       {mode === 'edit' && (
         <SongFileAttachments

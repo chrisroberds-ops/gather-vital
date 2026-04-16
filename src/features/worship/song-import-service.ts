@@ -13,38 +13,52 @@ import type { Song } from '@/shared/types'
 
 // ── CSV Parser (shared with ImportPage) ───────────────────────────────────────
 
+/**
+ * RFC-4180-compliant CSV parser that handles multi-line quoted fields.
+ *
+ * Parses character-by-character across the entire CSV text rather than
+ * splitting on newlines first.  Newlines inside a quoted field (e.g. the
+ * "Arrangement 1 Chord Chart" column in Planning Center exports) are treated
+ * as part of the field value and do NOT start a new row.
+ */
 export function parseCsv(raw: string): { headers: string[]; rows: Record<string, string>[] } {
-  const lines = raw.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n')
-  const nonEmpty = lines.filter(l => l.trim())
-  if (nonEmpty.length === 0) return { headers: [], rows: [] }
+  const text = raw.replace(/\r\n/g, '\n').replace(/\r/g, '\n')
+  if (!text.trim()) return { headers: [], rows: [] }
 
-  function parseRow(line: string): string[] {
-    const fields: string[] = []
-    let cur = ''
-    let inQuotes = false
-    for (let i = 0; i < line.length; i++) {
-      const ch = line[i]
-      if (ch === '"') {
-        if (inQuotes && line[i + 1] === '"') { cur += '"'; i++ }
-        else inQuotes = !inQuotes
-      } else if (ch === ',' && !inQuotes) {
-        fields.push(cur.trim())
-        cur = ''
-      } else {
-        cur += ch
-      }
+  const allRows: string[][] = []
+  let cur = ''
+  let inQuotes = false
+  let row: string[] = []
+
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i]
+    if (ch === '"') {
+      if (inQuotes && text[i + 1] === '"') { cur += '"'; i++ } // escaped ""
+      else inQuotes = !inQuotes
+    } else if (ch === ',' && !inQuotes) {
+      row.push(cur)
+      cur = ''
+    } else if (ch === '\n' && !inQuotes) {
+      row.push(cur)
+      cur = ''
+      if (row.some(f => f.trim())) allRows.push(row)
+      row = []
+    } else {
+      cur += ch
     }
-    fields.push(cur.trim())
-    return fields
   }
+  // Flush the final field / row
+  row.push(cur)
+  if (row.some(f => f.trim())) allRows.push(row)
 
-  const headers = parseRow(nonEmpty[0])
-  const rows = nonEmpty.slice(1).map(line => {
-    const vals = parseRow(line)
-    const row: Record<string, string> = {}
-    headers.forEach((h, i) => { row[h] = vals[i] ?? '' })
-    return row
-  }).filter(row => Object.values(row).some(v => v.trim()))
+  if (allRows.length === 0) return { headers: [], rows: [] }
+
+  const headers = allRows[0].map(h => h.trim())
+  const rows = allRows.slice(1).map(vals => {
+    const r: Record<string, string> = {}
+    headers.forEach((h, i) => { r[h] = vals[i] ?? '' })
+    return r
+  }).filter(r => Object.values(r).some(v => v.trim()))
 
   return { headers, rows }
 }
@@ -59,13 +73,14 @@ export interface SongField {
 }
 
 export const SONG_FIELDS: SongField[] = [
-  { key: 'title',       label: 'Title',       required: true },
-  { key: 'artist',      label: 'Artist',      required: false },
-  { key: 'key',         label: 'Key',         required: false, hint: 'e.g. G, Ab, F#m' },
-  { key: 'bpm',         label: 'BPM',         required: false, hint: 'Numeric' },
-  { key: 'ccli_number', label: 'CCLI Number', required: false },
-  { key: 'tags',        label: 'Tags',        required: false, hint: 'Comma-separated' },
-  { key: 'lyrics',      label: 'Lyrics',      required: false },
+  { key: 'title',            label: 'Title',            required: true },
+  { key: 'artist',           label: 'Artist',           required: false },
+  { key: 'key',              label: 'Key',              required: false, hint: 'e.g. G, Ab, F#m' },
+  { key: 'bpm',              label: 'BPM',              required: false, hint: 'Numeric' },
+  { key: 'ccli_number',      label: 'CCLI Number',      required: false },
+  { key: 'tags',             label: 'Tags',             required: false, hint: 'Comma-separated' },
+  { key: 'lyrics',           label: 'Lyrics',           required: false },
+  { key: 'chord_chart_text', label: 'Chord Chart Text', required: false },
 ]
 
 // ── Planning Center column → system field mapping ─────────────────────────────
@@ -76,33 +91,38 @@ export const SONG_FIELDS: SongField[] = [
  */
 const PC_COLUMN_MAP: Record<string, string> = {
   // Title
-  'title':              'title',
-  'song title':         'title',
-  'name':               'title',
+  'title':                        'title',
+  'song title':                   'title',
+  'name':                         'title',
   // Artist / Author
-  'author':             'artist',
-  'artist':             'artist',
-  'author/artist':      'artist',
-  'artist/author':      'artist',
-  // Key
-  'key':                'key',
-  'starting key':       'key',
-  'preferred key':      'key',
-  // BPM
-  'bpm':                'bpm',
-  'tempo':              'bpm',
-  'beats per minute':   'bpm',
+  'author':                       'artist',
+  'artist':                       'artist',
+  'author/artist':                'artist',
+  'artist/author':                'artist',
+  // Key — top-level and arrangement-specific
+  'key':                          'key',
+  'starting key':                 'key',
+  'preferred key':                'key',
+  'arrangement 1 keys':           'key',
+  // BPM — top-level and arrangement-specific
+  'bpm':                          'bpm',
+  'tempo':                        'bpm',
+  'beats per minute':             'bpm',
+  'arrangement 1 bpm':            'bpm',
   // CCLI
-  'ccli number':        'ccli_number',
-  'ccli #':             'ccli_number',
-  'ccli song number':   'ccli_number',
-  'ccli':               'ccli_number',
+  'ccli number':                  'ccli_number',
+  'ccli #':                       'ccli_number',
+  'ccli song number':             'ccli_number',
+  'ccli':                         'ccli_number',
   // Tags / themes
-  'themes':             'tags',
-  'tags':               'tags',
-  'genre':              'tags',
+  'themes':                       'tags',
+  'tags':                         'tags',
+  'genre':                        'tags',
   // Lyrics (less common in PC exports but supported)
-  'lyrics':             'lyrics',
+  'lyrics':                       'lyrics',
+  // Chord chart text (Planning Center "Arrangement 1 Chord Chart" column)
+  'arrangement 1 chord chart':    'chord_chart_text',
+  'chord chart':                  'chord_chart_text',
 }
 
 /**
@@ -263,15 +283,21 @@ export async function commitSongImport(preview: SongPreviewRow[]): Promise<SongI
     const tags = m.tags
       ? m.tags.split(',').map(t => t.trim()).filter(Boolean)
       : undefined
+    // PC exports "Arrangement 1 Keys" may list multiple keys (e.g. "G, Ab, F#m").
+    // Take only the first key listed.
+    const firstKey = m.key
+      ? (m.key.split(/[,\s]+/).find(k => k.trim()) ?? undefined)
+      : undefined
 
     await db.createSong({
       title: m.title,
       artist: m.artist || undefined,
-      key: m.key || undefined,
+      key: firstKey || undefined,
       bpm: bpm && !isNaN(bpm) ? bpm : undefined,
       ccli_number: m.ccli_number || undefined,
       tags,
       lyrics: m.lyrics || undefined,
+      chord_chart_text: m.chord_chart_text || undefined,
       is_active: true,
     })
     imported++

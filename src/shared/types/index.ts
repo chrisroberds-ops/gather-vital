@@ -539,6 +539,8 @@ export interface Song {
   /** Additional PDF attachments (chord charts, sheet music, etc.) */
   pdf_urls?: string[]
   demo_url?: string
+  /** Plain-text chord chart imported from Planning Center or entered manually */
+  chord_chart_text?: string
   is_active: boolean
   created_at: string
   updated_at: string
