@@ -4,8 +4,17 @@
  * Strategy: vi.resetModules() + vi.stubEnv() + dynamic import forces the module
  * to re-evaluate with VITE_TEST_MODE='false', exercising the production code paths
  * that the default test suite (which always sets VITE_TEST_MODE='true') cannot reach.
+ *
+ * @/services is mocked so that logNotification() inside the notification service
+ * never tries to open a real Firebase connection, which would hang indefinitely.
  */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+
+vi.mock('@/services', () => ({
+  db: {
+    createCommunicationsLogEntry: vi.fn().mockResolvedValue(undefined),
+  },
+}))
 
 // Restore module registry and env stubs after every test so other tests are unaffected.
 afterEach(() => {

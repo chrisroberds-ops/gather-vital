@@ -11,8 +11,11 @@
 
 const IS_TEST = import.meta.env.VITE_TEST_MODE === 'true'
 
-export const LOGO_MAX_BYTES = 2 * 1024 * 1024  // 2 MB
-export const LOGO_ACCEPT    = ['image/png', 'image/jpeg'] as const
+export const LOGO_MAX_BYTES  = 2  * 1024 * 1024  // 2 MB
+export const PDF_MAX_BYTES   = 10 * 1024 * 1024  // 10 MB
+export const AUDIO_MAX_BYTES = 50 * 1024 * 1024  // 50 MB
+
+export const LOGO_ACCEPT  = ['image/png', 'image/jpeg'] as const
 
 /**
  * Returns a validation error message, or null if the file is acceptable.
@@ -59,6 +62,68 @@ export async function uploadLogo(file: File): Promise<string> {
   const { getStorage, ref, uploadBytes, getDownloadURL } = await import('firebase/storage')
   const storage = getStorage(app)
   const storageRef = ref(storage, `logos/${Date.now()}_${file.name}`)
+  const snapshot = await uploadBytes(storageRef, file)
+  return getDownloadURL(snapshot.ref)
+}
+
+// ── Shared helper ─────────────────────────────────────────────────────────────
+
+function readAsDataURL(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload  = () => resolve(reader.result as string)
+    reader.onerror = () => reject(new Error('Failed to read file'))
+    reader.readAsDataURL(file)
+  })
+}
+
+// ── Song PDFs ─────────────────────────────────────────────────────────────────
+
+export function validateSongPdf(file: File): string | null {
+  if (file.type !== 'application/pdf') return 'Only PDF files are supported.'
+  if (file.size > PDF_MAX_BYTES) return 'File must be 10 MB or smaller.'
+  return null
+}
+
+export async function uploadSongPdf(file: File): Promise<string> {
+  const err = validateSongPdf(file)
+  if (err) throw new Error(err)
+
+  if (IS_TEST) {
+    return readAsDataURL(file)
+  }
+
+  const { app } = await import('@/config/firebase')
+  if (!app) throw new Error('Firebase app not initialized')
+  const { getStorage, ref, uploadBytes, getDownloadURL } = await import('firebase/storage')
+  const storage = getStorage(app)
+  const storageRef = ref(storage, `songs/pdfs/${Date.now()}_${file.name}`)
+  const snapshot = await uploadBytes(storageRef, file)
+  return getDownloadURL(snapshot.ref)
+}
+
+// ── Song audio ────────────────────────────────────────────────────────────────
+
+export function validateSongAudio(file: File): string | null {
+  const ok = ['audio/mpeg', 'audio/mp4', 'audio/x-m4a', 'audio/mp3'].includes(file.type)
+  if (!ok) return 'Only MP3 and M4A files are supported.'
+  if (file.size > AUDIO_MAX_BYTES) return 'File must be 50 MB or smaller.'
+  return null
+}
+
+export async function uploadSongAudio(file: File): Promise<string> {
+  const err = validateSongAudio(file)
+  if (err) throw new Error(err)
+
+  if (IS_TEST) {
+    return readAsDataURL(file)
+  }
+
+  const { app } = await import('@/config/firebase')
+  if (!app) throw new Error('Firebase app not initialized')
+  const { getStorage, ref, uploadBytes, getDownloadURL } = await import('firebase/storage')
+  const storage = getStorage(app)
+  const storageRef = ref(storage, `songs/audio/${Date.now()}_${file.name}`)
   const snapshot = await uploadBytes(storageRef, file)
   return getDownloadURL(snapshot.ref)
 }
