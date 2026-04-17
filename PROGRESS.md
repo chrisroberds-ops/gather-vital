@@ -1,7 +1,7 @@
 # Gather — Build Progress
 
 > Read `Gather-Church-Management-System-Spec.md` alongside this file.
-> **Current state: 370 tests passing across 25 test files. Last completed: Session H — PDF.js Rendering & Annotation Canvas (2026-04-17).**
+> **Current state: 370 tests passing across 25 test files. Last completed: Session H — PDF.js Rendering, Annotation Canvas, Local QR Codes (2026-04-17).**
 
 ---
 
@@ -617,7 +617,7 @@ Added "Import" button (with download icon) in the header bar next to "Add Song".
 
 ---
 
-## Session H — PDF.js Rendering & Annotation Canvas ✅ Complete (2026-04-17)
+## Session H — PDF.js Rendering, Annotation Canvas & Local QR Codes ✅ Complete (2026-04-17)
 
 **+10 tests (370 total).** Baseline: 360 tests.
 
@@ -676,6 +676,15 @@ Added "Import" button (with download icon) in the header bar next to "Add Song".
 | `annotation storage — page-level filtering` | page_number preserved on create; all pages returned when no filter; client-side page filter (PdfViewer pattern); multiple annotations same page |
 | `annotation storage — SVG path and text data formats` | pen SVG path preserved exactly; highlighter path preserved; text JSON with position stored/retrieved; color retained |
 | `annotation storage — session persistence simulation` | annotations from prior calls visible on subsequent fetch; delete one page doesn't affect others |
+
+#### Local QR code generation (`src/features/embeds/EmbedsPage.tsx`)
+
+Replaced `api.qrserver.com` external service with the `qrcode` npm package (v1.5.4):
+
+- **`QrCanvas` component** — renders a QR code to a `<canvas>` element via `QRCode.toCanvas()` in a `useEffect`; re-renders automatically when the embed URL changes
+- **`downloadQr`** — uses `QRCode.toDataURL()` to produce a PNG data URL locally, then triggers a download via a temporary `<a>` element click; no network request, no CORS issue, works offline
+- Removed `qrImageUrl()` helper and the `fetch()` → blob → object-URL chain
+- Package installed: `qrcode@1.5.4` + `@types/qrcode`
 
 ---
 

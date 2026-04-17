@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
+import QRCode from 'qrcode'
 import { useAppConfig } from '@/services/app-config-context'
 import { db, getChurchId } from '@/services'
 import Button from '@/shared/components/Button'
@@ -30,25 +31,33 @@ const HEIGHT_PRESETS = [
 
 // ── QR helpers ────────────────────────────────────────────────────────────────
 
-function qrImageUrl(data: string): string {
-  return `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=${encodeURIComponent(data)}`
+/** Renders a QR code to a canvas element using the local qrcode package. */
+function QrCanvas({ data, size }: { data: string; size: number }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    if (!canvasRef.current || !data) return
+    QRCode.toCanvas(canvasRef.current, data, {
+      width: size,
+      margin: 1,
+      color: { dark: '#000000', light: '#ffffff' },
+    }).catch(() => { /* ignore — data may be empty during initial render */ })
+  }, [data, size])
+
+  return <canvas ref={canvasRef} width={size} height={size} />
 }
 
-async function downloadQr(data: string, filename: string) {
-  try {
-    const url = qrImageUrl(data)
-    const resp = await fetch(url)
-    const blob = await resp.blob()
-    const objectUrl = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = objectUrl
-    a.download = filename
-    a.click()
-    URL.revokeObjectURL(objectUrl)
-  } catch {
-    // Fallback: open image in new tab
-    window.open(qrImageUrl(data), '_blank')
-  }
+/** Downloads the QR code for `data` as a PNG file. Generated locally — no network request. */
+async function downloadQr(data: string, filename: string): Promise<void> {
+  const dataUrl = await QRCode.toDataURL(data, {
+    width: 300,
+    margin: 1,
+    color: { dark: '#000000', light: '#ffffff' },
+  })
+  const a = document.createElement('a')
+  a.href = dataUrl
+  a.download = filename
+  a.click()
 }
 
 // ── Code generation ───────────────────────────────────────────────────────────
@@ -131,8 +140,11 @@ export default function EmbedsPage() {
 
   const handleQrDownload = useCallback(async () => {
     setQrDownloading(true)
-    await downloadQr(embedUrl, `gather-${selectedWidget}-qr.png`)
-    setQrDownloading(false)
+    try {
+      await downloadQr(embedUrl, `gather-${selectedWidget}-qr.png`)
+    } finally {
+      setQrDownloading(false)
+    }
   }, [embedUrl, selectedWidget])
 
   return (
@@ -254,14 +266,7 @@ export default function EmbedsPage() {
             {/* QR preview */}
             <div className="flex justify-center">
               <div className="bg-white border border-gray-200 rounded-xl p-2 shadow-sm">
-                <img
-                  key={embedUrl}
-                  src={qrImageUrl(embedUrl)}
-                  alt={`QR code for ${selectedWidget} widget`}
-                  width={200}
-                  height={200}
-                  className="rounded-lg"
-                />
+                <QrCanvas data={embedUrl} size={200} />
               </div>
             </div>
 
