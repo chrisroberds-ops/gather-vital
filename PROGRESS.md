@@ -1,7 +1,7 @@
 # Gather — Build Progress
 
 > Read `Gather-Church-Management-System-Spec.md` alongside this file.
-> **Current state: 360 tests passing across 25 test files. Last completed: Session G — Household Checkout, File Attachments, PC CSV & Music Stand (2026-04-16).**
+> **Current state: 370 tests passing across 25 test files. Last completed: Session H — PDF.js Rendering & Annotation Canvas (2026-04-17).**
 
 ---
 
@@ -617,6 +617,68 @@ Added "Import" button (with download icon) in the header bar next to "Add Song".
 
 ---
 
+## Session H — PDF.js Rendering & Annotation Canvas ✅ Complete (2026-04-17)
+
+**+10 tests (370 total).** Baseline: 360 tests.
+
+### What was built
+
+#### PDF.js loader (`src/features/stand/pdf-js-loader.ts`)
+
+- Dynamically injects a `<script>` tag for PDF.js 3.11.174 from the CDN on first use
+- Sets `GlobalWorkerOptions.workerSrc` to the matching worker CDN URL
+- Caches the load promise — CDN request happens at most once per page lifetime
+- Returns `true` if ready, `false` if CDN is unreachable (offline / blocked)
+
+#### `PdfViewer.tsx` — complete rewrite
+
+**Removed:** `<iframe>` / placeholder `PageFrame` component
+**Added:**
+
+| Component | Purpose |
+|-----------|---------|
+| `PdfPageWithAnnotations` | Renders one PDF page to a `<canvas>` via PDF.js, with a transparent SVG annotation layer on top |
+| `AnnotationShape` | Renders saved `pen`/`highlighter` paths and `text` elements inside the SVG layer |
+| `FallbackIframe` | Used when PDF.js CDN is unreachable — same `<iframe>` behaviour as before |
+
+**PDF rendering:**
+- `page.getViewport({ scale: 1.5 })` → canvas is 1.5× PDF native resolution
+- `canvas.style.width = '100%'; height = 'auto'` → fills container at correct aspect ratio
+- Dark mode via CSS `filter: invert(1) hue-rotate(180deg)` on the canvas element (zero re-renders)
+- Loading spinner shown until `renderTask.promise` resolves
+- Render task cancelled via `renderTask.cancel()` on page change / unmount to prevent memory leaks
+
+**SVG annotation layer:**
+- `viewBox="0 0 {canvasWidth} {canvasHeight}"` with `preserveAspectRatio="none"` → annotation coordinates are in PDF canvas pixel space
+- `svg.getScreenCTM().inverse()` converts pointer clientX/Y to SVG coordinates — automatically accounts for the zoom CSS transform on the parent container
+- `setPointerCapture()` ensures smooth pen/highlighter paths when cursor leaves the SVG mid-stroke
+- `pen` and `highlighter`: path built incrementally as `M x y L x y ...`, saved on `pointerup` if the path has at least one segment (`L`)
+- `text`: click shows a `<foreignObject>` input at the click coordinates; Enter or blur commits the annotation as `JSON.stringify({ text, x, y })`
+- SVG `pointerEvents: none` when no tool is active — tap-to-navigate pass-through works as before
+
+**Annotation storage (unchanged service layer):**
+- `createAnnotation` called on drawing completion; result pushed to local state
+- `getAnnotationsForSong` loads all annotations for the current user + song + PDF URL on mount
+- Other-user annotations rendered at 40% opacity (same as before)
+
+**All existing features preserved:**
+- Keyboard / foot-pedal navigation (arrow keys)
+- Pinch-to-zoom with zoom level persisted per user per PDF
+- Page reorder controls
+- Two-page landscape layout
+- Session sync (page turns via `standBus`)
+- Edge-tap navigation
+
+#### New tests (`src/tests/music-stand-service.test.ts`) — +10
+
+| Suite | Tests |
+|-------|-------|
+| `annotation storage — page-level filtering` | page_number preserved on create; all pages returned when no filter; client-side page filter (PdfViewer pattern); multiple annotations same page |
+| `annotation storage — SVG path and text data formats` | pen SVG path preserved exactly; highlighter path preserved; text JSON with position stored/retrieved; color retained |
+| `annotation storage — session persistence simulation` | annotations from prior calls visible on subsequent fetch; delete one page doesn't affect others |
+
+---
+
 ## Manually Verified (as of 2026-04-09)
 
 The following flows were confirmed working end-to-end in the running app (`VITE_TEST_MODE=true`):
@@ -652,21 +714,22 @@ The following flows were confirmed working end-to-end in the running app (`VITE_
 | Session D (2026-04-14) | 41 | 276 |
 | Session E (2026-04-15) | 19 | 295 |
 | Session F (2026-04-15) | 35 | 330 |
-| Session G (2026-04-16) | 30 | **360** |
+| Session G (2026-04-16) | 30 | 360 |
+| Session H (2026-04-17) | 10 | **370** |
 
-All 360 tests pass. TypeScript clean. No Firebase credentials required to run.
+All 370 tests pass. TypeScript clean. No Firebase credentials required to run.
 
 ---
 
 ## Up Next — Build Queue
 
-> **Music Stand is now fully functional end to end.** PC-imported songs display chord charts in Music Stand immediately, with PDF upload path available when annotation support is needed.
+> **Music Stand is fully operational end to end.** PDF.js renders every chord chart as real pages with a transparent annotation canvas. Worship leaders can highlight, draw, and add text notes that persist across sessions.
 
 ### Immediate Queue
 
-1. **Bulk PDF drag-and-drop upload** — multi-file drop zone in Song Library; match PDFs to songs by filename similarity; batch upload with progress indicator
-2. **Annotation support via PDF.js** — replace the `<iframe>` PDF viewer with PDF.js; enable freehand ink annotations saved per-song per-user; useful for worship leaders marking their personal charts
-3. **Phase 7 — Giving & Finance** (see spec below)
+1. **Phase 7 — Giving & Finance** — giving record CRUD, Finance Admin gate, Planning Center giving CSV import, YTD dashboard widget
+2. **Annotation UX polish** — eraser tool, undo/redo (Ctrl+Z), annotation list panel for reviewing/deleting individual marks
+3. **Multi-device annotation sync** — push real-time annotation updates to other musicians in the same session via standBus
 
 > **Recommended: Home church trial before Phase 7.**
 > The core feature set is now substantial enough for real use. Running the app with an actual congregation (even a small one) for 2–4 weeks will surface friction, missing edge cases, and priority mismatches that are hard to anticipate in isolation. Suggested trial checklist:

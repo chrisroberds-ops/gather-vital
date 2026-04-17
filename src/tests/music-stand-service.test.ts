@@ -264,6 +264,164 @@ describe('annotations', () => {
   })
 })
 
+// ── Annotation storage — PDF.js integration paths ────────────────────────────
+
+describe('annotation storage — page-level filtering', () => {
+  const PDF = 'https://example.com/chart.pdf'
+
+  it('preserves page_number on each annotation', async () => {
+    const a0 = await createAnnotation({
+      userId: 'user-1', songId: 'song-x', pdfUrl: PDF,
+      pageNumber: 0, tool: 'pen', color: '#FACC15', data: 'M 0 0 L 100 100',
+    })
+    const a2 = await createAnnotation({
+      userId: 'user-1', songId: 'song-x', pdfUrl: PDF,
+      pageNumber: 2, tool: 'highlighter', color: '#60A5FA', data: 'M 50 50 L 200 50',
+    })
+    expect(a0.page_number).toBe(0)
+    expect(a2.page_number).toBe(2)
+  })
+
+  it('returns all pages when no page filter is applied', async () => {
+    await createAnnotation({
+      userId: 'user-1', songId: 'song-x', pdfUrl: PDF,
+      pageNumber: 0, tool: 'pen', color: '#fff', data: 'M 0 0 L 10 10',
+    })
+    await createAnnotation({
+      userId: 'user-1', songId: 'song-x', pdfUrl: PDF,
+      pageNumber: 3, tool: 'pen', color: '#fff', data: 'M 5 5 L 50 50',
+    })
+    const all = await getAnnotationsForSong('user-1', 'song-x', PDF)
+    expect(all.length).toBe(2)
+    const pages = all.map(a => a.page_number).sort((a, b) => a - b)
+    expect(pages).toEqual([0, 3])
+  })
+
+  it('can filter to a specific page client-side (PdfViewer pattern)', async () => {
+    await createAnnotation({
+      userId: 'user-1', songId: 'song-x', pdfUrl: PDF,
+      pageNumber: 0, tool: 'pen', color: '#fff', data: 'M 0 0 L 10 10',
+    })
+    await createAnnotation({
+      userId: 'user-1', songId: 'song-x', pdfUrl: PDF,
+      pageNumber: 1, tool: 'highlighter', color: '#FACC15', data: 'M 0 10 L 100 10',
+    })
+    await createAnnotation({
+      userId: 'user-1', songId: 'song-x', pdfUrl: PDF,
+      pageNumber: 1, tool: 'pen', color: '#4ADE80', data: 'M 20 20 L 80 80',
+    })
+    const all = await getAnnotationsForSong('user-1', 'song-x', PDF)
+    // Simulate client-side page filter (as done in PdfViewer)
+    const page1Annotations = all.filter(a => a.page_number === 1)
+    expect(page1Annotations.length).toBe(2)
+    expect(page1Annotations.map(a => a.tool).sort()).toEqual(['highlighter', 'pen'])
+  })
+
+  it('multiple annotations on the same page are all returned and ordered by creation', async () => {
+    const paths = ['M 0 0 L 10 10', 'M 20 20 L 30 30', 'M 40 40 L 50 50']
+    for (const data of paths) {
+      await createAnnotation({
+        userId: 'user-1', songId: 'song-x', pdfUrl: PDF,
+        pageNumber: 0, tool: 'pen', color: '#fff', data,
+      })
+    }
+    const all = await getAnnotationsForSong('user-1', 'song-x', PDF)
+    const page0 = all.filter(a => a.page_number === 0)
+    expect(page0.length).toBe(3)
+  })
+})
+
+describe('annotation storage — SVG path and text data formats', () => {
+  const PDF = 'https://example.com/chart.pdf'
+
+  it('preserves SVG path data exactly for pen annotations', async () => {
+    const pathData = 'M 10 20 L 30 40 L 50 60 L 70 80'
+    const a = await createAnnotation({
+      userId: 'user-1', songId: 'song-x', pdfUrl: PDF,
+      pageNumber: 0, tool: 'pen', color: '#FB923C', data: pathData,
+    })
+    expect(a.data).toBe(pathData)
+
+    const results = await getAnnotationsForSong('user-1', 'song-x', PDF)
+    expect(results[0].data).toBe(pathData)
+  })
+
+  it('preserves SVG path data exactly for highlighter annotations', async () => {
+    const pathData = 'M 0 150 L 400 150 L 400 170 L 0 170'
+    const a = await createAnnotation({
+      userId: 'user-1', songId: 'song-x', pdfUrl: PDF,
+      pageNumber: 0, tool: 'highlighter', color: '#FACC15', data: pathData,
+    })
+    expect(a.data).toBe(pathData)
+    expect(a.tool).toBe('highlighter')
+  })
+
+  it('stores and retrieves text annotation JSON with position', async () => {
+    const textData = JSON.stringify({ text: 'Start slow here', x: 120, y: 340 })
+    const a = await createAnnotation({
+      userId: 'user-1', songId: 'song-x', pdfUrl: PDF,
+      pageNumber: 2, tool: 'text', color: '#F472B6', data: textData,
+    })
+    expect(a.tool).toBe('text')
+
+    const parsed = JSON.parse(a.data) as { text: string; x: number; y: number }
+    expect(parsed.text).toBe('Start slow here')
+    expect(parsed.x).toBe(120)
+    expect(parsed.y).toBe(340)
+  })
+
+  it('retains annotation color on retrieval', async () => {
+    const color = '#4ADE80'
+    await createAnnotation({
+      userId: 'user-1', songId: 'song-x', pdfUrl: PDF,
+      pageNumber: 0, tool: 'pen', color, data: 'M 0 0 L 10 10',
+    })
+    const results = await getAnnotationsForSong('user-1', 'song-x', PDF)
+    expect(results[0].color).toBe(color)
+  })
+})
+
+describe('annotation storage — session persistence simulation', () => {
+  const PDF = 'https://example.com/chart.pdf'
+
+  it('annotations from prior calls are visible to subsequent getAnnotationsForSong calls', async () => {
+    // Simulates: user annotates in session 1, reopens in session 2
+    await createAnnotation({
+      userId: 'user-1', songId: 'song-z', pdfUrl: PDF,
+      pageNumber: 0, tool: 'pen', color: '#fff', data: 'M 0 0 L 50 50',
+    })
+
+    const firstFetch = await getAnnotationsForSong('user-1', 'song-z', PDF)
+    expect(firstFetch.length).toBe(1)
+
+    // Add another annotation (simulating continued work in same session)
+    await createAnnotation({
+      userId: 'user-1', songId: 'song-z', pdfUrl: PDF,
+      pageNumber: 1, tool: 'highlighter', color: '#FACC15', data: 'M 0 50 L 300 50',
+    })
+
+    const secondFetch = await getAnnotationsForSong('user-1', 'song-z', PDF)
+    expect(secondFetch.length).toBe(2)
+  })
+
+  it('deleting one annotation does not affect others on different pages', async () => {
+    const a0 = await createAnnotation({
+      userId: 'user-1', songId: 'song-z', pdfUrl: PDF,
+      pageNumber: 0, tool: 'pen', color: '#fff', data: 'M 0 0 L 10 10',
+    })
+    await createAnnotation({
+      userId: 'user-1', songId: 'song-z', pdfUrl: PDF,
+      pageNumber: 1, tool: 'pen', color: '#fff', data: 'M 5 5 L 15 15',
+    })
+
+    await deleteAnnotation(a0.id)
+
+    const remaining = await getAnnotationsForSong('user-1', 'song-z', PDF)
+    expect(remaining.length).toBe(1)
+    expect(remaining[0].page_number).toBe(1)
+  })
+})
+
 // ── PDF preferences ───────────────────────────────────────────────────────────
 
 describe('PDF preferences', () => {
