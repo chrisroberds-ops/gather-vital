@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { db } from '@/services'
 import { getVisitorStats } from '@/features/visitors/visitor-service'
+import { getGivingRecords, formatCurrency } from '@/features/giving/giving-service'
 import { useAuth } from '@/auth/AuthContext'
 import { useAppConfig } from '@/services/app-config-context'
-import { AccessTier, DEFAULT_MODULES } from '@/shared/types'
+import { DEFAULT_MODULES } from '@/shared/types'
 import Spinner from '@/shared/components/Spinner'
 
 // ── Shared widget shell ───────────────────────────────────────────────────────
@@ -214,6 +215,65 @@ function EventsWidget() {
   )
 }
 
+// ── Giving Widget (Finance Admin only) ───────────────────────────────────────
+
+function GivingWidget() {
+  const [data, setData] = useState<{
+    thisMonth: number
+    lastMonth: number
+    ytd: number
+    uniqueGivers: number
+  } | null>(null)
+
+  useEffect(() => {
+    getGivingRecords().then(records => {
+      const now = new Date()
+      const pad = (n: number) => String(n).padStart(2, '0')
+      const thisMonthStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}`
+      const lastMonthDate = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+      const lastMonthStr = `${lastMonthDate.getFullYear()}-${pad(lastMonthDate.getMonth() + 1)}`
+      const yearStr = String(now.getFullYear())
+
+      const thisMonthRecs = records.filter(r => r.date.startsWith(thisMonthStr))
+      const lastMonthRecs = records.filter(r => r.date.startsWith(lastMonthStr))
+
+      setData({
+        thisMonth: thisMonthRecs.reduce((s, r) => s + r.amount, 0),
+        lastMonth: lastMonthRecs.reduce((s, r) => s + r.amount, 0),
+        ytd: records.filter(r => r.date.startsWith(yearStr)).reduce((s, r) => s + r.amount, 0),
+        uniqueGivers: new Set(thisMonthRecs.map(r => r.person_id)).size,
+      })
+    })
+  }, [])
+
+  const trendPct = data && data.lastMonth > 0
+    ? Math.round(((data.thisMonth - data.lastMonth) / data.lastMonth) * 100)
+    : null
+
+  return (
+    <Widget title="Giving" href="/admin/giving" loading={data === null}>
+      {data && (
+        <div className="space-y-3 pt-1">
+          <div className="flex gap-6 flex-wrap">
+            <Stat value={formatCurrency(data.thisMonth)} label="This month" accent />
+            <Stat value={formatCurrency(data.ytd)} label="Year to date" />
+          </div>
+          <div className="flex items-center gap-4 text-xs text-gray-500 flex-wrap">
+            <span>
+              {data.uniqueGivers} unique giver{data.uniqueGivers !== 1 ? 's' : ''} this month
+            </span>
+            {trendPct !== null && (
+              <span className={trendPct >= 0 ? 'text-green-600 font-medium' : 'text-red-500 font-medium'}>
+                {trendPct >= 0 ? '↑' : '↓'} {Math.abs(trendPct)}% vs last month
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+    </Widget>
+  )
+}
+
 // ── Quick links ───────────────────────────────────────────────────────────────
 
 const QUICK_LINKS = [
@@ -260,15 +320,7 @@ export default function AdminDashboard() {
         {modules.visitors   && <VisitorsWidget />}
         {modules.checkin    && <KidsWidget />}
         {modules.events     && <EventsWidget />}
-        {modules.giving && (user?.isFinanceAdmin || (user?.tier ?? 0) >= AccessTier.Executive) && (
-          <div className="bg-white border border-gray-200 rounded-2xl p-4 flex flex-col justify-between opacity-60">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-gray-700">Giving</h3>
-              <span className="text-[10px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">Phase 7</span>
-            </div>
-            <p className="text-xs text-gray-400 mt-2">Giving records and donor statements coming soon.</p>
-          </div>
-        )}
+        {modules.giving && user?.isFinanceAdmin && <GivingWidget />}
       </div>
     </div>
   )
