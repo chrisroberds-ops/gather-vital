@@ -36,6 +36,7 @@ import type {
   MusicStandSession,
   MusicStandAnnotation,
   UserPdfPreferences,
+  ConfirmationToken,
 } from '@/shared/types'
 
 // Convenience: strip fields the DB layer owns so callers never pass them.
@@ -225,4 +226,15 @@ export interface DatabaseService {
   // ── User PDF Preferences ──────────────────────────────────────────────────────
   getUserPdfPreferences(userId: string, pdfUrl: string): Promise<UserPdfPreferences | null>
   saveUserPdfPreferences(prefs: Omit<UserPdfPreferences, 'id' | 'church_id' | 'updated_at'>): Promise<UserPdfPreferences>
+
+  // ── Confirmation Tokens ───────────────────────────────────────────────────────
+  /** Look up a token by its opaque token string (used from the /confirm URL). */
+  getConfirmationToken(token: string): Promise<ConfirmationToken | null>
+  /** Create a new confirmation token record. */
+  createConfirmationToken(t: Omit<ConfirmationToken, 'id' | 'church_id'>): Promise<ConfirmationToken>
+  /**
+   * Mark the token as used and record the action taken.
+   * Returns the updated token, or throws if already used or not found.
+   */
+  useConfirmationToken(token: string, action: 'confirm' | 'decline'): Promise<ConfirmationToken>
 }

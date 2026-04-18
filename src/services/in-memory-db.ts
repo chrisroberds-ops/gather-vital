@@ -41,6 +41,7 @@ import type {
   MusicStandSession,
   MusicStandAnnotation,
   UserPdfPreferences,
+  ConfirmationToken,
 } from '@/shared/types'
 
 // Import generated test data
@@ -205,6 +206,7 @@ const store = {
   musicStandSessions: [] as MusicStandSession[],
   musicStandAnnotations: [] as MusicStandAnnotation[],
   userPdfPreferences: [] as UserPdfPreferences[],
+  confirmationTokens: [] as ConfirmationToken[],
 }
 
 function id() {
@@ -1072,5 +1074,27 @@ export const inMemoryDb: DatabaseService = {
     }
     store.userPdfPreferences.push(record)
     return record
+  },
+
+  // ── Confirmation Tokens ─────────────────────────────────────────────────────
+  async getConfirmationToken(token) {
+    // Tokens are global by token string — no church scoping needed for public lookup
+    return store.confirmationTokens.find(t => t.token === token) ?? null
+  },
+
+  async createConfirmationToken(data) {
+    const record: ConfirmationToken = { ...stamp(data), id: id() }
+    store.confirmationTokens.push(record)
+    return record
+  },
+
+  async useConfirmationToken(token, action) {
+    const idx = store.confirmationTokens.findIndex(t => t.token === token)
+    if (idx === -1) throw new Error('Confirmation token not found')
+    const existing = store.confirmationTokens[idx]
+    if (existing.used_at) throw new Error('Confirmation token already used')
+    const updated: ConfirmationToken = { ...existing, used_at: now(), used_action: action }
+    store.confirmationTokens[idx] = updated
+    return updated
   },
 }

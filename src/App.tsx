@@ -58,6 +58,9 @@ const PlanList = lazy(() => import('@/features/stand/PlanList'))
 const OrderOfService = lazy(() => import('@/features/stand/OrderOfService'))
 const SongView = lazy(() => import('@/features/stand/SongView'))
 
+// Confirmation / public action pages (no auth required)
+const ConfirmPage = lazy(() => import('@/features/public-pages/ConfirmPage'))
+
 function LoadingFallback() {
   return (
     <div className="flex items-center justify-center h-full min-h-48">
@@ -110,6 +113,12 @@ const router = createBrowserRouter([
       { path: 'plans/:planId', element: <Wrap><OrderOfService /></Wrap> },
       { path: 'plans/:planId/songs/:songId', element: <Wrap><SongView /></Wrap> },
     ],
+  },
+
+  // ── One-click confirmation (no auth required) ──────────────────────────────
+  {
+    path: '/confirm',
+    element: <Wrap><ConfirmPage /></Wrap>,
   },
 
   // ── Public pages (no auth required) ────────────────────────────────────────

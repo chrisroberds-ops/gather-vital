@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAppConfig, applyPrimaryColor } from '@/services/app-config-context'
 import { db, getChurchId } from '@/services'
+import { sendEmail } from '@/services/notification-service'
 import {
   DEFAULT_TERMINOLOGY, DEFAULT_KIDS_ROOMS, DEFAULT_SERVING_TEAMS,
   DEFAULT_DASHBOARD_METRICS, DEFAULT_MODULES,
@@ -17,7 +18,7 @@ import LogoUpload from '@/shared/components/LogoUpload'
 
 type SectionId =
   | 'identity' | 'branding' | 'services' | 'kids'
-  | 'groups' | 'volunteers' | 'communications' | 'dashboard'
+  | 'groups' | 'volunteers' | 'communications' | 'email' | 'dashboard'
   | 'modules'
 
 const SECTIONS: { id: SectionId; label: string; icon: string }[] = [
@@ -29,6 +30,7 @@ const SECTIONS: { id: SectionId; label: string; icon: string }[] = [
   { id: 'groups',         label: 'Groups',           icon: '👥' },
   { id: 'volunteers',     label: 'Volunteers',       icon: '🙋' },
   { id: 'communications', label: 'Communications',   icon: '📬' },
+  { id: 'email',          label: 'Email',            icon: '✉️' },
   { id: 'dashboard',      label: 'Dashboard',        icon: '📊' },
 ]
 
@@ -203,6 +205,7 @@ export default function ChurchSettings() {
           {section === 'groups'         && <GroupsSection />}
           {section === 'volunteers'     && <VolunteersSection />}
           {section === 'communications' && <CommunicationsSection />}
+          {section === 'email'          && <EmailSection />}
           {section === 'dashboard'      && <DashboardSection />}
         </div>
       </div>
@@ -861,6 +864,175 @@ function DashboardSection() {
         checked={showYoy}
         onChange={setShowYoy}
       />
+    </SectionCard>
+  )
+}
+
+// ── Email provider section ─────────────────────────────────────────────────────
+
+function EmailSection() {
+  const { config, updateConfig } = useAppConfig()
+  const [provider,       setProvider]       = useState<'gmail' | 'resend'>(config.email_provider ?? 'resend')
+  const [gmailAddress,   setGmailAddress]   = useState(config.gmail_address   ?? '')
+  const [gmailPassword,  setGmailPassword]  = useState(config.gmail_app_password ?? '')
+  const [resendKey,      setResendKey]      = useState(config.resend_api_key  ?? '')
+  const [testEmail,      setTestEmail]      = useState('')
+  const [sending,        setSending]        = useState(false)
+  const [testResult,     setTestResult]     = useState<'sent' | 'error' | null>(null)
+
+  useEffect(() => {
+    setProvider(config.email_provider ?? 'resend')
+    setGmailAddress(config.gmail_address ?? '')
+    setGmailPassword(config.gmail_app_password ?? '')
+    setResendKey(config.resend_api_key ?? '')
+  }, [config])
+
+  const { saving, saved, save } = useSave(() =>
+    updateConfig({
+      email_provider: provider,
+      gmail_address:      provider === 'gmail'  ? (gmailAddress.trim()  || undefined) : undefined,
+      gmail_app_password: provider === 'gmail'  ? (gmailPassword.trim() || undefined) : undefined,
+      resend_api_key:     provider === 'resend' ? (resendKey.trim()     || undefined) : undefined,
+    }),
+  )
+
+  async function handleTestEmail() {
+    if (!testEmail.trim()) return
+    setSending(true)
+    setTestResult(null)
+    try {
+      await sendEmail({
+        to: testEmail.trim(),
+        subject: 'Test email from Gather',
+        body: `This is a test email from Gather.\n\nProvider: ${provider}\nChurch: ${config.church_name}`,
+      })
+      setTestResult('sent')
+    } catch {
+      setTestResult('error')
+    } finally {
+      setSending(false)
+    }
+  }
+
+  return (
+    <SectionCard
+      title="Email provider"
+      description="Configure how transactional emails (volunteer schedules, event confirmations, etc.) are sent."
+      onSave={save}
+      saving={saving}
+      saved={saved}
+    >
+      <RadioGroup
+        label="Email provider"
+        value={provider}
+        onChange={setProvider}
+        options={[
+          {
+            value: 'resend',
+            label: 'Resend',
+            description: 'Recommended — 3,000 free emails/month. API key sent directly from the browser.',
+          },
+          {
+            value: 'gmail',
+            label: 'Gmail SMTP',
+            description: 'Use your Gmail account. Requires a server-side proxy (see docs).',
+          },
+        ]}
+      />
+
+      {provider === 'resend' && (
+        <div className="space-y-3">
+          <div>
+            <label className={labelCls}>Resend API key</label>
+            <input
+              type="password"
+              value={resendKey}
+              onChange={e => setResendKey(e.target.value)}
+              placeholder="re_…"
+              className={inputCls}
+              autoComplete="off"
+            />
+            <p className="text-xs text-gray-400 mt-1">
+              Get a free API key at{' '}
+              <a href="https://resend.com" target="_blank" rel="noopener noreferrer" className="text-primary-600 underline">
+                resend.com
+              </a>
+              . Leave blank to use the <code className="bg-gray-100 px-1 rounded">VITE_RESEND_API_KEY</code> env variable.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {provider === 'gmail' && (
+        <div className="space-y-3">
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs text-amber-700 space-y-1">
+            <p className="font-medium">Gmail SMTP requires a server-side proxy</p>
+            <p>
+              Browsers cannot open raw SMTP connections. You must configure a backend
+              function that reads these credentials and sends via Nodemailer or a similar library.
+              Until then, emails are skipped with a console warning.
+            </p>
+          </div>
+          <div>
+            <label className={labelCls}>Gmail address</label>
+            <input
+              type="email"
+              value={gmailAddress}
+              onChange={e => setGmailAddress(e.target.value)}
+              placeholder="yourchurch@gmail.com"
+              className={inputCls}
+            />
+          </div>
+          <div>
+            <label className={labelCls}>App Password</label>
+            <input
+              type="password"
+              value={gmailPassword}
+              onChange={e => setGmailPassword(e.target.value)}
+              placeholder="xxxx xxxx xxxx xxxx"
+              className={inputCls}
+              autoComplete="off"
+            />
+            <p className="text-xs text-gray-400 mt-1">
+              Use a{' '}
+              <a
+                href="https://support.google.com/accounts/answer/185833"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary-600 underline"
+              >
+                Gmail App Password
+              </a>
+              , not your regular account password. Requires 2-Step Verification enabled.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Send test email */}
+      <div className="border-t border-gray-100 pt-4 space-y-3">
+        <p className="text-sm font-medium text-gray-700">Send a test email</p>
+        <div className="flex gap-2">
+          <input
+            type="email"
+            value={testEmail}
+            onChange={e => setTestEmail(e.target.value)}
+            placeholder="test@example.com"
+            className={`${inputCls} flex-1`}
+          />
+          <Button onClick={() => void handleTestEmail()} loading={sending} variant="secondary">
+            Send test
+          </Button>
+        </div>
+        {testResult === 'sent' && (
+          <p className="text-xs text-green-600 font-medium">Test email sent successfully.</p>
+        )}
+        {testResult === 'error' && (
+          <p className="text-xs text-red-600 font-medium">
+            Failed to send. Check your provider configuration and browser console for details.
+          </p>
+        )}
+      </div>
     </SectionCard>
   )
 }

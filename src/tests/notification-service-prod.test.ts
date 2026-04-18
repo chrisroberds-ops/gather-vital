@@ -13,6 +13,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 vi.mock('@/services', () => ({
   db: {
     createCommunicationsLogEntry: vi.fn().mockResolvedValue(undefined),
+    getAppConfig: vi.fn().mockResolvedValue({ email_provider: 'resend' }),
   },
 }))
 
@@ -55,7 +56,7 @@ describe('notification-service (PRODUCTION paths)', () => {
           sendEmail({ to: 'nobody@example.com', subject: 'Hi', body: 'Body' }),
         ).resolves.toBeUndefined()
         expect(warnSpy).toHaveBeenCalledWith(
-          expect.stringContaining('VITE_RESEND_API_KEY is not set'),
+          expect.stringContaining('no Resend API key configured'),
           expect.objectContaining({ to: 'nobody@example.com' }),
         )
       } finally {

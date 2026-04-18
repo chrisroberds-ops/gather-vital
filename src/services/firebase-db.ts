@@ -159,4 +159,8 @@ export const firebaseDb: DatabaseService = {
 
   async getUserPdfPreferences() { notImplemented('getUserPdfPreferences') },
   async saveUserPdfPreferences() { notImplemented('saveUserPdfPreferences') },
+
+  async getConfirmationToken() { notImplemented('getConfirmationToken') },
+  async createConfirmationToken() { notImplemented('createConfirmationToken') },
+  async useConfirmationToken() { notImplemented('useConfirmationToken') },
 }

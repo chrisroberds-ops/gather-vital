@@ -653,6 +653,40 @@ export interface UserPdfPreferences {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Confirmation Tokens (one-click email confirm/decline)
+// ─────────────────────────────────────────────────────────────────────────────
+
+export type ConfirmationPurpose = 'volunteer' | 'event' | 'group_waitlist'
+
+/**
+ * A single-use token embedded in outbound emails to let recipients confirm or
+ * decline an action (volunteer schedule, event registration, group waitlist)
+ * without logging in.
+ */
+export interface ConfirmationToken {
+  id: string
+  church_id: string
+  /** The opaque URL-safe token string (UUID). */
+  token: string
+  person_id: string
+  /** ID of the related VolunteerSchedule, EventRegistration, or GroupMember record. */
+  reference_id: string
+  purpose: ConfirmationPurpose
+  /** ISO-8601 expiry — tokens are valid for 7 days from creation. */
+  expires_at: string
+  /** ISO-8601 timestamp when the token was used. Null if still valid. */
+  used_at?: string
+  /** Action that was taken when the token was used. */
+  used_action?: 'confirm' | 'decline'
+  // Context data snapshotted at token creation for use in the result page
+  role?: string
+  service_date?: string
+  event_name?: string
+  group_name?: string
+  church_name?: string
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // App Config (singleton per church)
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -756,6 +790,21 @@ export interface AppConfig {
   visitor_followup_owner?: string
   weekly_report?: boolean
   weekly_report_email?: string
+
+  // ── Email provider ─────────────────────────────────────────────────────────
+  /** Which transactional email provider to use. Defaults to 'resend'. */
+  email_provider?: 'gmail' | 'resend'
+  /** Gmail address used as the "from" address when provider is 'gmail'. */
+  gmail_address?: string
+  /**
+   * Gmail App Password (not the account password).
+   * Gmail SMTP requires a server-side proxy — this value is stored so an
+   * admin can configure it in the UI, but actual sending is skipped in the
+   * browser with a console.warn (same pattern as Twilio SMS).
+   */
+  gmail_app_password?: string
+  /** Resend API key. Overrides VITE_RESEND_API_KEY when set in AppConfig. */
+  resend_api_key?: string
 
   // ── Section 8: Dashboard ───────────────────────────────────────────────────
   dashboard_metrics?: string[]
