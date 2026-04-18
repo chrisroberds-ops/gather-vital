@@ -253,6 +253,14 @@ export interface VolunteerSchedule {
   confirmed_at?: string
   reminder_sent: boolean
   reminder_sent_at?: string
+  /**
+   * Attendance confirmation set by a coordinator after the service.
+   * - undefined / absent: not yet marked
+   * - true: person served
+   * - false: no-show
+   */
+  served?: boolean
+  served_at?: string
 }
 
 export interface VolunteerBlackout {

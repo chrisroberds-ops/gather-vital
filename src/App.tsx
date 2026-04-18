@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
 import { AuthProvider } from '@/auth/AuthContext'
 import { AppConfigProvider } from '@/services/app-config-context'
-import { requireAuth, requireGroupLeader, requireStaff, requireExecutive } from '@/auth/guards'
+import { requireAuth, requireGroupLeader, requireStaff, requireExecutive, requireFinanceAdmin } from '@/auth/guards'
 import ErrorBoundary from '@/shared/components/ErrorBoundary'
 import ModuleGuard from '@/shared/components/ModuleGuard'
 import AdminLayout from '@/layouts/AdminLayout'
@@ -60,6 +60,10 @@ const SongView = lazy(() => import('@/features/stand/SongView'))
 
 // Confirmation / public action pages (no auth required)
 const ConfirmPage = lazy(() => import('@/features/public-pages/ConfirmPage'))
+
+// Giving & Finance (Finance Admin only)
+const GivingDashboard = lazy(() => import('@/features/giving/GivingDashboard'))
+const GivingStatements = lazy(() => import('@/features/giving/GivingStatements'))
 
 function LoadingFallback() {
   return (
@@ -255,8 +259,25 @@ const router = createBrowserRouter([
       },
       {
         path: 'admin/giving',
-        loader: requireStaff(),
-        element: <ComingSoon title="Giving" phase={7} />,
+        loader: requireFinanceAdmin(),
+        element: (
+          <Wrap>
+            <ModuleGuard module="giving">
+              <GivingDashboard />
+            </ModuleGuard>
+          </Wrap>
+        ),
+      },
+      {
+        path: 'admin/giving/statements',
+        loader: requireFinanceAdmin(),
+        element: (
+          <Wrap>
+            <ModuleGuard module="giving">
+              <GivingStatements />
+            </ModuleGuard>
+          </Wrap>
+        ),
       },
       // ── Attendance ──────────────────────────────────────────────────────────
       {

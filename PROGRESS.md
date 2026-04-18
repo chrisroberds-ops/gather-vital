@@ -1,7 +1,7 @@
 # Gather — Build Progress
 
 > Read `Gather-Church-Management-System-Spec.md` alongside this file.
-> **Current state: 370 tests passing across 25 test files. Last completed: Session H — PDF.js Rendering, Annotation Canvas, Local QR Codes (2026-04-17).**
+> **Current state: 464 tests passing across 29 test files. Last completed: Session J — Giving & Finance (2026-04-18).**
 
 ---
 
@@ -688,6 +688,91 @@ Replaced `api.qrserver.com` external service with the `qrcode` npm package (v1.5
 
 ---
 
+## Session I — Email System, Merge Fields, Confirmation Tokens & Volunteer Attendance ✅ Complete (2026-04-18)
+
+**+56 tests (426 total).** Baseline: 370 tests.
+
+### What was built
+
+#### Part 1 — Email Provider Setup
+
+**New `AppConfig` fields (`src/shared/types/index.ts`):**
+- `email_provider?: 'gmail' | 'resend'`
+- `gmail_address?: string`
+- `gmail_app_password?: string` — stored for future server-side proxy; browser SMTP impossible
+- `resend_api_key?: string` — overrides `VITE_RESEND_API_KEY` env var when set
+
+**`notification-service.ts` rewrite:**
+- Reads `email_provider` from `AppConfig` at send time (lazy import to avoid circular dep)
+- Gmail path: logs `console.warn`, does NOT throw (same pattern as Twilio SMS)
+- Resend path: uses AppConfig key with fallback to env var
+- Added `replaceMergeFields(template, ctx)` and `MERGE_FIELDS` documentation array
+
+**New Settings section (`src/features/settings/ChurchSettings.tsx`):**
+- `EmailSection` — provider toggle (Resend / Gmail SMTP), per-provider credential fields, Gmail App Password help link, "Send test email" button with success/failure feedback
+
+#### Part 2 — Merge Fields
+
+| Token | Description |
+|-------|-------------|
+| `{first_name}` | Recipient's first name |
+| `{last_name}` | Recipient's last name |
+| `{church_name}` | Church name from settings |
+| `{service_date}` | Scheduled service date (volunteers) |
+| `{role}` | Volunteer role or team position |
+| `{event_name}` | Event name |
+| `{group_name}` | Group name |
+
+- Missing context values replaced with empty string (graceful fallback)
+- All occurrences of each token replaced (not just first)
+
+#### Part 3 — Confirmation Token System
+
+**New type (`src/shared/types/index.ts`):**
+- `ConfirmationToken` — `{ id, church_id, token, person_id, reference_id, purpose, expires_at, used_at?, used_action?, role?, service_date?, event_name?, group_name?, church_name? }`
+- `ConfirmationPurpose = 'volunteer' | 'event' | 'group_waitlist'`
+
+**New DB methods (interface + in-memory + Firebase stubs):**
+- `getConfirmationToken(token)`, `createConfirmationToken(data)`, `useConfirmationToken(token, action)`
+
+**New service (`src/services/confirmation-token-service.ts`):**
+- `createVolunteerConfirmToken`, `createEventConfirmToken`, `createGroupWaitlistConfirmToken`
+- `resolveConfirmationToken(tokenString, action)` — validates, marks used, performs DB action
+- 7-day expiry, single-use guarantee
+- `confirmUrl()` / `declineUrl()` helpers
+
+**New page (`src/features/public-pages/ConfirmPage.tsx`):**
+- Route: `/confirm?token=...&action=confirm|decline` (no auth required)
+- States: loading, success (purpose-specific message), already_used, expired, not_found
+- Registered in `App.tsx`
+
+#### Part 4 — Volunteer Attendance
+
+**New `VolunteerSchedule` fields:**
+- `served?: boolean` — `undefined` = not marked, `true` = served, `false` = no-show
+- `served_at?: string` — ISO-8601 timestamp when marked
+
+**New service functions (`src/features/volunteers/volunteer-service.ts`):**
+- `markServed(id, served: boolean | null)` — mark/unmark attendance; `null` clears the mark
+- `getServedVolunteersInMonth(year, month)` — unique person count for Monthly Vital Signs Report
+
+**`ScheduleView.tsx` — attendance column:**
+- New `showAttendance` prop (default `false`); set to `true` in coordinator view
+- Per-row `AttendanceCell`: green ✓ button, gray ✗ button, undo link after marking
+- Per-date summary line: "X of Y confirmed as served · N not yet marked"
+- Spinner shown on the cell being updated (not whole row)
+
+### Tests added (Session I)
+
+| File | Tests | Coverage |
+|------|-------|---------|
+| `src/tests/merge-fields.test.ts` | 20 | All 7 tokens, multi-token templates, repeated tokens, missing/empty context, unknown tokens, MERGE_FIELDS array |
+| `src/tests/confirmation-token.test.ts` | 21 | URL helpers, volunteer/event/group token creation, confirm/decline for all 3 purposes, expiry (fake timers), already_used, not_found, single-use guarantee |
+| `src/tests/volunteer-attendance.test.ts` | 16 | `markServed` (true/false/null/flip/undo/scope), `getServedVolunteersInMonth` (deduplication, no-shows excluded, unmarked excluded, month boundaries, zero case) |
+| `src/tests/notification-service-prod.test.ts` | updated | Updated mock to include `getAppConfig`, updated warning message to match new multi-provider code |
+
+---
+
 ## Manually Verified (as of 2026-04-09)
 
 The following flows were confirmed working end-to-end in the running app (`VITE_TEST_MODE=true`):
@@ -724,9 +809,63 @@ The following flows were confirmed working end-to-end in the running app (`VITE_
 | Session E (2026-04-15) | 19 | 295 |
 | Session F (2026-04-15) | 35 | 330 |
 | Session G (2026-04-16) | 30 | 360 |
-| Session H (2026-04-17) | 10 | **370** |
+| Session H (2026-04-17) | 10 | 370 |
+| Session I (2026-04-18) | 56 | 426 |
+| Session J (2026-04-18) | 38 | **464** |
 
-All 370 tests pass. TypeScript clean. No Firebase credentials required to run.
+All 464 tests pass. TypeScript clean. No Firebase credentials required to run.
+
+---
+
+## Session J — Giving & Finance ✅ Complete (2026-04-18)
+
+**+38 tests (464 total).** Baseline: 426 tests.
+
+### What was built
+
+#### giving-service.ts
+
+New service at `src/features/giving/giving-service.ts`:
+- CRUD wrappers: `getGivingRecords`, `createGivingRecord`, `updateGivingRecord`, `deleteGivingRecord`
+- `computeGivingSummary(records)` — pure function, no DB: YTD total, last-12-months monthly buckets, fund breakdown sorted by total desc with percentages
+- `getAnnualGivingStatement(personId, year)` — tax-year scoped records + by-fund breakdown
+- `parseGivingCsv(csv)` — RFC-4180 Planning Center CSV parser; handles quoted commas, `$`/`,` in amounts, ISO and M/D/YYYY dates
+- `commitGivingImport(rows)` — name-matched DB insert with `source: 'imported'`; returns `{ created, skipped }`
+- `formatCurrency`, `formatMethod` — display helpers
+- **Bug fixed**: `splitCsvRows` was stripping quote characters before passing rows to `parseCsvRow`, breaking quoted fields with commas. Fixed by preserving `"` in the accumulated row string.
+
+#### GivingDashboard.tsx
+
+Three-tab UI at `/admin/giving` (Finance Admin + giving module required):
+- **Records tab** — filterable table (person/fund/method), inline edit/delete, `RecordForm` modal for add/edit
+- **Summary tab** — YTD stat card, 12-month bar chart sparkline, fund breakdown with progress bars
+- **Import tab** — embeds `GivingImport` component
+
+#### GivingImport.tsx
+
+Step-flow CSV importer:
+- Upload step: drag-and-drop + file input, reads Planning Center CSV
+- Preview step: table of parsed rows before commit, warning about unmatched names
+- Done step: shows created/skipped counts
+
+#### GivingStatements.tsx
+
+Annual giving statement at `/admin/giving/statements`:
+- Person selector + year dropdown (current + 4 prior years)
+- Printable donation history table + fund summary + tax disclaimer
+- `window.print()` for Print/Save PDF
+
+#### Finance Admin gating
+
+- Nav item: `requireFinance: true` — visible only to `isFinanceAdmin` users
+- Routes: both `/admin/giving` and `/admin/giving/statements` use `requireFinanceAdmin()` loader
+- PersonDetail: giving history section (`PersonGivingHistory`) conditionally rendered when `user?.isFinanceAdmin`
+
+### Tests added (Session J)
+
+| File | Tests | Coverage |
+|------|-------|---------|
+| `src/tests/giving-service.test.ts` | 38 | CRUD, computeGivingSummary (YTD, monthly, fund breakdown, empty), getAnnualGivingStatement (year filter, total, empty year), parseGivingCsv (all field types, error rows, quoted commas), commitGivingImport (match, skip, source), formatCurrency, formatMethod |
 
 ---
 
@@ -736,9 +875,9 @@ All 370 tests pass. TypeScript clean. No Firebase credentials required to run.
 
 ### Immediate Queue
 
-1. **Phase 7 — Giving & Finance** — giving record CRUD, Finance Admin gate, Planning Center giving CSV import, YTD dashboard widget
-2. **Annotation UX polish** — eraser tool, undo/redo (Ctrl+Z), annotation list panel for reviewing/deleting individual marks
-3. **Multi-device annotation sync** — push real-time annotation updates to other musicians in the same session via standBus
+1. **Annotation UX polish** — eraser tool, undo/redo (Ctrl+Z), annotation list panel for reviewing/deleting individual marks
+2. **Multi-device annotation sync** — push real-time annotation updates to other musicians in the same session via standBus
+3. **AdminDashboard giving widget** — YTD total, monthly trend sparkline, top funds; visible only to Finance Admin
 
 > **Recommended: Home church trial before Phase 7.**
 > The core feature set is now substantial enough for real use. Running the app with an actual congregation (even a small one) for 2–4 weeks will surface friction, missing edge cases, and priority mismatches that are hard to anticipate in isolation. Suggested trial checklist:

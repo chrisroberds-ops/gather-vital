@@ -169,7 +169,7 @@ const NAV_ITEMS: NavItem[] = [
     to: '/admin/giving',
     label: 'Giving',
     minTier: AccessTier.Staff,
-    badge: 'Phase 7',
+    requireFinance: true,
     icon: (
       <Icon>
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -244,6 +244,8 @@ export default function AdminLayout() {
     },
   ].filter(item => {
     if ((user?.tier ?? 0) < item.minTier) return false
+    // Hide Finance Admin-only items from non-finance users
+    if ('requireFinance' in item && item.requireFinance && !user?.isFinanceAdmin) return false
     // Hide nav items whose module is disabled (missing moduleKey = always show)
     if ('moduleKey' in item && item.moduleKey) {
       if (!modules[item.moduleKey as keyof typeof modules]) return false

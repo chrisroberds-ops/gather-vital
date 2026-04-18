@@ -135,7 +135,7 @@ export default function VolunteerDashboard() {
         )}
       </div>
 
-      {tab === 'schedule'   && <ScheduleView key={scheduleKey} />}
+      {tab === 'schedule'   && <ScheduleView key={scheduleKey} showAttendance />}
       {tab === 'teams'      && <TeamsManager />}
       {tab === 'background' && <BackgroundChecksTab />}
 

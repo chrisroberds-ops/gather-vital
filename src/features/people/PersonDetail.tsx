@@ -9,11 +9,14 @@ import Card from '@/shared/components/Card'
 import Spinner from '@/shared/components/Spinner'
 import { formatPhone, formatDate, formatAge } from '@/shared/utils/format'
 import { db } from '@/services'
-import type { Person, CheckinFlag } from '@/shared/types'
+import { useAuth } from '@/auth/AuthContext'
+import { getGivingRecords, formatCurrency, formatMethod } from '@/features/giving/giving-service'
+import type { Person, CheckinFlag, GivingRecord } from '@/shared/types'
 
 export default function PersonDetail() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const { user } = useAuth()
   const [person, setPerson] = useState<Person | null>(null)
   const [flags, setFlags] = useState<CheckinFlag[]>([])
   const [loading, setLoading] = useState(true)
@@ -238,6 +241,14 @@ export default function PersonDetail() {
         {showHouseholds && <HouseholdManager personId={person.id} />}
         {!showHouseholds && <HouseholdSummary personId={person.id} />}
       </div>
+
+      {/* Giving history — Finance Admin only */}
+      {user?.isFinanceAdmin && (
+        <div className="mt-4">
+          <h2 className="font-semibold text-gray-900 mb-2">Giving History</h2>
+          <PersonGivingHistory personId={person.id} personName={displayName(person)} />
+        </div>
+      )}
     </div>
   )
 }
@@ -285,6 +296,64 @@ function HouseholdSummary({ personId }: { personId: string }) {
           )}
         </div>
       ))}
+    </div>
+  )
+}
+
+// ── PersonGivingHistory (Finance Admin only) ─────────────────────────────────
+
+function PersonGivingHistory({ personId, personName }: { personId: string; personName: string }) {
+  const navigate = useNavigate()
+  const [records,  setRecords]  = useState<GivingRecord[]>([])
+  const [loading,  setLoading]  = useState(true)
+
+  useEffect(() => {
+    getGivingRecords(personId).then(r => { setRecords(r); setLoading(false) })
+  }, [personId])
+
+  const ytd = records
+    .filter(r => r.date.startsWith(new Date().getFullYear().toString()))
+    .reduce((sum, r) => sum + r.amount, 0)
+
+  if (loading) return <Spinner size="sm" />
+
+  return (
+    <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+      <div className="px-5 py-3 border-b border-gray-100 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <span className="text-sm font-medium text-gray-700">{records.length} records</span>
+          {records.length > 0 && (
+            <span className="text-sm text-gray-500">YTD: <strong className="text-gray-900">{formatCurrency(ytd)}</strong></span>
+          )}
+        </div>
+        <button
+          onClick={() => navigate(`/admin/giving/statements?person=${personId}`)}
+          className="text-xs text-primary-600 hover:underline"
+        >
+          Annual statement →
+        </button>
+      </div>
+      {records.length === 0 ? (
+        <p className="px-5 py-4 text-sm text-gray-400">No giving records for {personName}.</p>
+      ) : (
+        <table className="w-full text-sm">
+          <tbody className="divide-y divide-gray-50">
+            {records.slice(0, 10).map(r => (
+              <tr key={r.id} className="hover:bg-gray-50">
+                <td className="px-5 py-2.5 text-gray-500 tabular-nums">{r.date}</td>
+                <td className="px-5 py-2.5 text-gray-700">{r.fund}</td>
+                <td className="px-5 py-2.5 text-gray-500 hidden sm:table-cell">{formatMethod(r.method)}</td>
+                <td className="px-5 py-2.5 text-right font-semibold text-gray-900 tabular-nums">{formatCurrency(r.amount)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+      {records.length > 10 && (
+        <div className="px-5 py-3 border-t border-gray-100 text-xs text-gray-400">
+          Showing 10 of {records.length} records. <button onClick={() => navigate('/admin/giving')} className="text-primary-600 hover:underline">View all →</button>
+        </div>
+      )}
     </div>
   )
 }

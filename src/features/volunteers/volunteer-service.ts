@@ -105,6 +105,48 @@ export async function updateScheduleStatus(
   return db.updateVolunteerSchedule(id, updates)
 }
 
+/**
+ * Mark a volunteer schedule entry as served (true), no-show (false), or
+ * clear the attendance mark (undefined).  Pass null to clear.
+ */
+export async function markServed(
+  id: string,
+  served: boolean | null,
+): Promise<VolunteerSchedule> {
+  if (served === null) {
+    return db.updateVolunteerSchedule(id, { served: undefined, served_at: undefined })
+  }
+  return db.updateVolunteerSchedule(id, {
+    served,
+    served_at: new Date().toISOString(),
+  })
+}
+
+/**
+ * Count unique volunteers who served at least once in a given calendar month.
+ * Used by the Monthly Vital Signs Report for the service participation metric.
+ *
+ * @param year  4-digit year (e.g. 2026)
+ * @param month 1-based month (1 = January, 12 = December)
+ */
+export async function getServedVolunteersInMonth(
+  year: number,
+  month: number,
+): Promise<{ count: number; person_ids: string[] }> {
+  const allEntries = await db.getVolunteerSchedule()
+
+  const monthStr = `${year}-${String(month).padStart(2, '0')}`
+  const servedIds = new Set<string>()
+
+  for (const entry of allEntries) {
+    if (entry.served === true && entry.scheduled_date.startsWith(monthStr)) {
+      servedIds.add(entry.person_id)
+    }
+  }
+
+  return { count: servedIds.size, person_ids: [...servedIds] }
+}
+
 export async function deleteScheduleEntry(id: string): Promise<void> {
   return db.deleteVolunteerSchedule(id)
 }
