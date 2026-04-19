@@ -65,6 +65,9 @@ const ConfirmPage = lazy(() => import('@/features/public-pages/ConfirmPage'))
 const GivingDashboard = lazy(() => import('@/features/giving/GivingDashboard'))
 const GivingStatements = lazy(() => import('@/features/giving/GivingStatements'))
 
+// Reports
+const MonthlyReport = lazy(() => import('@/features/reports/MonthlyReport'))
+
 function LoadingFallback() {
   return (
     <div className="flex items-center justify-center h-full min-h-48">
@@ -322,6 +325,12 @@ const router = createBrowserRouter([
           { path: 'services',         element: <Wrap><ServicePlanList /></Wrap> },
           { path: 'services/:id',     element: <Wrap><ServiceBuilder /></Wrap> },
         ],
+      },
+      // ── Reports ────────────────────────────────────────────────────────────
+      {
+        path: 'admin/reports/monthly',
+        loader: requireStaff(),
+        element: <Wrap><MonthlyReport /></Wrap>,
       },
       // ── Settings / Import / Embeds ──────────────────────────────────────────
       {

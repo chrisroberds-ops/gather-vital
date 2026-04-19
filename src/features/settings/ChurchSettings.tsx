@@ -739,12 +739,13 @@ const FOLLOWUP_OWNER_OPTIONS = ['Lead Pastor', 'Connections Pastor', 'Admin', 'A
 
 function CommunicationsSection() {
   const { config, updateConfig } = useAppConfig()
-  const [outreach,      setOutreach]      = useState<'email' | 'sms' | 'both'>(config.primary_outreach ?? 'email')
-  const [followupSteps, setFollowupSteps] = useState(config.visitor_followup_steps ?? 3)
-  const [followupOwner, setFollowupOwner] = useState(config.visitor_followup_owner ?? 'Connections Pastor')
-  const [customOwner,   setCustomOwner]   = useState(!FOLLOWUP_OWNER_OPTIONS.includes(config.visitor_followup_owner ?? 'Connections Pastor'))
-  const [weeklyReport,  setWeeklyReport]  = useState(config.weekly_report ?? false)
-  const [reportEmail,   setReportEmail]   = useState(config.weekly_report_email ?? '')
+  const [outreach,         setOutreach]         = useState<'email' | 'sms' | 'both'>(config.primary_outreach ?? 'email')
+  const [followupSteps,    setFollowupSteps]    = useState(config.visitor_followup_steps ?? 3)
+  const [followupOwner,    setFollowupOwner]    = useState(config.visitor_followup_owner ?? 'Connections Pastor')
+  const [customOwner,      setCustomOwner]      = useState(!FOLLOWUP_OWNER_OPTIONS.includes(config.visitor_followup_owner ?? 'Connections Pastor'))
+  const [weeklyReport,     setWeeklyReport]     = useState(config.weekly_report ?? false)
+  const [reportEmail,      setReportEmail]      = useState(config.weekly_report_email ?? '')
+  const [reportRecipients, setReportRecipients] = useState(config.report_recipients ?? '')
 
   useEffect(() => {
     setOutreach(config.primary_outreach ?? 'email')
@@ -754,6 +755,7 @@ function CommunicationsSection() {
     setCustomOwner(!FOLLOWUP_OWNER_OPTIONS.includes(owner))
     setWeeklyReport(config.weekly_report ?? false)
     setReportEmail(config.weekly_report_email ?? '')
+    setReportRecipients(config.report_recipients ?? '')
   }, [config])
 
   const { saving, saved, save } = useSave(() =>
@@ -763,6 +765,7 @@ function CommunicationsSection() {
       visitor_followup_owner: followupOwner,
       weekly_report: weeklyReport,
       weekly_report_email: weeklyReport ? reportEmail : undefined,
+      report_recipients: reportRecipients || undefined,
     }),
   )
 
@@ -821,6 +824,20 @@ function CommunicationsSection() {
           </div>
         )}
       </div>
+
+      <div className="border-t border-gray-100 pt-4">
+        <label className={labelCls}>Report recipients (Monthly Vital Signs)</label>
+        <input
+          type="text"
+          value={reportRecipients}
+          onChange={e => setReportRecipients(e.target.value)}
+          placeholder="pastor@church.com, exec@church.com"
+          className={inputCls}
+        />
+        <p className="text-xs text-gray-400 mt-1">
+          Comma-separated emails. These receive the report when you click "Email report" on the Monthly Vital Signs page.
+        </p>
+      </div>
     </SectionCard>
   )
 }
@@ -838,20 +855,26 @@ const METRIC_OPTIONS = [
 
 function DashboardSection() {
   const { config, updateConfig } = useAppConfig()
-  const [metrics, setMetrics] = useState<string[]>(config.dashboard_metrics ?? DEFAULT_DASHBOARD_METRICS)
-  const [showYoy, setShowYoy] = useState(config.show_yoy ?? true)
+  const [metrics,        setMetrics]        = useState<string[]>(config.dashboard_metrics ?? DEFAULT_DASHBOARD_METRICS)
+  const [showYoy,        setShowYoy]        = useState(config.show_yoy ?? true)
+  const [annualBudget,   setAnnualBudget]   = useState(String(config.annual_giving_budget ?? ''))
 
   useEffect(() => {
     setMetrics(config.dashboard_metrics ?? DEFAULT_DASHBOARD_METRICS)
     setShowYoy(config.show_yoy ?? true)
+    setAnnualBudget(String(config.annual_giving_budget ?? ''))
   }, [config])
 
   const { saving, saved, save } = useSave(() =>
-    updateConfig({ dashboard_metrics: metrics, show_yoy: showYoy }),
+    updateConfig({
+      dashboard_metrics: metrics,
+      show_yoy: showYoy,
+      annual_giving_budget: annualBudget ? parseFloat(annualBudget) : undefined,
+    }),
   )
 
   return (
-    <SectionCard title="Dashboard vital signs" description="Choose what leadership sees front and center." onSave={save} saving={saving} saved={saved}>
+    <SectionCard title="Dashboard & reports" description="Choose what leadership sees front and center." onSave={save} saving={saving} saved={saved}>
       <CheckboxGroup
         label="Which metrics should appear on the dashboard?"
         options={METRIC_OPTIONS}
@@ -864,6 +887,21 @@ function DashboardSection() {
         checked={showYoy}
         onChange={setShowYoy}
       />
+      <div>
+        <label className={labelCls}>Annual giving budget ($)</label>
+        <input
+          type="number"
+          min={0}
+          step={1000}
+          value={annualBudget}
+          onChange={e => setAnnualBudget(e.target.value)}
+          placeholder="e.g. 250000"
+          className={inputCls}
+        />
+        <p className="text-xs text-gray-400 mt-1">
+          Used on the Monthly Vital Signs Report to show giving vs. monthly target (annual ÷ 12).
+        </p>
+      </div>
     </SectionCard>
   )
 }

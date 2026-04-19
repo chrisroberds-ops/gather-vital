@@ -372,6 +372,26 @@ export interface EventRegistration {
 // Giving
 // ─────────────────────────────────────────────────────────────────────────────
 
+// ── Monthly Report History ─────────────────────────────────────────────────────
+
+/** One row per month per church. Populated from live DB data or CSV import. */
+export interface MonthlyReportHistory {
+  id: string
+  church_id: string
+  year: number
+  month: number           // 1-12
+  avg_weekly_attendance?: number
+  giving_total?: number
+  unique_givers?: number
+  group_participants?: number
+  confirmed_servers?: number
+  kids_count?: number
+  students_count?: number
+  /** true when the record was imported from CSV, false when saved from live report data */
+  is_imported: boolean
+  created_at: string
+}
+
 export type GivingMethod = 'online_card' | 'online_ach' | 'cash' | 'check'
 export type GivingSource = 'stripe' | 'square' | 'manual' | 'imported'
 
@@ -831,6 +851,12 @@ export interface AppConfig {
 
   // ── Worship Roles ─────────────────────────────────────────────────────────
   worship_roles?: string[]
+
+  // ── Reports ────────────────────────────────────────────────────────────────
+  /** Annual giving budget in dollars. Monthly target = annual_giving_budget / 12. */
+  annual_giving_budget?: number
+  /** Comma-separated email addresses to receive the monthly Vital Signs Report. */
+  report_recipients?: string
 
   /** false until the setup wizard completes; triggers redirect to /setup. */
   setup_complete: boolean

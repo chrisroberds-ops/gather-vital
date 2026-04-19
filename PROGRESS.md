@@ -1,7 +1,7 @@
 # Gather — Build Progress
 
 > Read `Gather-Church-Management-System-Spec.md` alongside this file.
-> **Current state: 464 tests passing across 29 test files. Last completed: Session J — Giving & Finance (2026-04-18).**
+> **Current state: 530 tests passing across 30 test files. Last completed: Session K — Monthly Vital Signs Report (2026-04-18).**
 
 ---
 
@@ -811,9 +811,10 @@ The following flows were confirmed working end-to-end in the running app (`VITE_
 | Session G (2026-04-16) | 30 | 360 |
 | Session H (2026-04-17) | 10 | 370 |
 | Session I (2026-04-18) | 56 | 426 |
-| Session J (2026-04-18) | 38 | **464** |
+| Session J (2026-04-18) | 38 | 464 |
+| Session K (2026-04-18) | 66 | **530** |
 
-All 464 tests pass. TypeScript clean. No Firebase credentials required to run.
+All 530 tests pass. TypeScript clean. No Firebase credentials required to run.
 
 ---
 
@@ -869,6 +870,65 @@ Annual giving statement at `/admin/giving/statements`:
 
 ---
 
+## Session K — Monthly Vital Signs Report ✅ Complete (2026-04-18)
+
+**+66 tests (530 total).** Baseline: 464 tests.
+
+### What was built
+
+#### New types + DB layer
+
+- `MonthlyReportHistory` type — one row per month per church; `is_imported` flag distinguishes CSV-imported rows from live data snapshots
+- `AppConfig` fields: `annual_giving_budget?: number`, `report_recipients?: string` (comma-separated emails)
+- `DatabaseService` methods: `getMonthlyReportHistory(year?, month?)`, `upsertMonthlyReportHistory(data)`
+- In-memory DB + Firebase stub implementations
+
+#### monthly-report-service.ts
+
+Pure calculation functions (all testable without DB):
+- `countSundaysInMonth(year, month)` — counts Sundays in any calendar month
+- `avgWeeklyAttendance(headcounts, sundayCount)` — sum of headcounts ÷ Sundays
+- `engagementPct`, `servicePct`, `givingPct`, `kidsPct`, `studentsPct` — n / avgWeekly × 100
+- `budgetPct(givingTotal, monthlyBudget)` — giving vs monthly target
+- `trendArrow(current, previous)` — ↑ / ↓ / → / null
+- `trendPct(current, previous)` — % change, null when no prior data
+- `parseHistoricalCsv(csv)` — validates year/month required columns, parses 7 optional numeric columns, row-level errors don't block other rows
+- `commitHistoricalImport(rows)` — upserts rows to DB as `is_imported: true`
+
+DB-dependent aggregation:
+- `getAttendanceHeadcountsForMonth(year, month)` — reads AttendanceEntry.auditorium_count
+- `getEngagedPeopleInMonth(year, month)` — groups that held meetings; if individual attendance recorded use 'present' records; otherwise count all active members
+- `getCheckinKidsInMonth(year, month)` — CheckinSession → Checkin → Person.grade; deduplicates within month; splits by KIDS_GRADES (Pre-K–5th) and STUDENT_GRADES (6th–12th)
+- `computeMonthlyReport(year, month, monthlyBudget?)` — aggregates all five sections into MonthlyReportData
+- `getStoredMonthData(year, month)` — fallback to MonthlyReportHistory for prior-period comparisons
+
+#### MonthlyReport.tsx (`/admin/reports/monthly`)
+
+- Month/year selector (current + 4 prior years)
+- Five metric sections: Attendance, Engagement, Service, Giving, Kids & Students
+- Trend arrows on every metric with a prior period; N/A shown gracefully
+- Attendance comparisons: vs previous month, vs rolling 12-month average, vs same month last year
+- Giving section: Finance Admin sees dollar amounts and budget %; other Staff see participation rate only
+- Budget color: green ≥100%, amber 80–99%, red <80%
+- "Print / PDF" button → `window.print()` with print-optimized layout (church logo/name header, no nav chrome)
+- "Email report" button → sends HTML email to `config.report_recipients` (alerts if not configured)
+- "Import historical data" button → 3-step modal (upload CSV → row-by-row preview → done count)
+- Links to `/admin/attendance`, `/admin/giving`, `/admin/checkin` when data is missing for the selected month
+
+#### Navigation + Settings
+
+- **Reports** nav item in AdminLayout sidebar (Staff+, chart icon, before Import)
+- **Settings → Dashboard & Reports section**: annual giving budget field + year-over-year toggle
+- **Settings → Communications section**: Report Recipients field (comma-separated emails for monthly report)
+
+### Tests added (Session K)
+
+| File | Tests | Coverage |
+|------|-------|---------|
+| `src/tests/monthly-report.test.ts` | 66 | countSundaysInMonth (5 tests), avgWeeklyAttendance (6), engagementPct/servicePct/givingPct/budgetPct/kidsPct/studentsPct (11), trendArrow/trendPct (9), parseHistoricalCsv (12), commitHistoricalImport (2), getAttendanceHeadcountsForMonth (3), getEngagedPeopleInMonth (3), getCheckinKidsInMonth (3), computeMonthlyReport (5), grade classification constants (3) |
+
+---
+
 ## Up Next — Build Queue
 
 > **Music Stand is fully operational end to end.** PDF.js renders every chord chart as real pages with a transparent annotation canvas. Worship leaders can highlight, draw, and add text notes that persist across sessions.
@@ -877,7 +937,6 @@ Annual giving statement at `/admin/giving/statements`:
 
 1. **Annotation UX polish** — eraser tool, undo/redo (Ctrl+Z), annotation list panel for reviewing/deleting individual marks
 2. **Multi-device annotation sync** — push real-time annotation updates to other musicians in the same session via standBus
-3. **AdminDashboard giving widget** — YTD total, monthly trend sparkline, top funds; visible only to Finance Admin
 
 > **Recommended: Home church trial before Phase 7.**
 > The core feature set is now substantial enough for real use. Running the app with an actual congregation (even a small one) for 2–4 weeks will surface friction, missing edge cases, and priority mismatches that are hard to anticipate in isolation. Suggested trial checklist:

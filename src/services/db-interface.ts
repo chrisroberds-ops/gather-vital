@@ -1,6 +1,7 @@
 import type {
   Church,
   AppConfig,
+  MonthlyReportHistory,
   Person,
   Household,
   HouseholdMember,
@@ -237,4 +238,10 @@ export interface DatabaseService {
    * Returns the updated token, or throws if already used or not found.
    */
   useConfirmationToken(token: string, action: 'confirm' | 'decline'): Promise<ConfirmationToken>
+
+  // ── Monthly Report History ────────────────────────────────────────────────────
+  /** Return stored monthly report rows, optionally filtered to a specific year and/or month. */
+  getMonthlyReportHistory(year?: number, month?: number): Promise<MonthlyReportHistory[]>
+  /** Insert or update the stored report row for the given year + month. */
+  upsertMonthlyReportHistory(data: Omit<MonthlyReportHistory, 'id' | 'church_id' | 'created_at'>): Promise<MonthlyReportHistory>
 }

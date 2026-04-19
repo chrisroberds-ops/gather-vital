@@ -42,6 +42,7 @@ import type {
   MusicStandAnnotation,
   UserPdfPreferences,
   ConfirmationToken,
+  MonthlyReportHistory,
 } from '@/shared/types'
 
 // Import generated test data
@@ -207,6 +208,7 @@ const store = {
   musicStandAnnotations: [] as MusicStandAnnotation[],
   userPdfPreferences: [] as UserPdfPreferences[],
   confirmationTokens: [] as ConfirmationToken[],
+  monthlyReportHistory: [] as MonthlyReportHistory[],
 }
 
 function id() {
@@ -1096,5 +1098,26 @@ export const inMemoryDb: DatabaseService = {
     const updated: ConfirmationToken = { ...existing, used_at: now(), used_action: action }
     store.confirmationTokens[idx] = updated
     return updated
+  },
+
+  async getMonthlyReportHistory(year, month) {
+    let records = inChurch(store.monthlyReportHistory)
+    if (year !== undefined) records = records.filter(r => r.year === year)
+    if (month !== undefined) records = records.filter(r => r.month === month)
+    return records.sort((a, b) => a.year !== b.year ? b.year - a.year : b.month - a.month)
+  },
+
+  async upsertMonthlyReportHistory(data) {
+    const existing = inChurch(store.monthlyReportHistory).find(
+      r => r.year === data.year && r.month === data.month,
+    )
+    if (existing) {
+      const idx = store.monthlyReportHistory.findIndex(r => r.id === existing.id)
+      store.monthlyReportHistory[idx] = { ...existing, ...data }
+      return store.monthlyReportHistory[idx]
+    }
+    const record: MonthlyReportHistory = { ...stamp(data), id: id(), created_at: now() }
+    store.monthlyReportHistory.push(record)
+    return record
   },
 }

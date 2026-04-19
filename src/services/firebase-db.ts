@@ -163,4 +163,7 @@ export const firebaseDb: DatabaseService = {
   async getConfirmationToken() { notImplemented('getConfirmationToken') },
   async createConfirmationToken() { notImplemented('createConfirmationToken') },
   async useConfirmationToken() { notImplemented('useConfirmationToken') },
+
+  async getMonthlyReportHistory() { notImplemented('getMonthlyReportHistory') },
+  async upsertMonthlyReportHistory() { notImplemented('upsertMonthlyReportHistory') },
 }
