@@ -891,6 +891,7 @@ export const inMemoryDb: DatabaseService = {
   },
 
   async createServicePlan(data) {
+    mergeIntoStore(store.servicePlans, readLs<ServicePlan>(PLANS_LS_KEY))
     const plan: ServicePlan = { ...stamp(data), id: id(), created_at: now(), updated_at: now() }
     store.servicePlans.push(plan)
     writeLs(PLANS_LS_KEY, store.servicePlans)
@@ -907,6 +908,9 @@ export const inMemoryDb: DatabaseService = {
   },
 
   async deleteServicePlan(planId) {
+    mergeIntoStore(store.servicePlans, readLs<ServicePlan>(PLANS_LS_KEY))
+    mergeIntoStore(store.servicePlanItems, readLs<ServicePlanItem>(ITEMS_LS_KEY))
+    mergeIntoStore(store.serviceAssignments, readLs<ServiceAssignment>(ASSIGNS_LS_KEY))
     store.servicePlans = store.servicePlans.filter(
       p => !(p.id === planId && cid(p) === getChurchId())
     )
@@ -926,6 +930,7 @@ export const inMemoryDb: DatabaseService = {
   },
 
   async createServicePlanItem(data) {
+    mergeIntoStore(store.servicePlanItems, readLs<ServicePlanItem>(ITEMS_LS_KEY))
     const item: ServicePlanItem = { ...stamp(data), id: id() }
     store.servicePlanItems.push(item)
     writeLs(ITEMS_LS_KEY, store.servicePlanItems)
@@ -933,6 +938,7 @@ export const inMemoryDb: DatabaseService = {
   },
 
   async updateServicePlanItem(itemId, data) {
+    mergeIntoStore(store.servicePlanItems, readLs<ServicePlanItem>(ITEMS_LS_KEY))
     const idx = store.servicePlanItems.findIndex(i => i.id === itemId && cid(i) === getChurchId())
     if (idx === -1) throw new Error(`ServicePlanItem ${itemId} not found`)
     store.servicePlanItems[idx] = { ...store.servicePlanItems[idx], ...data }
@@ -941,6 +947,7 @@ export const inMemoryDb: DatabaseService = {
   },
 
   async deleteServicePlanItem(itemId) {
+    mergeIntoStore(store.servicePlanItems, readLs<ServicePlanItem>(ITEMS_LS_KEY))
     store.servicePlanItems = store.servicePlanItems.filter(
       i => !(i.id === itemId && cid(i) === getChurchId())
     )
@@ -948,6 +955,7 @@ export const inMemoryDb: DatabaseService = {
   },
 
   async reorderServicePlanItems(planId, orderedIds) {
+    mergeIntoStore(store.servicePlanItems, readLs<ServicePlanItem>(ITEMS_LS_KEY))
     orderedIds.forEach((itemId, position) => {
       const idx = store.servicePlanItems.findIndex(i => i.id === itemId && i.plan_id === planId)
       if (idx !== -1) store.servicePlanItems[idx] = { ...store.servicePlanItems[idx], position }
@@ -962,6 +970,7 @@ export const inMemoryDb: DatabaseService = {
   },
 
   async createServiceAssignment(data) {
+    mergeIntoStore(store.serviceAssignments, readLs<ServiceAssignment>(ASSIGNS_LS_KEY))
     const assignment: ServiceAssignment = { ...stamp(data), id: id() }
     store.serviceAssignments.push(assignment)
     writeLs(ASSIGNS_LS_KEY, store.serviceAssignments)
@@ -969,6 +978,7 @@ export const inMemoryDb: DatabaseService = {
   },
 
   async deleteServiceAssignment(assignmentId) {
+    mergeIntoStore(store.serviceAssignments, readLs<ServiceAssignment>(ASSIGNS_LS_KEY))
     store.serviceAssignments = store.serviceAssignments.filter(
       a => !(a.id === assignmentId && cid(a) === getChurchId())
     )
