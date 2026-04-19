@@ -7,7 +7,7 @@ import Button from '@/shared/components/Button'
 import Badge from '@/shared/components/Badge'
 import { db } from '@/services'
 import { displayName } from '@/features/people/people-service'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import type { Person } from '@/shared/types'
 
 type Tab = 'teams' | 'schedule' | 'background'
@@ -131,7 +131,15 @@ export default function VolunteerDashboard() {
           ))}
         </div>
         {tab === 'schedule' && (
-          <Button onClick={() => setShowGenerator(true)}>Generate schedule</Button>
+          <div className="flex items-center gap-2">
+            <Link
+              to="/admin/volunteers/runsheet"
+              className="text-sm px-4 py-1.5 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors font-medium"
+            >
+              Run sheet
+            </Link>
+            <Button onClick={() => setShowGenerator(true)}>Generate schedule</Button>
+          </div>
         )}
       </div>
 

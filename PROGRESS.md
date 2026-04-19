@@ -1,7 +1,7 @@
 # Gather — Build Progress
 
 > Read `Gather-Church-Management-System-Spec.md` alongside this file.
-> **Current state: 530 tests passing across 30 test files. Last completed: Session K — Monthly Vital Signs Report (2026-04-18).**
+> **Current state: 569 tests passing across 31 test files. Last completed: Session L — Sunday Volunteer Run Sheet (2026-04-18).**
 
 ---
 
@@ -812,9 +812,10 @@ The following flows were confirmed working end-to-end in the running app (`VITE_
 | Session H (2026-04-17) | 10 | 370 |
 | Session I (2026-04-18) | 56 | 426 |
 | Session J (2026-04-18) | 38 | 464 |
-| Session K (2026-04-18) | 66 | **530** |
+| Session K (2026-04-18) | 66 | 530 |
+| Session L (2026-04-18) | 39 | **569** |
 
-All 530 tests pass. TypeScript clean. No Firebase credentials required to run.
+All 569 tests pass. TypeScript clean. No Firebase credentials required to run.
 
 ---
 
@@ -926,6 +927,55 @@ DB-dependent aggregation:
 | File | Tests | Coverage |
 |------|-------|---------|
 | `src/tests/monthly-report.test.ts` | 66 | countSundaysInMonth (5 tests), avgWeeklyAttendance (6), engagementPct/servicePct/givingPct/budgetPct/kidsPct/studentsPct (11), trendArrow/trendPct (9), parseHistoricalCsv (12), commitHistoricalImport (2), getAttendanceHeadcountsForMonth (3), getEngagedPeopleInMonth (3), getCheckinKidsInMonth (3), computeMonthlyReport (5), grade classification constants (3) |
+
+---
+
+## Session L — Sunday Volunteer Run Sheet ✅ Complete (2026-04-18)
+
+**+39 tests (569 total).** Baseline: 530 tests.
+
+### What was built
+
+#### New types + DB layer
+
+- `service_time_id?: string` added to `VolunteerSchedule` — allows assignments to be filtered by service time
+
+#### runsheet-service.ts (`src/features/volunteers/runsheet-service.ts`)
+
+Pure functions:
+- `isFirstTimeInRole(entry, allHistory)` — true if no prior `served === true` record in same position before this date
+- `filterByServiceTime(entries, serviceTimeId)` — null/empty returns all; entries without `service_time_id` appear in every view
+- `groupEntriesByTeam(entries, allTeams, teamMembersMap, allHistory)` — groups by team_id; detects leads via `role === 'leader' | 'coordinator'`; sorts leads first then alpha by last name; `confirmedCount` excludes declined; `totalCount` excludes both cancelled and declined
+- `nextServiceDate(serviceTimes, fromDate)` — finds next calendar date matching a service day; uses local date arithmetic (`new Date(y, m, d+i)`) to avoid UTC midnight timezone shifts; defaults to Sunday when no service times configured
+- `isKidsTeam(team)` — true if team name contains "kids" (case-insensitive)
+
+Types exported: `RunSheetEntry`, `RunSheetTeamGroup`
+
+#### RunSheet.tsx (`/admin/volunteers/runsheet`)
+
+- Date selector defaulting to next upcoming service date
+- Service time filter (shown only when >1 service time exists; "All services" default)
+- Volunteers grouped by team, sorted leads first then alpha
+- Per-volunteer row: checkbox (on-screen), name with badges (★ lead, confirmed checkmark, NEW first-time, Declined muted), role/position, phone number
+- Kids teams show room alongside role
+- Team header: "X of Y confirmed" count
+- Checking a box calls `markServed(id, true)`; unchecking calls `markServed(id, null)`
+- Restores `checkedIn` state from `entry.served === true` on load
+- Live summary banner: "X of Y checked in" across all visible teams
+- Reset all button clears all check-ins
+- Print layout: Tailwind `print:hidden` / `print:block` classes; empty checkboxes, badges, phone numbers, no nav chrome
+
+#### Navigation
+
+- **Run Sheet** button in VolunteerDashboard schedule tab (links to `/admin/volunteers/runsheet`)
+- **Run Sheet** nav item in AdminLayout sidebar (clipboard icon, Staff+, `moduleKey: 'volunteers'`)
+- Route: `admin/volunteers/runsheet` — Staff+, wrapped in `<Wrap>`
+
+### Tests added (Session L)
+
+| File | Tests | Coverage |
+|------|-------|---------|
+| `src/tests/runsheet.test.ts` | 39 | isFirstTimeInRole (7), filterByServiceTime (5), groupEntriesByTeam (11), confirmation status display (3), served status update integration (3), nextServiceDate (6), isKidsTeam (2), service time filtering integration (2) |
 
 ---
 

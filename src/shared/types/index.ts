@@ -261,6 +261,8 @@ export interface VolunteerSchedule {
    */
   served?: boolean
   served_at?: string
+  /** Links this assignment to a specific service time. If absent, entry appears in all service views. */
+  service_time_id?: string
 }
 
 export interface VolunteerBlackout {

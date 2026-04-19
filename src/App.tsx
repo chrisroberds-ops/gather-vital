@@ -68,6 +68,9 @@ const GivingStatements = lazy(() => import('@/features/giving/GivingStatements')
 // Reports
 const MonthlyReport = lazy(() => import('@/features/reports/MonthlyReport'))
 
+// Volunteer Run Sheet
+const RunSheet = lazy(() => import('@/features/volunteers/RunSheet'))
+
 function LoadingFallback() {
   return (
     <div className="flex items-center justify-center h-full min-h-48">
@@ -325,6 +328,12 @@ const router = createBrowserRouter([
           { path: 'services',         element: <Wrap><ServicePlanList /></Wrap> },
           { path: 'services/:id',     element: <Wrap><ServiceBuilder /></Wrap> },
         ],
+      },
+      // ── Volunteer Run Sheet ─────────────────────────────────────────────────
+      {
+        path: 'admin/volunteers/runsheet',
+        loader: requireStaff(),
+        element: <Wrap><RunSheet /></Wrap>,
       },
       // ── Reports ────────────────────────────────────────────────────────────
       {
