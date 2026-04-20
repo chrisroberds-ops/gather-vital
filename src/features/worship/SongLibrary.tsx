@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { searchSongs, deleteSong, cleanupImportedSongs } from './worship-service'
 import SongImportModal from './SongImportModal'
 import type { Song } from '@/shared/types'
@@ -53,6 +53,12 @@ export default function SongLibrary() {
           </p>
         </div>
         <div className="flex gap-2">
+          <Link
+            to="/admin/worship/ccli"
+            className="text-sm px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors font-medium"
+          >
+            CCLI Report
+          </Link>
           <Button variant="danger" onClick={handleCleanup} title="Remove all songs except the 6 seeded hymns and songs with uploaded files">
             Clean up imports
           </Button>

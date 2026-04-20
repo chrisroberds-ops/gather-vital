@@ -9,6 +9,7 @@ export default function WorshipDashboard() {
   const tabs = [
     { to: '/admin/worship/songs', label: 'Song Library' },
     { to: '/admin/worship/services', label: label + 's' },
+    { to: '/admin/worship/ccli', label: 'CCLI Report' },
   ]
 
   // If we're exactly on /admin/worship, show the tab list with a landing

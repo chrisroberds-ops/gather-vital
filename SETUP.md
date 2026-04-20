@@ -348,7 +348,70 @@ In production, the same PrintNode setup described in section 14 handles it.
 
 ---
 
-## 17 — Running the test suite
+## 17 — CCLI Licensing (Song Usage Reporting)
+
+### What is CCLI?
+
+[CCLI](https://ccli.com) (Christian Copyright Licensing International) is the organisation that
+administers copyright licensing for worship songs on behalf of music publishers and songwriters.
+A CCLI license gives your church the legal right to reproduce song lyrics in bulletins, project them
+on screens, record services, and stream online without obtaining individual permissions from each
+copyright holder.
+
+### Why churches need a CCLI license
+
+Most contemporary worship songs — and many traditional hymns — are protected by copyright.
+Without a CCLI license your church may be in breach of copyright law when it:
+
+- Displays lyrics on a projector or screen
+- Prints lyrics in a bulletin or order of service
+- Records and distributes video of a service
+- Live-streams a service to the internet
+
+A single CCLI license covers all songs in the CCLI catalog for a flat annual fee based on
+congregation size. Licenses are available from [ccli.com/churches](https://ccli.com/churches).
+
+### How to get a CCLI license
+
+1. Go to [ccli.com](https://ccli.com) and click **Get a License**.
+2. Choose the **Church License** and select the license type that covers your intended use
+   (base license, streaming add-on, etc.).
+3. Provide your congregation size and contact details. You will receive a CCLI license number.
+4. Add your CCLI number to each song record in Gather Vital's Song Library so it appears on
+   your usage reports.
+
+### Using the Gather Vital CCLI report
+
+CCLI requires churches to report which songs they used in services every **six months** (in January
+and July). Gather Vital tracks every song you add to a service plan, giving you an accurate usage
+log without any extra data entry.
+
+**How to run the report:**
+
+1. Navigate to **Worship → CCLI Report** in the admin sidebar (or from the Song Library page).
+2. The report defaults to the last six months. Adjust the date range if needed.
+3. Review the song list. Any songs showing **⚠ Not set** in the CCLI # column need a CCLI number
+   added in the Song Library before you file.
+4. Click **Download CSV** to export the report, or **Print Report** for a printed copy.
+5. Log in to [ccli.com](https://ccli.com), navigate to **SongSelect → Song Usage Reporting**, and
+   upload or paste your song list.
+
+> **Important:** Gather Vital tracks your usage data but does **not** automatically submit reports
+> to CCLI. You remain responsible for filing on time using your church's CCLI license number.
+
+### Adding CCLI numbers to songs
+
+To add a CCLI number to a song:
+
+1. Go to **Worship → Song Library**.
+2. Click **Edit** next to the song.
+3. Enter the CCLI number in the **CCLI Number** field and save.
+
+You can look up CCLI numbers at [songselect.ccli.com](https://songselect.ccli.com).
+
+---
+
+## 18 — Running the test suite
 
 ```bash
 npm test               # watch mode

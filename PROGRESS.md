@@ -1,7 +1,7 @@
 # Gather — Build Progress
 
 > Read `Gather-Church-Management-System-Spec.md` alongside this file.
-> **Current state: 569 tests passing across 31 test files. Last completed: Session L — Sunday Volunteer Run Sheet (2026-04-18).**
+> **Current state: 600 tests passing across 32 test files. Last completed: Session M — CCLI Song Usage Report (2026-04-19).**
 
 ---
 
@@ -813,9 +813,10 @@ The following flows were confirmed working end-to-end in the running app (`VITE_
 | Session I (2026-04-18) | 56 | 426 |
 | Session J (2026-04-18) | 38 | 464 |
 | Session K (2026-04-18) | 66 | 530 |
-| Session L (2026-04-18) | 39 | **569** |
+| Session L (2026-04-18) | 39 | 569 |
+| Session M (2026-04-19) | 31 | **600** |
 
-All 569 tests pass. TypeScript clean. No Firebase credentials required to run.
+All 600 tests pass. TypeScript clean. No Firebase credentials required to run.
 
 ---
 
@@ -927,6 +928,55 @@ DB-dependent aggregation:
 | File | Tests | Coverage |
 |------|-------|---------|
 | `src/tests/monthly-report.test.ts` | 66 | countSundaysInMonth (5 tests), avgWeeklyAttendance (6), engagementPct/servicePct/givingPct/budgetPct/kidsPct/studentsPct (11), trendArrow/trendPct (9), parseHistoricalCsv (12), commitHistoricalImport (2), getAttendanceHeadcountsForMonth (3), getEngagedPeopleInMonth (3), getCheckinKidsInMonth (3), computeMonthlyReport (5), grade classification constants (3) |
+
+---
+
+## Session M — CCLI Song Usage Report ✅ Complete (2026-04-19)
+
+**+31 tests (600 total).** Baseline: 569 tests.
+
+### What was built
+
+#### ccli-report-service.ts (`src/features/worship/ccli-report-service.ts`)
+
+Pure functions:
+- `defaultDateRange()` — today back 6 months using local date arithmetic
+- `filterPlansByDateRange(plans, from, to)` — inclusive YYYY-MM-DD string comparison
+- `aggregateSongUsage(plans, items, songMap)` — groups song items by song_id; `timesUsed` = total appearances; `serviceDates` = sorted deduplicated list; unknown songs appear as "Unknown Song"; rows sorted by timesUsed desc then title asc
+- `formatCcliCsv(rows)` — RFC-4180 CSV with header `Title,Artist,CCLI Number,Times Used,Service Dates`; service dates joined with `; `; all string fields double-quoted with `""` escaping
+
+Async function:
+- `computeCcliReport(from, to)` — fetches plans, filters, fetches items per plan, resolves songs via `db.getSong()` (not `getSongs()` so soft-deleted songs are included)
+
+Types exported: `CcliSongRow`, `CcliReport`
+
+#### CcliReport.tsx (`/admin/worship/ccli`)
+
+- Date range pickers defaulting to last 6 months
+- Permanent compliance banner: "Gather Vital tracks your song usage but does not automatically file CCLI reports..."
+- Summary line: "X songs used across Y services in this period"
+- Table: Song Title, Artist/Author, CCLI # (⚠ Not set for missing), Times Used, Services Used In
+- Yellow warning banner when any song lacks a CCLI number
+- Download CSV button (triggers browser download of `ccli-usage-{from}-to-{to}.csv`)
+- Print Report button (`window.print()`) with print-optimized layout (church name + date range header, no nav chrome)
+- Empty state with link to service planning when no songs found
+
+#### Navigation
+
+- **CCLI Report** tab added to WorshipDashboard tab bar
+- **CCLI Report** nav item in AdminLayout sidebar (Staff+, worship module, document icon)
+- **CCLI Report** link button added to SongLibrary header
+- Route: `admin/worship/ccli` as child of WorshipDashboard (inherits tab bar)
+
+#### SETUP.md
+
+- Added Section 17 explaining CCLI licensing: what it is, why churches need it, how to get a license, how to file the bi-annual report using Gather Vital's export, how to add CCLI numbers to songs
+
+### Tests added (Session M)
+
+| File | Tests | Coverage |
+|------|-------|---------|
+| `src/tests/ccli-report.test.ts` | 31 | filterPlansByDateRange (7), aggregateSongUsage (13), formatCcliCsv (8), defaultDateRange (2), edge cases: unknown songs, non-song items, items without song_id, items outside plan set |
 
 ---
 

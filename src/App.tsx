@@ -71,6 +71,9 @@ const MonthlyReport = lazy(() => import('@/features/reports/MonthlyReport'))
 // Volunteer Run Sheet
 const RunSheet = lazy(() => import('@/features/volunteers/RunSheet'))
 
+// CCLI Usage Report
+const CcliReport = lazy(() => import('@/features/worship/CcliReport'))
+
 function LoadingFallback() {
   return (
     <div className="flex items-center justify-center h-full min-h-48">
@@ -327,6 +330,7 @@ const router = createBrowserRouter([
           { path: 'songs/:id/edit',   element: <Wrap><SongForm mode="edit" /></Wrap> },
           { path: 'services',         element: <Wrap><ServicePlanList /></Wrap> },
           { path: 'services/:id',     element: <Wrap><ServiceBuilder /></Wrap> },
+          { path: 'ccli',             element: <Wrap><CcliReport /></Wrap> },
         ],
       },
       // ── Volunteer Run Sheet ─────────────────────────────────────────────────
