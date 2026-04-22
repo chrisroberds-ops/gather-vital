@@ -27,6 +27,7 @@ import type {
 } from '@/shared/types'
 import type {
   CommunicationsLogEntry,
+  EmailTemplate,
   AttendanceEntry,
   PickupAttempt,
   Song,
@@ -170,6 +171,11 @@ export interface DatabaseService {
   // ── Communications Log ────────────────────────────────────────────────────────
   getCommunicationsLog(filter?: { channel?: 'email' | 'sms'; since?: string }): Promise<CommunicationsLogEntry[]>
   createCommunicationsLogEntry(e: CreateInput<CommunicationsLogEntry, 'sent_at'>): Promise<CommunicationsLogEntry>
+
+  // ── Email Templates ───────────────────────────────────────────────────────────
+  getEmailTemplates(): Promise<EmailTemplate[]>
+  saveEmailTemplate(t: Omit<EmailTemplate, 'id' | 'church_id' | 'created_at' | 'updated_at'>): Promise<EmailTemplate>
+  deleteEmailTemplate(id: string): Promise<void>
 
   // ── Aggregate Attendance Entries ──────────────────────────────────────────────
   getAttendanceEntries(serviceTimeId?: string): Promise<AttendanceEntry[]>

@@ -166,4 +166,8 @@ export const firebaseDb: DatabaseService = {
 
   async getMonthlyReportHistory() { notImplemented('getMonthlyReportHistory') },
   async upsertMonthlyReportHistory() { notImplemented('upsertMonthlyReportHistory') },
+
+  async getEmailTemplates() { notImplemented('getEmailTemplates') },
+  async saveEmailTemplate() { notImplemented('saveEmailTemplate') },
+  async deleteEmailTemplate() { notImplemented('deleteEmailTemplate') },
 }

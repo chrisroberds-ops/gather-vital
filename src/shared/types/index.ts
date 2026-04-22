@@ -500,6 +500,22 @@ export interface CommunicationsLogEntry {
   sent_at: string
   success: boolean
   error_message?: string
+  /** true when this entry is a bulk-send summary (not an individual message) */
+  is_bulk?: boolean
+  /** total number of recipients for bulk sends */
+  recipient_count?: number
+  /** display name of the staff member who triggered the send */
+  sender_name?: string
+}
+
+export interface EmailTemplate {
+  id: string
+  church_id: string
+  name: string
+  subject: string
+  body: string
+  created_at: string
+  updated_at: string
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

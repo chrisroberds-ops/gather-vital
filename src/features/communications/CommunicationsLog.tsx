@@ -4,6 +4,7 @@ import type { CommunicationsLogEntry } from '@/shared/types'
 import Spinner from '@/shared/components/Spinner'
 import EmptyState from '@/shared/components/EmptyState'
 import Badge from '@/shared/components/Badge'
+import BulkMessageModal from './BulkMessageModal'
 
 type ChannelFilter = 'all' | 'email' | 'sms'
 
@@ -12,20 +13,31 @@ export default function CommunicationsLog() {
   const [loading, setLoading] = useState(true)
   const [channel, setChannel] = useState<ChannelFilter>('all')
   const [since, setSince] = useState('')
+  const [showBulkModal, setShowBulkModal] = useState(false)
 
-  useEffect(() => {
+  const loadEntries = () => {
     setLoading(true)
     db.getCommunicationsLog({
       channel: channel === 'all' ? undefined : channel,
       since: since || undefined,
     }).then(e => { setEntries(e); setLoading(false) })
-  }, [channel, since])
+  }
+
+  useEffect(() => { loadEntries() }, [channel, since]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="p-6 max-w-5xl">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Communications Log</h1>
-        <p className="text-gray-500 text-sm mt-1">All notifications sent via Gather.</p>
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Communications Log</h1>
+          <p className="text-gray-500 text-sm mt-1">All notifications sent via Gather.</p>
+        </div>
+        <button
+          onClick={() => setShowBulkModal(true)}
+          className="px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 transition-colors"
+        >
+          + New message
+        </button>
       </div>
 
       {/* Filters */}
@@ -66,16 +78,25 @@ export default function CommunicationsLog() {
             </thead>
             <tbody className="divide-y divide-gray-50">
               {entries.map(e => (
-                <tr key={e.id}>
+                <tr key={e.id} className={e.is_bulk ? 'bg-purple-50/40' : ''}>
                   <td className="px-4 py-3 text-gray-500 text-xs whitespace-nowrap">
                     {new Date(e.sent_at).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
                   </td>
                   <td className="px-4 py-3">
-                    <Badge variant={e.channel === 'email' ? 'info' : 'purple'}>
-                      {e.channel.toUpperCase()}
-                    </Badge>
+                    <div className="flex flex-col gap-1">
+                      <Badge variant={e.channel === 'email' ? 'info' : 'purple'}>
+                        {e.channel.toUpperCase()}
+                      </Badge>
+                      {e.is_bulk && (
+                        <Badge variant="purple">BULK</Badge>
+                      )}
+                    </div>
                   </td>
-                  <td className="px-4 py-3 text-gray-700 text-xs truncate max-w-[140px]">{e.recipient}</td>
+                  <td className="px-4 py-3 text-gray-700 text-xs truncate max-w-[140px]">
+                    {e.is_bulk && e.recipient_count !== undefined
+                      ? `${e.recipient_count} recipients`
+                      : e.recipient}
+                  </td>
                   <td className="px-4 py-3 text-gray-600 text-xs hidden md:table-cell truncate max-w-[200px]">{e.subject}</td>
                   <td className="px-4 py-3">
                     <Badge variant={e.success ? 'success' : 'danger'}>
@@ -88,6 +109,16 @@ export default function CommunicationsLog() {
           </table>
         )}
       </div>
+
+      {showBulkModal && (
+        <BulkMessageModal
+          onClose={() => setShowBulkModal(false)}
+          onSent={() => {
+            setShowBulkModal(false)
+            loadEntries()
+          }}
+        />
+      )}
     </div>
   )
 }

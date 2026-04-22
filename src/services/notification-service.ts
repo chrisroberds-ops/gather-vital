@@ -170,10 +170,14 @@ export async function sendSMS({ to, body, personId }: SmsPayload): Promise<void>
   await logNotification({ person_id: personId, channel: 'sms', subject: body.slice(0, 100), recipient: to, success: false, error_message: 'SMS not configured — see server-side proxy' })
 }
 
-export async function sendEmail({ to, subject, body, personId, logoUrl }: EmailPayload): Promise<void> {
+export async function sendEmail(
+  { to, subject, body, personId, logoUrl }: EmailPayload,
+  options?: { skipLog?: boolean },
+): Promise<void> {
+  const skipLog = options?.skipLog ?? false
   if (IS_TEST) {
     console.log('[notification-service] Email →', { to, subject, body })
-    await logNotification({ person_id: personId, channel: 'email', subject, recipient: to, success: true })
+    if (!skipLog) await logNotification({ person_id: personId, channel: 'email', subject, recipient: to, success: true })
     return
   }
 
@@ -200,7 +204,7 @@ export async function sendEmail({ to, subject, body, personId, logoUrl }: EmailP
       'and call it here. Gmail credentials are stored in AppConfig.',
       { to, from: gmailAddress },
     )
-    await logNotification({ person_id: personId, channel: 'email', subject, recipient: to, success: false, error_message: 'Gmail SMTP requires server-side proxy' })
+    if (!skipLog) await logNotification({ person_id: personId, channel: 'email', subject, recipient: to, success: false, error_message: 'Gmail SMTP requires server-side proxy' })
     return
   }
 
@@ -211,7 +215,7 @@ export async function sendEmail({ to, subject, body, personId, logoUrl }: EmailP
       'Set resend_api_key in Settings → Email or add VITE_RESEND_API_KEY to .env.local.',
       { to, subject },
     )
-    await logNotification({ person_id: personId, channel: 'email', subject, recipient: to, success: false, error_message: 'Resend API key not set' })
+    if (!skipLog) await logNotification({ person_id: personId, channel: 'email', subject, recipient: to, success: false, error_message: 'Resend API key not set' })
     return
   }
 

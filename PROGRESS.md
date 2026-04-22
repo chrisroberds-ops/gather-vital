@@ -1,7 +1,7 @@
 # Gather — Build Progress
 
 > Read `Gather-Church-Management-System-Spec.md` alongside this file.
-> **Current state: 600 tests passing across 32 test files. Last completed: Session M — CCLI Song Usage Report (2026-04-19).**
+> **Current state: 632 tests passing across 33 test files. Last completed: Session N — Bulk Messaging UI (2026-04-19).**
 
 ---
 
@@ -814,9 +814,10 @@ The following flows were confirmed working end-to-end in the running app (`VITE_
 | Session J (2026-04-18) | 38 | 464 |
 | Session K (2026-04-18) | 66 | 530 |
 | Session L (2026-04-18) | 39 | 569 |
-| Session M (2026-04-19) | 31 | **600** |
+| Session M (2026-04-19) | 31 | 600 |
+| Session N (2026-04-19) | 32 | **632** |
 
-All 600 tests pass. TypeScript clean. No Firebase credentials required to run.
+All 632 tests pass. TypeScript clean. No Firebase credentials required to run.
 
 ---
 
@@ -928,6 +929,69 @@ DB-dependent aggregation:
 | File | Tests | Coverage |
 |------|-------|---------|
 | `src/tests/monthly-report.test.ts` | 66 | countSundaysInMonth (5 tests), avgWeeklyAttendance (6), engagementPct/servicePct/givingPct/budgetPct/kidsPct/studentsPct (11), trendArrow/trendPct (9), parseHistoricalCsv (12), commitHistoricalImport (2), getAttendanceHeadcountsForMonth (3), getEngagedPeopleInMonth (3), getCheckinKidsInMonth (3), computeMonthlyReport (5), grade classification constants (3) |
+
+---
+
+## Session N — Bulk Messaging UI ✅ Complete (2026-04-19)
+
+**+32 tests (632 total).** Baseline: 600 tests.
+
+### What was built
+
+#### Type additions (`src/shared/types/index.ts`)
+- Added `is_bulk?`, `recipient_count?`, `sender_name?` to `CommunicationsLogEntry`
+- Added new `EmailTemplate` interface (id, church_id, name, subject, body, created_at, updated_at)
+
+#### DB layer
+- `db-interface.ts`: Added `getEmailTemplates()`, `saveEmailTemplate()`, `deleteEmailTemplate()`
+- `in-memory-db.ts`: Implemented all three methods with `gather_email_templates` localStorage key using `mergeIntoStore` pattern; added `emailTemplates` to the store
+- `firebase-db.ts`: Added `notImplemented` stubs for all three methods
+
+#### `notification-service.ts`
+- Added `options?: { skipLog?: boolean }` parameter to `sendEmail`
+- When `skipLog: true`, the per-message `logNotification` call is skipped (used by bulk sends to prevent N individual log entries)
+
+#### `bulk-messaging-service.ts` (new — `src/features/communications/`)
+
+Pure audience filter functions (all unit-tested):
+- `filterAllMembers(people)` — active, non-child, non-archived
+- `filterAllVolunteers(people, teamMembers)` — anyone on any team
+- `filterAllGroupLeaders(people, groups)` — anyone who is `leader_id` of a group
+- `filterVisitorsLastNDays(people, days, refDate?)` — people with `first_visit_date` within N days
+- `filterGroupMembers(people, groupMembers, groupId)` — active members of specific group
+- `filterTeamVolunteers(people, teamMembers, teamId)` — members of specific team
+- `filterBirthdayThisMonth(people, refDate?)` — `date_of_birth` month matches current month
+- `renderForRecipient(template, person, churchName)` — renders merge fields for one person
+
+DB-aware functions:
+- `resolveAudienceFromDb(filter)` — resolves any `AudienceFilter` against the live DB
+- `sendBulkEmail(recipients, subject, body, senderName, churchName)` — sends personalized emails with `skipLog: true`, writes one summary `CommunicationsLogEntry` with `is_bulk: true`
+
+#### `BulkMessageModal.tsx` (new — `src/features/communications/`)
+
+Four-step modal wizard:
+- **Step 1 — Audience**: Radio buttons for all 7 filter types; sub-controls for days/group/team selectors; live recipient count that updates as filter changes; zero-audience warning blocks Next
+- **Step 2 — Compose**: Subject + body textarea; merge field insert buttons ({first_name}, {last_name}, {church_name}, etc.); template picker (loads saved templates); "Save as template" flow with name input; SMS option shown but disabled with "Coming soon" label
+- **Step 3 — Preview**: Renders first 5 email-having recipients with merge fields substituted
+- **Step 4 — Confirm & send**: Summary table (recipients, with-email count, subject, sender); disabled send button when no email addresses; progress indicator while sending; success screen with sent/failed counts
+
+#### `CommunicationsLog.tsx` (updated)
+- Added "**+ New message**" button in page header that opens `BulkMessageModal`
+- After a bulk send completes, log is refreshed
+- Bulk entries displayed with a purple **BULK** badge alongside the channel badge
+- Recipient column shows "N recipients" for bulk entries instead of email address
+
+### Tests added (Session N)
+
+`src/tests/bulk-messaging.test.ts` — 32 tests:
+- `filterAllMembers` (5): active adults only, excludes children/archived/inactive, empty input
+- `filterAllVolunteers` (4): team membership, no team, duplicate teams, excludes children
+- `filterAllGroupLeaders` (3): leader detection, non-leaders, empty groups
+- `filterVisitorsLastNDays` (5): within window, outside window, exact cutoff, no visit date, excludes children
+- `filterGroupMembers` (3): active members only, waitlisted/inactive excluded, empty
+- `filterTeamVolunteers` (3): team scoping, empty team, excludes archived
+- `filterBirthdayThisMonth` (4): matching month, different month, no DOB, excludes children
+- `renderForRecipient` (5): first_name, last_name, church_name, no fields, multiple fields
 
 ---
 

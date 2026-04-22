@@ -31,6 +31,7 @@ import type {
 import { DEFAULT_APP_CONFIG } from '@/shared/types'
 import type {
   CommunicationsLogEntry,
+  EmailTemplate,
   AttendanceEntry,
   PickupAttempt,
   Song,
@@ -116,10 +117,11 @@ function writePersistedAppConfig(config: AppConfig): void {
 // localStorage so any tab can read plans written by another tab — the same
 // pattern used for AppConfig and Church overrides above.
 
-const SONGS_LS_KEY   = 'gather_songs'
-const PLANS_LS_KEY   = 'gather_service_plans'
-const ITEMS_LS_KEY   = 'gather_service_plan_items'
-const ASSIGNS_LS_KEY = 'gather_service_assignments'
+const SONGS_LS_KEY     = 'gather_songs'
+const PLANS_LS_KEY     = 'gather_service_plans'
+const ITEMS_LS_KEY     = 'gather_service_plan_items'
+const ASSIGNS_LS_KEY   = 'gather_service_assignments'
+const TEMPLATES_LS_KEY = 'gather_email_templates'
 
 function readLs<T>(key: string): T[] {
   try { return JSON.parse(localStorage.getItem(key) ?? '[]') as T[] } catch { return [] }
@@ -209,6 +211,7 @@ const store = {
   userPdfPreferences: [] as UserPdfPreferences[],
   confirmationTokens: [] as ConfirmationToken[],
   monthlyReportHistory: [] as MonthlyReportHistory[],
+  emailTemplates: [] as EmailTemplate[],
 }
 
 function id() {
@@ -1129,5 +1132,25 @@ export const inMemoryDb: DatabaseService = {
     const record: MonthlyReportHistory = { ...stamp(data), id: id(), created_at: now() }
     store.monthlyReportHistory.push(record)
     return record
+  },
+
+  // ── Email Templates ─────────────────────────────────────────────────────────
+  async getEmailTemplates() {
+    mergeIntoStore(store.emailTemplates, readLs<EmailTemplate>(TEMPLATES_LS_KEY))
+    return inChurch(store.emailTemplates).sort((a, b) => a.name.localeCompare(b.name))
+  },
+
+  async saveEmailTemplate(data) {
+    mergeIntoStore(store.emailTemplates, readLs<EmailTemplate>(TEMPLATES_LS_KEY))
+    const record: EmailTemplate = { ...stamp(data), id: id(), created_at: now(), updated_at: now() }
+    store.emailTemplates.push(record)
+    writeLs(TEMPLATES_LS_KEY, store.emailTemplates)
+    return record
+  },
+
+  async deleteEmailTemplate(templateId) {
+    mergeIntoStore(store.emailTemplates, readLs<EmailTemplate>(TEMPLATES_LS_KEY))
+    store.emailTemplates = store.emailTemplates.filter(t => t.id !== templateId)
+    writeLs(TEMPLATES_LS_KEY, store.emailTemplates)
   },
 }
