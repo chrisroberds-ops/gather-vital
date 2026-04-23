@@ -8,7 +8,9 @@ import {
   type EnrichedRegistration,
 } from './event-service'
 import EventForm from './EventForm'
+import { db } from '@/services'
 import { displayName, formatDate } from '@/shared/utils/format'
+import { downloadCsv } from '@/shared/utils/csv'
 import Avatar from '@/shared/components/Avatar'
 import Badge from '@/shared/components/Badge'
 import Button from '@/shared/components/Button'
@@ -48,6 +50,19 @@ export default function EventsManager() {
 
   useEffect(() => { setExpandedId(null); void reload() }, [reload])
 
+  async function handleExport() {
+    const headers = ['Event Name', 'Date', 'Registered', 'Waitlisted']
+    const rows = await Promise.all(
+      events.map(async event => {
+        const regs = await db.getEventRegistrations(event.id)
+        const registered = regs.filter(r => r.status === 'registered').length
+        const waitlisted = regs.filter(r => r.status === 'waitlisted').length
+        return [event.name, event.event_date, String(registered), String(waitlisted)]
+      })
+    )
+    downloadCsv(`events-${tab}-export.csv`, [headers, ...rows])
+  }
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -62,7 +77,12 @@ export default function EventsManager() {
             </button>
           ))}
         </div>
-        <Button onClick={() => setShowNewEvent(true)}>+ New event</Button>
+        <div className="flex items-center gap-2">
+          {events.length > 0 && (
+            <Button variant="secondary" onClick={() => void handleExport()}>Export CSV</Button>
+          )}
+          <Button onClick={() => setShowNewEvent(true)}>+ New event</Button>
+        </div>
       </div>
 
       {loading ? (

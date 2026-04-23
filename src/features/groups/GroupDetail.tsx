@@ -24,10 +24,11 @@ import {
   getMeetingsWithAttendance,
   getMemberAttendanceRates,
   getGroupAttendanceRate,
-  exportGroupAttendanceCsv,
+  buildMemberAttendanceCsvRows,
   type MeetingWithAttendance,
   type MemberAttendanceRate,
 } from './group-attendance-service'
+import { downloadCsv } from '@/shared/utils/csv'
 import GroupForm from './GroupForm'
 import Modal from '@/shared/components/Modal'
 import Spinner from '@/shared/components/Spinner'
@@ -271,14 +272,8 @@ function AttendanceTab({ groupId }: { groupId: string }) {
   }
 
   async function handleExport() {
-    const csv = await exportGroupAttendanceCsv(groupId)
-    const blob = new Blob([csv], { type: 'text/csv' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `group-attendance.csv`
-    a.click()
-    URL.revokeObjectURL(url)
+    const rows = await buildMemberAttendanceCsvRows(groupId)
+    downloadCsv('group-attendance.csv', rows)
   }
 
   if (loading) return <Spinner />

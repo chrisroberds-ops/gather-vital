@@ -183,6 +183,40 @@ export async function getMemberAttendanceRates(
 // ── CSV export ────────────────────────────────────────────────────────────────
 
 /**
+ * Returns row data for a per-member attendance history export:
+ * Member Name, Dates Attended (semicolon-separated), Attendance Rate
+ *
+ * One row per active member, sorted by name.
+ */
+export async function buildMemberAttendanceCsvRows(groupId: string): Promise<string[][]> {
+  const rates = await getMemberAttendanceRates(groupId)
+  const meetings = await db.getGroupMeetings(groupId)
+  // Build a map of meetingId → date
+  const meetingDateMap = new Map(meetings.map(m => [m.id, m.date]))
+
+  // For each person, collect all meetings they attended
+  const allAttendance = (
+    await Promise.all(meetings.map(m => db.getGroupAttendance(m.id)))
+  ).flat()
+
+  const presentByPerson = new Map<string, string[]>()
+  for (const record of allAttendance) {
+    if (record.status !== 'present') continue
+    if (!presentByPerson.has(record.person_id)) presentByPerson.set(record.person_id, [])
+    const date = meetingDateMap.get(record.meeting_id)
+    if (date) presentByPerson.get(record.person_id)!.push(date)
+  }
+
+  const header = ['Member Name', 'Dates Attended', 'Attendance Rate']
+  const dataRows = rates.map(r => {
+    const dates = (presentByPerson.get(r.personId) ?? []).sort().join('; ')
+    const rate = `${Math.round(r.rate * 100)}%`
+    return [r.name, dates, rate]
+  })
+  return [header, ...dataRows]
+}
+
+/**
  * Returns a CSV string with columns:
  * Meeting Date, Meeting Notes, Member Name, Status
  *

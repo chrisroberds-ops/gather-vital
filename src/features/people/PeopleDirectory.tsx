@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { searchPeople, getActivePeople, displayName } from './people-service'
 import { useDebounce } from '@/shared/hooks/useDebounce'
+import { db } from '@/services'
 import Avatar from '@/shared/components/Avatar'
 import Badge, { membershipBadgeVariant } from '@/shared/components/Badge'
 import Button from '@/shared/components/Button'
 import EmptyState from '@/shared/components/EmptyState'
 import Spinner from '@/shared/components/Spinner'
 import { formatPhone, formatAge } from '@/shared/utils/format'
+import { downloadCsv } from '@/shared/utils/csv'
 import type { Person } from '@/shared/types'
 
 type FilterPeople = 'all' | 'adults' | 'children'
@@ -57,6 +59,24 @@ export default function PeopleDirectory() {
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE)
   const paginated = filtered.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)
 
+  async function handleExport() {
+    const headers = ['Name', 'Email', 'Phone', 'Membership Status', 'Household']
+    const rows = await Promise.all(
+      filtered.map(async person => {
+        const households = await db.getPersonHouseholds(person.id)
+        const householdName = households[0]?.name ?? ''
+        return [
+          displayName(person),
+          person.email ?? '',
+          person.phone ?? '',
+          person.membership_status ?? '',
+          householdName,
+        ]
+      })
+    )
+    downloadCsv('people-export.csv', [headers, ...rows])
+  }
+
   return (
     <div className="p-6 max-w-6xl">
       {/* Header */}
@@ -67,12 +87,17 @@ export default function PeopleDirectory() {
             {loading ? 'Loading…' : `${filtered.length} ${filtered.length === 1 ? 'person' : 'people'}`}
           </p>
         </div>
-        <Button onClick={() => navigate('/admin/people/new')}>
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-          </svg>
-          Add Person
-        </Button>
+        <div className="flex items-center gap-2">
+          {filtered.length > 0 && (
+            <Button variant="secondary" onClick={() => void handleExport()}>Export CSV</Button>
+          )}
+          <Button onClick={() => navigate('/admin/people/new')}>
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+            Add Person
+          </Button>
+        </div>
       </div>
 
       {/* Search + filters */}

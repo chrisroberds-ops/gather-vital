@@ -13,6 +13,7 @@ import {
 import GroupForm from './GroupForm'
 import { db } from '@/services'
 import { displayName } from '@/shared/utils/format'
+import { downloadCsv } from '@/shared/utils/csv'
 import Avatar from '@/shared/components/Avatar'
 import Badge from '@/shared/components/Badge'
 import Button from '@/shared/components/Button'
@@ -53,6 +54,28 @@ export default function GroupsDirectory() {
     return true
   })
 
+  async function handleExport() {
+    const headers = ['Group Name', 'Type', 'Member Count', 'Leader']
+    const rows = await Promise.all(
+      filtered.map(async group => {
+        const members = await db.getGroupMembers(group.id)
+        const activeCount = members.filter(m => m.status === 'active').length
+        let leaderName = ''
+        if (group.leader_id) {
+          const leader = await db.getPerson(group.leader_id)
+          if (leader) leaderName = displayName(leader)
+        }
+        return [
+          group.name,
+          GROUP_TYPE_LABELS[group.group_type] ?? group.group_type,
+          String(activeCount),
+          leaderName,
+        ]
+      })
+    )
+    downloadCsv('groups-export.csv', [headers, ...rows])
+  }
+
   if (loading) return <div className="flex justify-center py-10"><Spinner /></div>
 
   return (
@@ -77,6 +100,9 @@ export default function GroupsDirectory() {
             </button>
           ))}
         </div>
+        {filtered.length > 0 && (
+          <Button variant="secondary" onClick={() => void handleExport()}>Export CSV</Button>
+        )}
         <Button onClick={() => setShowNewGroup(true)}>+ New group</Button>
       </div>
 

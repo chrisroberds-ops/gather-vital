@@ -1,7 +1,7 @@
 # Gather — Build Progress
 
 > Read `Gather-Church-Management-System-Spec.md` alongside this file.
-> **Current state: 682 tests passing across 35 test files. Last completed: Session P — Recurring Event Support (2026-04-22).**
+> **Current state: 682 tests passing across 35 test files. Last completed: Session Q — CSV Export Buttons (2026-04-22).**
 
 ---
 
@@ -817,7 +817,8 @@ The following flows were confirmed working end-to-end in the running app (`VITE_
 | Session M (2026-04-19) | 31 | 600 |
 | Session N (2026-04-19) | 32 | 632 |
 | Session O (2026-04-22) | 13 | 645 |
-| Session P (2026-04-22) | 37 | **682** |
+| Session P (2026-04-22) | 37 | 682 |
+| Session Q (2026-04-22) | 0 | **682** |
 
 All 682 tests pass. TypeScript clean. No Firebase credentials required to run.
 
@@ -931,6 +932,50 @@ DB-dependent aggregation:
 | File | Tests | Coverage |
 |------|-------|---------|
 | `src/tests/monthly-report.test.ts` | 66 | countSundaysInMonth (5 tests), avgWeeklyAttendance (6), engagementPct/servicePct/givingPct/budgetPct/kidsPct/studentsPct (11), trendArrow/trendPct (9), parseHistoricalCsv (12), commitHistoricalImport (2), getAttendanceHeadcountsForMonth (3), getEngagedPeopleInMonth (3), getCheckinKidsInMonth (3), computeMonthlyReport (5), grade classification constants (3) |
+
+---
+
+## Session Q — CSV Export Buttons ✅ Complete (2026-04-22)
+
+**+0 tests (682 total).** No new test infrastructure needed — behavior is browser download mechanics (not unit-testable without jsdom file system mocks).
+
+### What was built
+
+#### `src/shared/utils/csv.ts` (new file)
+Shared `downloadCsv(filename, rows)` utility:
+- Accepts a 2-D string array (first row = headers)
+- RFC-4180 escapes: wraps each cell in `"`, doubles internal `"` characters
+- Creates a `Blob`, uses `URL.createObjectURL` + a synthetic `<a>` click for download
+- Revokes the object URL after triggering the download
+
+#### People Directory (`/admin/people`)
+- "Export CSV" button in header (shown only when filtered list is non-empty)
+- Exports **all filtered records** (not just the current page)
+- Columns: Name, Email, Phone, Membership Status, Household
+- Household name resolved via `db.getPersonHouseholds(person.id)` at export time (first household listed)
+- Filename: `people-export.csv`
+
+#### Groups Directory (`/admin/groups`)
+- "Export CSV" button in filter bar (shown only when filtered list is non-empty)
+- Columns: Group Name, Type, Member Count, Leader
+- Active member count resolved via `db.getGroupMembers(group.id)` at export time
+- Leader name resolved via `db.getPerson(group.leader_id)` at export time
+- Filename: `groups-export.csv`
+
+#### Events Manager (`/admin/events`)
+- "Export CSV" button next to "New event" (shown only when event list is non-empty)
+- Exports events visible on the current tab (upcoming or past)
+- Columns: Event Name, Date, Registered, Waitlisted
+- Registration counts resolved via `db.getEventRegistrations(event.id)` at export time
+- Filename: `events-upcoming-export.csv` or `events-past-export.csv`
+
+#### Group Attendance (`/admin/groups/:id` → Attendance tab)
+- Replaced the previous meeting-row format export with a per-member summary export
+- Columns: Member Name, Dates Attended (semicolon-separated YYYY-MM-DD list), Attendance Rate (%)
+- New function `buildMemberAttendanceCsvRows(groupId)` added to `group-attendance-service.ts`
+- Uses existing `getMemberAttendanceRates` for rate data; cross-references all attendance records to build the dates-attended list
+- Old `exportGroupAttendanceCsv` retained in the service (unchanged) but no longer called from the UI
+- Filename: `group-attendance.csv`
 
 ---
 
