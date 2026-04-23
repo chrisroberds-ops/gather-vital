@@ -1,7 +1,7 @@
 # Gather — Build Progress
 
 > Read `Gather-Church-Management-System-Spec.md` alongside this file.
-> **Current state: 632 tests passing across 33 test files. Last completed: Session N — Bulk Messaging UI (2026-04-19).**
+> **Current state: 645 tests passing across 34 test files. Last completed: Session O — One-Click Email Confirmation Wiring (2026-04-22).**
 
 ---
 
@@ -815,9 +815,10 @@ The following flows were confirmed working end-to-end in the running app (`VITE_
 | Session K (2026-04-18) | 66 | 530 |
 | Session L (2026-04-18) | 39 | 569 |
 | Session M (2026-04-19) | 31 | 600 |
-| Session N (2026-04-19) | 32 | **632** |
+| Session N (2026-04-19) | 32 | 632 |
+| Session O (2026-04-22) | 13 | **645** |
 
-All 632 tests pass. TypeScript clean. No Firebase credentials required to run.
+All 645 tests pass. TypeScript clean. No Firebase credentials required to run.
 
 ---
 
@@ -929,6 +930,66 @@ DB-dependent aggregation:
 | File | Tests | Coverage |
 |------|-------|---------|
 | `src/tests/monthly-report.test.ts` | 66 | countSundaysInMonth (5 tests), avgWeeklyAttendance (6), engagementPct/servicePct/givingPct/budgetPct/kidsPct/studentsPct (11), trendArrow/trendPct (9), parseHistoricalCsv (12), commitHistoricalImport (2), getAttendanceHeadcountsForMonth (3), getEngagedPeopleInMonth (3), getCheckinKidsInMonth (3), computeMonthlyReport (5), grade classification constants (3) |
+
+---
+
+## Session O — One-Click Email Confirmation Wiring ✅ Complete (2026-04-22)
+
+**+13 tests (645 total).** Baseline: 632 tests.
+
+### Context
+
+The confirmation token infrastructure (`confirmation-token-service.ts`, `ConfirmPage.tsx`, DB methods, tests) was already fully built in a prior session. What was missing was the **email wiring** — the service-layer functions that create tokens and embed confirm/decline URLs in outbound emails.
+
+### What was built
+
+#### `volunteer-service.ts` — `sendVolunteerScheduleEmail`
+
+New exported function that coordinators can call after scheduling a volunteer:
+- Looks up the `VolunteerSchedule` entry and the person
+- Creates a `ConfirmationToken` with `purpose=volunteer` via `createVolunteerConfirmToken`
+- Sends a personalized email with two one-click URLs in the body
+- Marks `reminder_sent: true` and `reminder_sent_at` on the schedule entry
+- No-ops silently if the person has no email on file or the schedule ID is invalid
+
+#### `group-service.ts` — updated `promoteFromWaitlist`
+
+When a group slot opens and a waitlisted member is promoted to `active`:
+- **Before:** sent a plain text email with no action links
+- **After:** creates a `ConfirmationToken` with `purpose=group_waitlist`, embeds confirm/decline URLs in the email body. If they click "Release my spot", the token resolution sets `status: inactive`. SMS still sent as a brief heads-up pointing to the email.
+
+#### `event-service.ts` — updated `cancelRegistration`
+
+When a waitlisted registrant is promoted to `registered`:
+- **Before:** sent a plain text email
+- **After:** creates a `ConfirmationToken` with `purpose=event`, embeds confirm/decline URLs. If they click "Release my spot", the token resolution sets `status: cancelled`. SMS still sent as a brief heads-up.
+
+### Tests added (Session O)
+
+`src/tests/email-confirmation-wiring.test.ts` — 13 tests:
+
+**`sendVolunteerScheduleEmail`** (6):
+- Email body contains `/confirm?token=`, `action=confirm`, `action=decline`
+- Subject contains role and service date
+- No-ops when schedule ID is invalid
+- No-ops when person has no email
+- Body includes volunteer first name
+- `reminder_sent` flag and timestamp set on entry after send
+
+**Group waitlist promotion** (3):
+- Promoted person receives email with confirm/decline URLs
+- Email mentions the group name
+- No email sent when promoted person has no email address
+
+**Event waitlist promotion** (3):
+- Promoted person receives email with confirm/decline URLs
+- Email mentions the event name
+- No email sent when promoted person has no email address
+
+### Already-existing coverage (not new, but relevant)
+
+- `src/tests/merge-fields.test.ts` — 14 tests: `replaceMergeFields`, `MERGE_FIELDS` array, all token types, edge cases
+- `src/tests/confirmation-token.test.ts` — 26 tests: URL helpers, token creation for all 3 purposes, expiry TTL, uniqueness, `resolveConfirmationToken` (confirm/decline for volunteer/event/group_waitlist, not_found, already_used, expired, single-use guarantee)
 
 ---
 

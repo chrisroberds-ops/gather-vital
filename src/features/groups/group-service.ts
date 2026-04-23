@@ -1,5 +1,6 @@
 import { db } from '@/services'
 import { sendSMS, sendEmail } from '@/services/notification-service'
+import { createGroupWaitlistConfirmToken } from '@/services/confirmation-token-service'
 import type { Group, GroupMember, Person, GroupMemberStatus } from '@/shared/types'
 
 export interface EnrichedMember {
@@ -106,9 +107,27 @@ async function promoteFromWaitlist(groupId: string): Promise<void> {
     await db.updateGroupMember(firstWaitlisted.id, { status: 'active' })
     const person = await db.getPerson(firstWaitlisted.person_id)
     if (person) {
-      const msg = `Good news! A spot opened up in ${group.name} and you've been moved from the waitlist to active. Welcome!`
-      if (person.phone) await sendSMS({ to: person.phone, body: msg })
-      if (person.email) await sendEmail({ to: person.email, subject: `You're in: ${group.name}`, body: msg })
+      const smsMsg = `Good news! A spot opened up in ${group.name}. Check your email to confirm your spot.`
+      if (person.phone) await sendSMS({ to: person.phone, body: smsMsg })
+      if (person.email) {
+        const { confirmUrl, declineUrl } = await createGroupWaitlistConfirmToken({
+          person_id: person.id,
+          group_member_id: firstWaitlisted.id,
+          group_name: group.name,
+        })
+        const subject = `You're in: ${group.name}`
+        const body = [
+          `Good news, ${person.first_name}!`,
+          '',
+          `A spot opened up in ${group.name} and you've been moved off the waitlist.`,
+          '',
+          'Please confirm your spot:',
+          '',
+          `✅ Yes, I'll join: ${confirmUrl}`,
+          `❌ Release my spot: ${declineUrl}`,
+        ].join('\n')
+        await sendEmail({ to: person.email, subject, body, personId: person.id })
+      }
     }
   }
 }

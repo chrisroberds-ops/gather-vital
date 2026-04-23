@@ -1,4 +1,6 @@
 import { db } from '@/services'
+import { sendEmail } from '@/services/notification-service'
+import { createVolunteerConfirmToken } from '@/services/confirmation-token-service'
 import type {
   Team,
   TeamMember,
@@ -149,6 +151,54 @@ export async function getServedVolunteersInMonth(
 
 export async function deleteScheduleEntry(id: string): Promise<void> {
   return db.deleteVolunteerSchedule(id)
+}
+
+/**
+ * Send a one-click confirmation email for a volunteer schedule entry.
+ * The email contains "Confirm" and "I can't make it" links that the
+ * volunteer can click without logging in.  The token is stored in the
+ * database for validation when the link is clicked.
+ *
+ * No-ops silently if the person has no email on file.
+ */
+export async function sendVolunteerScheduleEmail(
+  scheduleId: string,
+  churchName?: string,
+): Promise<void> {
+  const allEntries = await db.getVolunteerSchedule()
+  const entry = allEntries.find(e => e.id === scheduleId)
+  if (!entry) return
+
+  const person = await db.getPerson(entry.person_id)
+  if (!person?.email) return
+
+  const { confirmUrl, declineUrl } = await createVolunteerConfirmToken({
+    person_id: entry.person_id,
+    schedule_id: entry.id,
+    role: entry.position,
+    service_date: entry.scheduled_date,
+    church_name: churchName,
+  })
+
+  const subject = `You're scheduled: ${entry.position} on ${entry.scheduled_date}`
+  const body = [
+    `Hi ${person.first_name},`,
+    '',
+    `You've been scheduled as ${entry.position} on ${entry.scheduled_date}${churchName ? ` at ${churchName}` : ''}.`,
+    '',
+    'Please confirm your availability:',
+    '',
+    `✅ Confirm I'll be there: ${confirmUrl}`,
+    `❌ I can't make it: ${declineUrl}`,
+    '',
+    `Thank you!${churchName ? `\n${churchName}` : ''}`,
+  ].join('\n')
+
+  await sendEmail({ to: person.email, subject, body, personId: person.id })
+  await db.updateVolunteerSchedule(entry.id, {
+    reminder_sent: true,
+    reminder_sent_at: new Date().toISOString(),
+  })
 }
 
 export async function createScheduleEntry(data: {
