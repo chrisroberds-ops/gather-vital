@@ -1,7 +1,7 @@
 # Gather — Build Progress
 
 > Read `Gather-Church-Management-System-Spec.md` alongside this file.
-> **Current state: 645 tests passing across 34 test files. Last completed: Session O — One-Click Email Confirmation Wiring (2026-04-22).**
+> **Current state: 682 tests passing across 35 test files. Last completed: Session P — Recurring Event Support (2026-04-22).**
 
 ---
 
@@ -816,9 +816,10 @@ The following flows were confirmed working end-to-end in the running app (`VITE_
 | Session L (2026-04-18) | 39 | 569 |
 | Session M (2026-04-19) | 31 | 600 |
 | Session N (2026-04-19) | 32 | 632 |
-| Session O (2026-04-22) | 13 | **645** |
+| Session O (2026-04-22) | 13 | 645 |
+| Session P (2026-04-22) | 37 | **682** |
 
-All 645 tests pass. TypeScript clean. No Firebase credentials required to run.
+All 682 tests pass. TypeScript clean. No Firebase credentials required to run.
 
 ---
 
@@ -930,6 +931,93 @@ DB-dependent aggregation:
 | File | Tests | Coverage |
 |------|-------|---------|
 | `src/tests/monthly-report.test.ts` | 66 | countSundaysInMonth (5 tests), avgWeeklyAttendance (6), engagementPct/servicePct/givingPct/budgetPct/kidsPct/studentsPct (11), trendArrow/trendPct (9), parseHistoricalCsv (12), commitHistoricalImport (2), getAttendanceHeadcountsForMonth (3), getEngagedPeopleInMonth (3), getCheckinKidsInMonth (3), computeMonthlyReport (5), grade classification constants (3) |
+
+---
+
+## Session P — Recurring Event Support ✅ Complete (2026-04-22)
+
+**+37 tests (682 total).** Baseline: 645 tests.
+
+### What was built
+
+#### `src/shared/types/index.ts`
+- Added `recurrence_series_id?: string` to the `Event` interface — UUID shared by all events in a recurring series
+
+#### `src/features/events/recurrence-service.ts` (new file)
+Pure functions for recurring event date generation — zero DB calls, fully testable:
+- `RecurrencePattern` type: `'none' | 'weekly' | 'biweekly' | 'monthly'`
+- `RECURRENCE_LABELS` — human-readable labels for each pattern
+- `MAX_OCCURRENCES = 26`, `DEFAULT_OCCURRENCES = 8`
+- `generateOccurrenceDates(startDate, pattern, count)` — returns `count - 1` YYYY-MM-DD strings after the base date. Returns `[]` for `pattern='none'` or `count <= 1`.
+- `buildSeriesData(baseData, pattern, count, seriesId)` — returns an array of `count` event data objects: base + occurrences, all stamped with `recurrence_series_id`.
+- Local date arithmetic (`new Date(y, m-1, d, 12, 0, 0)`) avoids UTC midnight timezone shifts.
+- Month-end clamping: `addMonths` checks `result.getDate() !== originalDay` after construction; calls `result.setDate(0)` to clamp to last day of target month (Jan 31 + 1 month → Feb 28, not Mar 3).
+
+#### `src/features/events/event-service.ts`
+- Added `createRecurringSeries(baseData, pattern, count)` — generates a UUID series ID, calls `buildSeriesData`, inserts all events concurrently via `Promise.all`. Returns `{ events, seriesId }`.
+
+#### `src/features/events/EventForm.tsx`
+- Added `recurrence` state (`RecurrencePattern`, default `'none'`) and `occurrenceCount` state (default 8, clamped 2–26).
+- Recurrence radio buttons section (None / Weekly / Bi-weekly / Monthly) shown only for new events.
+- Occurrence count number input (min 2, max 26) shown when a non-`'none'` pattern is selected.
+- Submit button label adapts: "Create event" / "Generate N occurrences" / "Save changes".
+- Success screen shown after series generation (auto-closes after 1800 ms).
+- When editing an event with `recurrence_series_id`: shows "Part of a recurring series — editing this occurrence only" note.
+
+#### `src/features/events/EventsManager.tsx`
+- `EventRow` now shows a purple "Recurring series" badge when `event.recurrence_series_id` is set.
+
+### Tests added (Session P)
+
+`src/tests/recurrence-service.test.ts` — 37 tests:
+
+**`generateOccurrenceDates — none`** (2 groups, 5 tests):
+- Returns `[]` for `pattern='none'` regardless of count
+- Returns `[]` when `count=1` for any pattern
+
+**`generateOccurrenceDates — weekly`** (7 tests):
+- Generates `count - 1` dates
+- First date is exactly 7 days after start
+- Subsequent dates each 7 days apart
+- Crosses month boundary (Apr 27 + 7 weeks = Jun 15)
+- Crosses year boundary (Dec 28 + 7 days = Jan 4)
+- DEFAULT_OCCURRENCES and MAX_OCCURRENCES smoke tests
+
+**`generateOccurrenceDates — biweekly`** (4 tests):
+- Generates `count - 1` dates
+- First date 14 days after start
+- Subsequent dates 14 days apart
+- Crosses year boundary
+
+**`generateOccurrenceDates — monthly`** (8 tests):
+- Generates `count - 1` dates
+- Advances one calendar month per occurrence
+- Dec → Jan year rollover
+- Month-end clamping: Jan 31 → Feb 28, Mar 31 → Apr 30, Aug 31 → Sep 30
+- Chained clamping: Jan 31 → Feb 28 → Mar 28
+- Leap year: Jan 31 2028 → Feb 29 2028
+
+**`buildSeriesData`** (5 tests):
+- Returns exactly `count` items with base as first element
+- All items share the provided `seriesId`
+- Subsequent dates match `generateOccurrenceDates` output
+- All items inherit name and other fields from base
+- Count=1 returns single-item array
+
+**`createRecurringSeries`** (9 tests, integration):
+- Creates exactly `count` events in DB
+- All events share the same `recurrence_series_id`
+- Events have correct ascending dates
+- Each call generates a unique `seriesId`
+- Created events retrievable individually from DB
+- All events inherit registration settings from base
+- Count=1 creates exactly one event
+- Monthly series over 12 months has correct year rollover
+- Created events appear in `getEvents()` result
+
+**`constants`** (2 tests):
+- `DEFAULT_OCCURRENCES === 8`
+- `MAX_OCCURRENCES === 26`
 
 ---
 

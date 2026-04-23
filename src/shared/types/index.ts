@@ -357,6 +357,8 @@ export interface Event {
   cost_description?: string
   image_url?: string
   is_active: boolean
+  /** UUID shared by all events generated as part of the same recurring series. */
+  recurrence_series_id?: string
 }
 
 export interface EventRegistration {

@@ -134,6 +134,7 @@ function EventRow({
             <span className="text-xs text-gray-600">{formatDate(event.event_date)}{event.event_time ? ` · ${event.event_time}` : ''}</span>
             {event.location && <span className="text-xs text-gray-400">{event.location}</span>}
             <span className="text-xs text-gray-500">{formatCost(event)}</span>
+            {event.recurrence_series_id && <Badge variant="purple">Recurring series</Badge>}
             {!event.is_active && <Badge variant="danger">Inactive</Badge>}
           </div>
         </div>

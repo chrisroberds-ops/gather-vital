@@ -1,6 +1,8 @@
+import { v4 as uuidv4 } from 'uuid'
 import { db } from '@/services'
 import { sendSMS, sendEmail } from '@/services/notification-service'
 import { createEventConfirmToken } from '@/services/confirmation-token-service'
+import { buildSeriesData, type RecurrencePattern } from './recurrence-service'
 import type { Event, EventRegistration, Person, EventRegistrationStatus } from '@/shared/types'
 
 export interface EnrichedRegistration {
@@ -138,6 +140,32 @@ export async function cancelRegistration(registrationId: string, eventId: string
   }
 
   return cancelled
+}
+
+// ── Recurring series ──────────────────────────────────────────────────────────
+
+export interface RecurringSeriesResult {
+  events: Event[]
+  seriesId: string
+}
+
+/**
+ * Create a full recurring event series in the database.
+ *
+ * @param baseData  Event data for the first occurrence (date, name, etc.)
+ * @param pattern   Recurrence cadence
+ * @param count     Total number of events to create (including the base)
+ * @returns         All created Event records plus the shared seriesId
+ */
+export async function createRecurringSeries(
+  baseData: Omit<Event, 'id' | 'church_id'>,
+  pattern: RecurrencePattern,
+  count: number,
+): Promise<RecurringSeriesResult> {
+  const seriesId = uuidv4()
+  const allData = buildSeriesData(baseData, pattern, count, seriesId)
+  const events = await Promise.all(allData.map(data => db.createEvent(data)))
+  return { events, seriesId }
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
