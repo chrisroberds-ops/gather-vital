@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import PeopleDirectory from '@/features/people/PeopleDirectory'
 import { AuthProvider } from '@/auth/AuthContext'
+import { AppConfigProvider } from '@/services/app-config-context'
 
 // Mock react-router-dom's useNavigate
 const mockNavigate = vi.fn()
@@ -18,9 +19,11 @@ vi.mock('react-router-dom', async () => {
 function renderDirectory() {
   return render(
     <AuthProvider>
-      <MemoryRouter>
-        <PeopleDirectory />
-      </MemoryRouter>
+      <AppConfigProvider>
+        <MemoryRouter>
+          <PeopleDirectory />
+        </MemoryRouter>
+      </AppConfigProvider>
     </AuthProvider>
   )
 }

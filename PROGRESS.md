@@ -1,7 +1,7 @@
 # Gather — Build Progress
 
 > Read `Gather-Church-Management-System-Spec.md` alongside this file.
-> **Current state: 713 tests passing across 36 test files. Last completed: Session R — Stripe Connect Online Giving Scaffold (2026-04-23).**
+> **Current state: 729 tests passing across 37 test files. Last completed: Session S — Absence Tracking (2026-04-23).**
 
 ---
 
@@ -819,9 +819,10 @@ The following flows were confirmed working end-to-end in the running app (`VITE_
 | Session O (2026-04-22) | 13 | 645 |
 | Session P (2026-04-22) | 37 | 682 |
 | Session Q (2026-04-22) | 0 | 682 |
-| Session R (2026-04-23) | 31 | **713** |
+| Session R (2026-04-23) | 31 | 713 |
+| Session S (2026-04-23) | 16 | **729** |
 
-All 713 tests pass. TypeScript clean. No Firebase credentials required to run.
+All 729 tests pass. TypeScript clean. No Firebase credentials required to run.
 
 ---
 
@@ -1601,3 +1602,73 @@ print-server/
 - `admin/people` filter by household (`?household=...`) is not implemented
 - The new-family kiosk flow generates a pickup code at registration time and again at check-in; only the `Checkin.pickup_code` matters for pickup — the `ChildPickup.pickup_code` is unused during the session
 - Music Stand Mode (Session D) — built at `/stand`; see Session D section above
+
+---
+
+## Session S — Absence Tracking ✅ Complete (2026-04-23)
+
+**+16 tests (729 total).** Baseline: 713 tests.
+
+### What was built
+
+#### Types (`src/shared/types/index.ts`)
+- Added `absence_threshold_days?: number` to `AppConfig` (default 28)
+- Updated `DEFAULT_APP_CONFIG`: `absence_threshold_days: 28`
+
+#### Absence Detection Service (`src/features/people/absence-service.ts`) — NEW
+- `detectAbsentMembers(opts)`: pure function identifying regular attenders who haven't been seen recently
+  - "Regular attender" = 3+ attendance events in the past 90 days
+  - "Absent" = last attendance before `thresholdDays` days ago (default 28)
+  - Aggregates across 3 sources: `AttendanceLogs`, `Checkins` (via session dates), `VolunteerSchedule` (served=true only)
+  - Deduplicates dates across sources using a `Set`
+  - Excludes `!is_active` and `is_archived` people
+  - Excludes dismissed personIds
+  - Returns sorted by `daysSinceLastSeen` descending (longest absent first)
+  - Returns `AbsentPerson[]`: `{ person, lastSeenDate, daysSinceLastSeen, avgFrequencyDays }`
+- `dismissAbsenceFlag(personId)`: writes to `localStorage` with 30-day dismissal window
+- `getDismissedPersonIds(today?)`: reads dismissals, auto-cleans expired entries, returns `Set<string>`
+
+#### Dashboard (`src/features/dashboard/AdminDashboard.tsx`)
+- Added `AbsentMembersWidget` (always visible, no module gate needed):
+  - Loads all people, AttendanceLogs, CheckinSessions + Checkins, VolunteerSchedule on mount
+  - Shows count of absent regular attenders with amber "needs follow-up" message if count > 0
+  - Shows green "all accounted for" message if count === 0
+  - Links to `/admin/people?tab=absent`
+- Added `detectAbsentMembers` and `getDismissedPersonIds` imports
+
+#### People Directory (`src/features/people/PeopleDirectory.tsx`)
+- Added `DirectoryTab = 'directory' | 'absent'` type
+- Added tab switcher UI (underline style, count badge on Absent tab)
+- Added `useSearchParams` to persist `?tab=absent` in the URL (from dashboard widget link)
+- Added `useAppConfig` to read `absence_threshold_days`
+- Added Absent tab panel:
+  - Loads all required data on tab switch
+  - Table: Name (clickable → person profile), Last Seen date, Days Absent (amber badge), Avg Frequency, "Mark as contacted" button
+  - "Mark as contacted" calls `dismissAbsenceFlag()` and removes from list immediately
+  - `EmptyState` when no absent members found
+  - Spinner while loading
+- Updated test wrapper in `people-directory.test.tsx` to include `AppConfigProvider`
+
+### Test coverage (`src/tests/absence-service.test.ts`)
+16 new tests:
+- `DEFAULT_APP_CONFIG.absence_threshold_days` = 28
+- Flags regular attender absent after threshold days
+- Does NOT flag someone seen within threshold
+- Does NOT flag someone with <3 attendances in 90 days
+- Excludes inactive people
+- Excludes archived people
+- Excludes dismissed people
+- Respects custom thresholdDays
+- Only counts logs within the 90-day window
+- Aggregates attendance from checkins
+- Aggregates from volunteer schedule (served=true only)
+- Does NOT count volunteer slots with served=false
+- Deduplicates dates across sources
+- Sorts by daysSinceLastSeen descending
+- Computes avgFrequencyDays correctly
+- Sets avgFrequencyDays=90 for single unique attendance date
+
+### Test file breakdown
+| File | Tests |
+|------|-------|
+| `src/tests/absence-service.test.ts` | 16 |

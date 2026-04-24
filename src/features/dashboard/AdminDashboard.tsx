@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { db } from '@/services'
 import { getVisitorStats } from '@/features/visitors/visitor-service'
 import { getGivingRecords, formatCurrency } from '@/features/giving/giving-service'
+import { detectAbsentMembers, getDismissedPersonIds } from '@/features/people/absence-service'
 import { useAuth } from '@/auth/AuthContext'
 import { useAppConfig } from '@/services/app-config-context'
 import { DEFAULT_MODULES } from '@/shared/types'
@@ -274,6 +275,64 @@ function GivingWidget() {
   )
 }
 
+// ── Absent Members Widget ─────────────────────────────────────────────────────
+
+function AbsentMembersWidget() {
+  const { config } = useAppConfig()
+  const [count, setCount] = useState<number | null>(null)
+
+  useEffect(() => {
+    async function load() {
+      const [people, attendanceLogs, checkinSessions, volunteerSchedule] = await Promise.all([
+        db.getPeople(),
+        db.getAttendanceLogs(),
+        db.getCheckinSessions(),
+        db.getVolunteerSchedule(),
+      ])
+      // Collect all checkins across sessions
+      const allCheckins = (await Promise.all(checkinSessions.map(s => db.getCheckins(s.id)))).flat()
+      const dismissed = getDismissedPersonIds()
+      const absent = detectAbsentMembers({
+        people,
+        attendanceLogs,
+        checkinSessions,
+        checkins: allCheckins,
+        volunteerSchedule,
+        thresholdDays: config.absence_threshold_days ?? 28,
+        dismissedIds: dismissed,
+      })
+      setCount(absent.length)
+    }
+    void load()
+  }, [config.absence_threshold_days])
+
+  return (
+    <Widget title="Absent Members" href="/admin/people?tab=absent" loading={count === null}>
+      {count !== null && (
+        <div className="space-y-3 pt-1">
+          <div className="flex gap-6 flex-wrap">
+            <Stat
+              value={count}
+              label={`regular attender${count !== 1 ? 's' : ''} not seen in ${config.absence_threshold_days ?? 28}+ days`}
+              accent={count > 0}
+            />
+          </div>
+          {count > 0 && (
+            <p className="text-xs text-amber-600 font-medium">
+              These members may need a follow-up.
+            </p>
+          )}
+          {count === 0 && (
+            <p className="text-xs text-green-600 font-medium">
+              All regular attenders accounted for.
+            </p>
+          )}
+        </div>
+      )}
+    </Widget>
+  )
+}
+
 // ── Quick links ───────────────────────────────────────────────────────────────
 
 const QUICK_LINKS = [
@@ -321,6 +380,7 @@ export default function AdminDashboard() {
         {modules.checkin    && <KidsWidget />}
         {modules.events     && <EventsWidget />}
         {modules.giving && user?.isFinanceAdmin && <GivingWidget />}
+        <AbsentMembersWidget />
       </div>
     </div>
   )

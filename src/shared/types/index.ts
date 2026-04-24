@@ -928,6 +928,12 @@ export interface AppConfig {
    */
   giving_funds?: GivingFund[]
 
+  /**
+   * Number of days without attendance before a regular attender is flagged as absent.
+   * Default: 28
+   */
+  absence_threshold_days?: number
+
   /** false until the setup wizard completes; triggers redirect to /setup. */
   setup_complete: boolean
   updated_at: string
@@ -978,6 +984,7 @@ export const DEFAULT_APP_CONFIG: Omit<AppConfig, 'church_id'> = {
   worship_roles: DEFAULT_WORSHIP_ROLES,
   giving_preset_amounts: [25, 50, 100, 250],
   giving_funds: [{ id: 'general', name: 'General Fund' }],
+  absence_threshold_days: 28,
   setup_complete: false,
   updated_at: '',
 }

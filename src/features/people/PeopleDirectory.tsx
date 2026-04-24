@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { searchPeople, getActivePeople, displayName } from './people-service'
+import { detectAbsentMembers, dismissAbsenceFlag, getDismissedPersonIds } from './absence-service'
+import type { AbsentPerson } from './absence-service'
 import { useDebounce } from '@/shared/hooks/useDebounce'
+import { useAppConfig } from '@/services/app-config-context'
 import { db } from '@/services'
 import Avatar from '@/shared/components/Avatar'
 import Badge, { membershipBadgeVariant } from '@/shared/components/Badge'
@@ -14,17 +17,28 @@ import type { Person } from '@/shared/types'
 
 type FilterPeople = 'all' | 'adults' | 'children'
 type FilterStatus = 'active' | 'all' | 'archived'
+type DirectoryTab = 'directory' | 'absent'
 
 const PAGE_SIZE = 25
 
 export default function PeopleDirectory() {
   const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const { config } = useAppConfig()
+  const [tab, setTab] = useState<DirectoryTab>(
+    searchParams.get('tab') === 'absent' ? 'absent' : 'directory'
+  )
   const [query, setQuery] = useState('')
   const [filterPeople, setFilterPeople] = useState<FilterPeople>('all')
   const [filterStatus, setFilterStatus] = useState<FilterStatus>('active')
   const [people, setPeople] = useState<Person[]>([])
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(0)
+
+  // Absent tab state
+  const [absentList, setAbsentList] = useState<AbsentPerson[] | null>(null)
+  const [absentLoading, setAbsentLoading] = useState(false)
+  const [dismissedIds, setDismissedIds] = useState<Set<string>>(new Set())
 
   const debouncedQuery = useDebounce(query, 300)
 
@@ -46,6 +60,52 @@ export default function PeopleDirectory() {
     }
     void load()
   }, [debouncedQuery])
+
+  useEffect(() => {
+    if (tab !== 'absent') return
+    setAbsentLoading(true)
+    const load = async () => {
+      try {
+        const [allPeople, attendanceLogs, checkinSessions, volunteerSchedule] = await Promise.all([
+          db.getPeople(),
+          db.getAttendanceLogs(),
+          db.getCheckinSessions(),
+          db.getVolunteerSchedule(),
+        ])
+        const allCheckins = (await Promise.all(checkinSessions.map(s => db.getCheckins(s.id)))).flat()
+        const dismissed = getDismissedPersonIds()
+        setDismissedIds(dismissed)
+        const absent = detectAbsentMembers({
+          people: allPeople,
+          attendanceLogs,
+          checkinSessions,
+          checkins: allCheckins,
+          volunteerSchedule,
+          thresholdDays: config.absence_threshold_days ?? 28,
+          dismissedIds: dismissed,
+        })
+        setAbsentList(absent)
+      } finally {
+        setAbsentLoading(false)
+      }
+    }
+    void load()
+  }, [tab, config.absence_threshold_days])
+
+  function handleDismiss(personId: string) {
+    dismissAbsenceFlag(personId)
+    setAbsentList(prev => prev?.filter(a => a.person.id !== personId) ?? prev)
+    setDismissedIds(prev => new Set([...prev, personId]))
+  }
+
+  function switchTab(t: DirectoryTab) {
+    setTab(t)
+    if (t === 'absent') {
+      setSearchParams({ tab: 'absent' })
+    } else {
+      setSearchParams({})
+    }
+  }
 
   const filtered = people.filter(p => {
     if (filterStatus === 'active'   && (!p.is_active || p.is_archived)) return false
@@ -80,15 +140,22 @@ export default function PeopleDirectory() {
   return (
     <div className="p-6 max-w-6xl">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">People</h1>
-          <p className="text-gray-500 text-sm mt-0.5">
-            {loading ? 'Loading…' : `${filtered.length} ${filtered.length === 1 ? 'person' : 'people'}`}
-          </p>
+          {tab === 'directory' && (
+            <p className="text-gray-500 text-sm mt-0.5">
+              {loading ? 'Loading…' : `${filtered.length} ${filtered.length === 1 ? 'person' : 'people'}`}
+            </p>
+          )}
+          {tab === 'absent' && (
+            <p className="text-gray-500 text-sm mt-0.5">
+              Regular attenders not seen in {config.absence_threshold_days ?? 28}+ days
+            </p>
+          )}
         </div>
         <div className="flex items-center gap-2">
-          {filtered.length > 0 && (
+          {tab === 'directory' && filtered.length > 0 && (
             <Button variant="secondary" onClick={() => void handleExport()}>Export CSV</Button>
           )}
           <Button onClick={() => navigate('/admin/people/new')}>
@@ -99,6 +166,91 @@ export default function PeopleDirectory() {
           </Button>
         </div>
       </div>
+
+      {/* Tab switcher */}
+      <div className="flex gap-1 mb-4 border-b border-gray-200">
+        {([
+          { value: 'directory', label: 'Directory' },
+          { value: 'absent',    label: `Absent${absentList ? ` (${absentList.length})` : ''}` },
+        ] as { value: DirectoryTab; label: string }[]).map(t => (
+          <button
+            key={t.value}
+            onClick={() => switchTab(t.value)}
+            className={`px-4 py-2 text-sm font-medium border-b-2 -mb-px transition-colors ${
+              tab === t.value
+                ? 'border-primary-600 text-primary-700'
+                : 'border-transparent text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {/* ── Absent tab ─────────────────────────────────────────────────────── */}
+      {tab === 'absent' && (
+        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          {absentLoading ? (
+            <div className="flex justify-center py-16"><Spinner size="lg" /></div>
+          ) : !absentList || absentList.length === 0 ? (
+            <EmptyState
+              title="No absent members"
+              description="All regular attenders have been seen recently."
+            />
+          ) : (
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-gray-100 text-left">
+                  <th className="px-4 py-3 font-medium text-gray-500">Name</th>
+                  <th className="px-4 py-3 font-medium text-gray-500 hidden sm:table-cell">Last Seen</th>
+                  <th className="px-4 py-3 font-medium text-gray-500 hidden md:table-cell">Days Absent</th>
+                  <th className="px-4 py-3 font-medium text-gray-500 hidden lg:table-cell">Avg Frequency</th>
+                  <th className="px-4 py-3 font-medium text-gray-500"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {absentList.map((entry, idx) => (
+                  <tr
+                    key={entry.person.id}
+                    className={`border-b border-gray-50 ${idx === absentList.length - 1 ? 'border-b-0' : ''}`}
+                  >
+                    <td className="px-4 py-3">
+                      <button
+                        onClick={() => navigate(`/admin/people/${entry.person.id}`)}
+                        className="flex items-center gap-3 hover:underline text-left"
+                      >
+                        <Avatar name={displayName(entry.person)} photoUrl={entry.person.photo_url} size="sm" />
+                        <span className="font-medium text-gray-900">{displayName(entry.person)}</span>
+                      </button>
+                    </td>
+                    <td className="px-4 py-3 text-gray-600 hidden sm:table-cell">
+                      {entry.lastSeenDate}
+                    </td>
+                    <td className="px-4 py-3 hidden md:table-cell">
+                      <Badge variant="warning">{entry.daysSinceLastSeen} days</Badge>
+                    </td>
+                    <td className="px-4 py-3 text-gray-500 text-xs hidden lg:table-cell">
+                      every ~{entry.avgFrequencyDays} days
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        onClick={() => handleDismiss(entry.person.id)}
+                      >
+                        Mark as contacted
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      )}
+
+      {/* ── Directory tab ───────────────────────────────────────────────────── */}
+      {tab === 'directory' && <>
 
       {/* Search + filters */}
       <div className="flex flex-wrap items-center gap-3 mb-4">
@@ -252,6 +404,7 @@ export default function PeopleDirectory() {
           </div>
         </div>
       )}
+      </>}
     </div>
   )
 }
