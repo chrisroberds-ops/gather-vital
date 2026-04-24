@@ -1,5 +1,12 @@
 import { db } from '@/services'
-import type { GivingRecord, GivingMethod, GivingSource } from '@/shared/types'
+import type {
+  GivingRecord,
+  GivingMethod,
+  GivingSource,
+  GivingFrequency,
+  RecurringSubscription,
+  RecurringSubscriptionStatus,
+} from '@/shared/types'
 
 // ── CRUD ──────────────────────────────────────────────────────────────────────
 
@@ -17,6 +24,11 @@ export async function createGivingRecord(data: {
   source?: GivingSource
   transactionId?: string
   notes?: string
+  frequency?: GivingFrequency
+  is_online?: boolean
+  stripe_payment_intent_id?: string
+  stripe_customer_id?: string
+  stripe_subscription_id?: string
 }): Promise<GivingRecord> {
   return db.createGivingRecord({
     person_id: data.personId,
@@ -27,6 +39,53 @@ export async function createGivingRecord(data: {
     source: data.source ?? 'manual',
     transaction_id: data.transactionId,
     notes: data.notes,
+    frequency: data.frequency,
+    is_online: data.is_online,
+    stripe_payment_intent_id: data.stripe_payment_intent_id,
+    stripe_customer_id: data.stripe_customer_id,
+    stripe_subscription_id: data.stripe_subscription_id,
+  })
+}
+
+/**
+ * Create an online giving record submitted via the /embed/giving form.
+ * In TEST_MODE: skips all Stripe API calls, creates the record directly.
+ * In production: Stripe calls are handled server-side; this is called from
+ * the stripe-webhook handler after payment_intent.succeeded.
+ */
+export async function createOnlineGivingRecord(data: {
+  personId: string
+  amount: number
+  fund: string
+  frequency: GivingFrequency
+  donorEmail?: string
+  stripePaymentIntentId?: string
+  stripeCustomerId?: string
+  stripeSubscriptionId?: string
+}): Promise<GivingRecord> {
+  const isRecurring = data.frequency !== 'one_time'
+  const method: GivingMethod = 'online_card'
+
+  console.log('TODO [Stripe]: In production, verify payment via Stripe API before creating record.')
+  console.log('Online giving record data:', {
+    amount: data.amount,
+    fund: data.fund,
+    frequency: data.frequency,
+    stripePaymentIntentId: data.stripePaymentIntentId ?? 'TEST_MODE',
+  })
+
+  return db.createGivingRecord({
+    person_id: data.personId,
+    amount: data.amount,
+    date: new Date().toISOString().split('T')[0],
+    method,
+    fund: data.fund,
+    source: 'stripe',
+    frequency: data.frequency,
+    is_online: true,
+    stripe_payment_intent_id: data.stripePaymentIntentId,
+    stripe_customer_id: data.stripeCustomerId,
+    stripe_subscription_id: isRecurring ? data.stripeSubscriptionId : undefined,
   })
 }
 
@@ -313,6 +372,54 @@ function normalizeDate(raw: string): string | null {
   const d = new Date(raw)
   if (isNaN(d.getTime())) return null
   return d.toISOString().split('T')[0]
+}
+
+// ── Recurring Subscriptions ───────────────────────────────────────────────────
+
+export async function getRecurringSubscriptions(
+  filter?: { status?: RecurringSubscriptionStatus },
+): Promise<RecurringSubscription[]> {
+  return db.getRecurringSubscriptions(filter)
+}
+
+export async function createRecurringSubscription(data: {
+  personId: string
+  amount: number
+  frequency: GivingFrequency
+  fundId: string
+  donorName?: string
+  donorEmail?: string
+  stripeSubscriptionId?: string
+  stripeCustomerId?: string
+}): Promise<RecurringSubscription> {
+  console.log('TODO [Stripe]: In production, create a Stripe Subscription before recording locally.')
+  return db.createRecurringSubscription({
+    person_id: data.personId,
+    amount: data.amount,
+    frequency: data.frequency,
+    fund_id: data.fundId,
+    status: 'active',
+    donor_name: data.donorName,
+    donor_email: data.donorEmail,
+    stripe_subscription_id: data.stripeSubscriptionId,
+    stripe_customer_id: data.stripeCustomerId,
+  })
+}
+
+export async function cancelRecurringSubscription(id: string): Promise<RecurringSubscription> {
+  console.log('TODO [Stripe]: In production, cancel Stripe Subscription via API before updating DB.')
+  return db.cancelRecurringSubscription(id)
+}
+
+export function formatFrequency(freq: GivingFrequency): string {
+  const map: Record<GivingFrequency, string> = {
+    one_time:  'One-time',
+    weekly:    'Weekly',
+    bi_weekly: 'Bi-weekly',
+    monthly:   'Monthly',
+    annually:  'Annually',
+  }
+  return map[freq] ?? freq
 }
 
 // ── Formatting helpers ────────────────────────────────────────────────────────

@@ -1,7 +1,7 @@
 # Gather — Build Progress
 
 > Read `Gather-Church-Management-System-Spec.md` alongside this file.
-> **Current state: 682 tests passing across 35 test files. Last completed: Session Q — CSV Export Buttons (2026-04-22).**
+> **Current state: 713 tests passing across 36 test files. Last completed: Session R — Stripe Connect Online Giving Scaffold (2026-04-23).**
 
 ---
 
@@ -818,9 +818,10 @@ The following flows were confirmed working end-to-end in the running app (`VITE_
 | Session N (2026-04-19) | 32 | 632 |
 | Session O (2026-04-22) | 13 | 645 |
 | Session P (2026-04-22) | 37 | 682 |
-| Session Q (2026-04-22) | 0 | **682** |
+| Session Q (2026-04-22) | 0 | 682 |
+| Session R (2026-04-23) | 31 | **713** |
 
-All 682 tests pass. TypeScript clean. No Firebase credentials required to run.
+All 713 tests pass. TypeScript clean. No Firebase credentials required to run.
 
 ---
 
@@ -932,6 +933,97 @@ DB-dependent aggregation:
 | File | Tests | Coverage |
 |------|-------|---------|
 | `src/tests/monthly-report.test.ts` | 66 | countSundaysInMonth (5 tests), avgWeeklyAttendance (6), engagementPct/servicePct/givingPct/budgetPct/kidsPct/studentsPct (11), trendArrow/trendPct (9), parseHistoricalCsv (12), commitHistoricalImport (2), getAttendanceHeadcountsForMonth (3), getEngagedPeopleInMonth (3), getCheckinKidsInMonth (3), computeMonthlyReport (5), grade classification constants (3) |
+
+---
+
+## Session R — Stripe Connect Online Giving Scaffold ✅ Complete (2026-04-23)
+
+**+31 tests (713 total).** Baseline: 682 tests.
+
+### What was built
+
+#### Types (`src/shared/types/index.ts`)
+- Added `GivingFrequency` type: `'one_time' | 'weekly' | 'bi_weekly' | 'monthly' | 'annually'`
+- Added `GivingFund` interface: `{ id: string; name: string }`
+- Extended `GivingRecord` with optional Stripe/frequency fields: `frequency`, `is_online`, `stripe_payment_intent_id`, `stripe_customer_id`, `stripe_subscription_id`, `created_at`, `updated_at` — all optional for backward compat with existing records
+- Added `RecurringSubscription` interface and `RecurringSubscriptionStatus` type
+- Added to `AppConfig`: `stripe_account_id?`, `giving_preset_amounts?`, `giving_funds?`
+- Updated `DEFAULT_APP_CONFIG`: preset amounts `[25, 50, 100, 250]`, funds `[{ id: 'general', name: 'General Fund' }]`
+
+#### Database layer
+- Added `RecurringSubscription` CRUD to `DatabaseService` interface
+- Implemented in `in-memory-db.ts`: `getRecurringSubscriptions`, `createRecurringSubscription`, `updateRecurringSubscription`, `cancelRecurringSubscription` (sets `status: 'cancelled'` + `cancelled_at`)
+
+#### Giving service (`src/features/giving/giving-service.ts`)
+- Extended `createGivingRecord` to accept frequency/is_online/stripe fields
+- Added `createOnlineGivingRecord` — TEST_MODE: skips Stripe, creates GivingRecord with `source: 'stripe'`, `is_online: true`; production TODO documented
+- Added `createRecurringSubscription`, `getRecurringSubscriptions`, `cancelRecurringSubscription` service wrappers
+- Added `formatFrequency(freq)` helper
+
+#### Part 1 — Giving tab in `/admin/settings`
+**`src/features/settings/ChurchSettings.tsx`** — new `GivingSection`:
+- **Stripe Connect status widget**: green/amber/gray indicator; 'Start Stripe Connect' button (logs TODO + explains real OAuth flow); 'Disconnect' button (TEST_MODE clears `stripe_account_id`; production TODO comment)
+- **Funds editor**: add/remove funds by name; auto-generates stable `fund_id` from name; minimum 1 fund enforced in UI
+- **Preset amounts editor**: add/remove dollar amounts; sorted ascending; saved with same 'Save changes' button as funds
+
+#### Part 2 — Giving embed (`/embed/giving`)
+**`src/features/giving/GivingEmbed.tsx`** (new file):
+- Church logo + name header from `AppConfig`
+- Preset amount buttons (from `giving_preset_amounts`) + custom amount input
+- Fund designation dropdown (only shown if `giving_funds.length > 1`)
+- Frequency toggle: One-time / Weekly / Bi-weekly / Monthly / Annually
+- 'Cover processing fee' checkbox: grosses up amount using Stripe's 2.9% + $0.30 rate
+- Email field for receipt (optional, validated)
+- Stripe Payment Element placeholder div with full wiring TODO comments
+- Validation: amount required, min $1, max $10,000; fund required if multi-fund; email format
+- Submit: TEST_MODE skips Stripe, creates `GivingRecord` + `RecurringSubscription` (if recurring); logs donation data
+- Full-screen success confirmation: amount, fund, frequency, receipt email message
+
+Route added to `App.tsx`: `/embed/giving` inside `EmbedLayout` under `ModuleGuard module="giving"`
+
+#### Part 3 — Giving dashboard updates (`src/features/giving/GivingDashboard.tsx`)
+- Renamed 'Records' tab → 'All Giving'; added 'Online Only', 'Recurring', 'Summary', 'Import' tabs
+- **Online Only panel** (`OnlineGivingPanel`): filters records where `is_online === true`; shows YTD/gift count/fund count; 12-month bar chart; fund breakdown bar chart + breakdown table (fund, total, % of online giving)
+- **Recurring panel** (`RecurringPanel`): active count card; estimated monthly recurring total (frequency-normalized); table of all subscriptions (name, amount, frequency, fund, status, start date); Cancel button per row (TEST_MODE: `cancelRecurringSubscription`; production TODO comment)
+
+#### Part 4 — Cloudflare Worker webhook handler
+**`functions/stripe-webhook.js`** (new file):
+- Cloudflare Pages Function — POST `/api/stripe-webhook`
+- Logs incoming event type immediately
+- TODO comment block for `stripe.webhooks.constructEvent` signature verification
+- Handles `payment_intent.succeeded`, `invoice.payment_succeeded`, `customer.subscription.deleted` — each with detailed TODO comments showing exact implementation steps and expected metadata fields
+- Returns `200 { received: true }` immediately
+
+#### Part 5 — Embeds page update (`src/features/embeds/EmbedsPage.tsx`)
+- Added `'giving'` widget to `WIDGETS` array
+- Added `GIVING_WIDTH_PRESETS`: Responsive (100%), Fixed 400px, Fixed 600px
+- Width selector shown only when giving widget is selected
+- `makeScriptTag` / `makeIframeTag` updated to accept and apply `givingWidth`
+
+#### Part 6 — Environment variables (`.env.example`)
+- Added `STRIPE_SECRET_KEY`, `VITE_STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_CONNECT_CLIENT_ID` with full documentation comments
+
+#### Tests (`src/tests/stripe-giving.test.ts`) — 31 new tests
+- `DEFAULT_APP_CONFIG` giving defaults
+- `createOnlineGivingRecord`: is_online, source, frequency, stripe ids, subscription id suppressed for one-time, date today, method
+- `GivingRecord` backward compatibility
+- `computeGivingSummary` with online-only filtering
+- `createRecurringSubscription` CRUD: status, email, stripe ids, timestamps
+- `getRecurringSubscriptions` with status filter and sort order
+- `cancelRecurringSubscription`: status, cancelled_at, persistence, error on not-found
+- `db.updateRecurringSubscription`: amount, fund_id, error on not-found
+- `formatFrequency`: all 5 values
+
+### How to wire Stripe (when ready)
+1. Create a Stripe account and get publishable + secret keys
+2. Set up Stripe Connect in the dashboard, get `STRIPE_CONNECT_CLIENT_ID`
+3. Fill in `.env.example` values in `.env.local`
+4. Wire the 'Start Stripe Connect' button in `GivingSection` to redirect to `stripe.oauth.authorizeUrl()`
+5. Build a `/stripe-connect/callback` route to exchange the code and save `stripe_account_id`
+6. In `GivingEmbed.tsx`, replace the Payment Element placeholder with real `loadStripe` + `<Elements>`
+7. Build a server endpoint to create `PaymentIntent` / `Subscription` and return `clientSecret`
+8. Wire signature verification in `functions/stripe-webhook.js`
+9. Deploy the function as a Cloudflare Pages Function on your giving domain
 
 ---
 

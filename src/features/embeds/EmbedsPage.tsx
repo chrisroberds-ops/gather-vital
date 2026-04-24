@@ -6,8 +6,9 @@ import Button from '@/shared/components/Button'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-type WidgetType = 'visitor-form' | 'groups' | 'events'
+type WidgetType = 'visitor-form' | 'groups' | 'events' | 'giving'
 type EmbedFormat = 'script' | 'iframe'
+type GivingWidth = 'responsive' | '400px' | '600px'
 
 interface Widget {
   id: WidgetType
@@ -20,6 +21,7 @@ const WIDGETS: Widget[] = [
   { id: 'visitor-form', label: 'Visitor Form',   description: 'First-time visitor registration form',   icon: '👋' },
   { id: 'groups',       label: 'Group Browser',  description: 'Browsable list of open groups',          icon: '👥' },
   { id: 'events',       label: 'Event Browser',  description: 'Upcoming events with registration links', icon: '📅' },
+  { id: 'giving',       label: 'Giving Embed',   description: 'Embeddable online giving form',          icon: '💳' },
 ]
 
 const HEIGHT_PRESETS = [
@@ -27,6 +29,12 @@ const HEIGHT_PRESETS = [
   { label: 'Medium (560 px)',   value: '560px' },
   { label: 'Tall (720 px)',     value: '720px' },
   { label: 'Full-page (100vh)', value: '100vh' },
+]
+
+const GIVING_WIDTH_PRESETS: { label: string; value: GivingWidth }[] = [
+  { label: 'Responsive (100%)',  value: 'responsive' },
+  { label: 'Fixed 400 px',       value: '400px' },
+  { label: 'Fixed 600 px',       value: '600px' },
 ]
 
 // ── QR helpers ────────────────────────────────────────────────────────────────
@@ -67,19 +75,24 @@ function makeEmbedUrl(baseUrl: string, widget: WidgetType, church: string): stri
   return church ? `${baseUrl}${path}?church=${encodeURIComponent(church)}` : `${baseUrl}${path}`
 }
 
-function makeScriptTag(baseUrl: string, widget: WidgetType, church: string, height: string): string {
+function makeScriptTag(baseUrl: string, widget: WidgetType, church: string, height: string, givingWidth?: GivingWidth): string {
   const attrs = [
     `  src="${baseUrl}/embed.js"`,
     `  data-gather-widget="${widget}"`,
     church ? `  data-gather-church="${church}"` : null,
     `  data-gather-height="${height}"`,
+    widget === 'giving' && givingWidth && givingWidth !== 'responsive'
+      ? `  data-gather-width="${givingWidth}"` : null,
   ].filter(Boolean).join('\n')
   return `<script\n${attrs}>\n</script>`
 }
 
-function makeIframeTag(baseUrl: string, widget: WidgetType, church: string, height: string): string {
+function makeIframeTag(baseUrl: string, widget: WidgetType, church: string, height: string, givingWidth?: GivingWidth): string {
   const src = makeEmbedUrl(baseUrl, widget, church)
-  return `<iframe\n  src="${src}"\n  width="100%"\n  height="${height}"\n  frameborder="0"\n  style="border-radius:8px"\n  loading="lazy"\n></iframe>`
+  const width = widget === 'giving' && givingWidth && givingWidth !== 'responsive'
+    ? givingWidth
+    : '100%'
+  return `<iframe\n  src="${src}"\n  width="${width}"\n  height="${height}"\n  frameborder="0"\n  style="border-radius:8px"\n  loading="lazy"\n></iframe>`
 }
 
 // ── CopyBox ───────────────────────────────────────────────────────────────────
@@ -116,6 +129,7 @@ export default function EmbedsPage() {
   const [selectedWidget, setSelectedWidget] = useState<WidgetType>('visitor-form')
   const [format, setFormat] = useState<EmbedFormat>('script')
   const [height, setHeight] = useState('560px')
+  const [givingWidth, setGivingWidth] = useState<GivingWidth>('responsive')
   const [qrDownloading, setQrDownloading] = useState(false)
 
   // Use the current browser origin as the base URL
@@ -135,8 +149,8 @@ export default function EmbedsPage() {
 
   const embedUrl = makeEmbedUrl(baseUrl, selectedWidget, church)
   const code = format === 'script'
-    ? makeScriptTag(baseUrl, selectedWidget, church, height)
-    : makeIframeTag(baseUrl, selectedWidget, church, height)
+    ? makeScriptTag(baseUrl, selectedWidget, church, height, givingWidth)
+    : makeIframeTag(baseUrl, selectedWidget, church, height, givingWidth)
 
   const handleQrDownload = useCallback(async () => {
     setQrDownloading(true)
@@ -207,6 +221,28 @@ export default function EmbedsPage() {
                 ))}
               </div>
             </div>
+
+            {/* Giving-specific: width options */}
+            {selectedWidget === 'giving' && (
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">Width</label>
+                <div className="flex flex-wrap gap-2">
+                  {GIVING_WIDTH_PRESETS.map(p => (
+                    <button
+                      key={p.value}
+                      onClick={() => setGivingWidth(p.value)}
+                      className={`text-xs px-3 py-1.5 rounded-full font-medium transition-colors ${
+                        givingWidth === p.value
+                          ? 'bg-primary-600 text-white'
+                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      }`}
+                    >
+                      {p.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div>
               <label className="block text-xs font-medium text-gray-600 mb-1">Embed format</label>

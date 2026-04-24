@@ -64,6 +64,7 @@ const ConfirmPage = lazy(() => import('@/features/public-pages/ConfirmPage'))
 // Giving & Finance (Finance Admin only)
 const GivingDashboard = lazy(() => import('@/features/giving/GivingDashboard'))
 const GivingStatements = lazy(() => import('@/features/giving/GivingStatements'))
+const GivingEmbed = lazy(() => import('@/features/giving/GivingEmbed'))
 
 // Reports
 const MonthlyReport = lazy(() => import('@/features/reports/MonthlyReport'))
@@ -413,6 +414,16 @@ const router = createBrowserRouter([
           <Wrap>
             <ModuleGuard module="visitors" embed>
               <VisitorForm />
+            </ModuleGuard>
+          </Wrap>
+        ),
+      },
+      {
+        path: 'giving',
+        element: (
+          <Wrap>
+            <ModuleGuard module="giving" embed>
+              <GivingEmbed />
             </ModuleGuard>
           </Wrap>
         ),

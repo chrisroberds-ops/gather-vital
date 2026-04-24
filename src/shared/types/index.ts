@@ -398,6 +398,12 @@ export interface MonthlyReportHistory {
 
 export type GivingMethod = 'online_card' | 'online_ach' | 'cash' | 'check'
 export type GivingSource = 'stripe' | 'square' | 'manual' | 'imported'
+export type GivingFrequency = 'one_time' | 'weekly' | 'bi_weekly' | 'monthly' | 'annually'
+
+export interface GivingFund {
+  id: string    // e.g. 'general', 'missions', 'building'
+  name: string  // e.g. 'General Fund', 'Missions', 'Building Fund'
+}
 
 export interface GivingRecord {
   id: string
@@ -410,6 +416,32 @@ export interface GivingRecord {
   source: GivingSource
   transaction_id?: string
   notes?: string
+  // Online / Stripe fields (optional — absent on legacy/manual records)
+  frequency?: GivingFrequency
+  is_online?: boolean
+  stripe_payment_intent_id?: string
+  stripe_customer_id?: string
+  stripe_subscription_id?: string
+  created_at?: string
+  updated_at?: string
+}
+
+export type RecurringSubscriptionStatus = 'active' | 'paused' | 'cancelled'
+
+export interface RecurringSubscription {
+  id: string
+  church_id: string
+  person_id: string
+  stripe_subscription_id?: string   // TODO: populated when Stripe is wired
+  stripe_customer_id?: string       // TODO: populated when Stripe is wired
+  amount: number                    // dollars
+  frequency: GivingFrequency
+  fund_id: string                   // matches GivingFund.id
+  status: RecurringSubscriptionStatus
+  donor_name?: string               // denormalised display name
+  donor_email?: string
+  created_at: string
+  cancelled_at?: string
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -878,6 +910,24 @@ export interface AppConfig {
   /** Comma-separated email addresses to receive the monthly Vital Signs Report. */
   report_recipients?: string
 
+  // ── Online Giving / Stripe Connect ─────────────────────────────────────────
+  /**
+   * Stripe Connect account ID for this church (e.g. 'acct_xxxxx').
+   * null/undefined = not connected. Set after Stripe onboarding completes.
+   * TODO: Populated by Stripe Connect onboarding redirect handler.
+   */
+  stripe_account_id?: string | null
+  /**
+   * Preset donation amounts shown on the giving embed form.
+   * Default: [25, 50, 100, 250]
+   */
+  giving_preset_amounts?: number[]
+  /**
+   * Fund designations available on the giving embed form.
+   * Default: [{ id: 'general', name: 'General Fund' }]
+   */
+  giving_funds?: GivingFund[]
+
   /** false until the setup wizard completes; triggers redirect to /setup. */
   setup_complete: boolean
   updated_at: string
@@ -926,6 +976,8 @@ export const DEFAULT_APP_CONFIG: Omit<AppConfig, 'church_id'> = {
   track_adult_attendance: 'aggregate' as const,
   late_pickup_minutes: 30,
   worship_roles: DEFAULT_WORSHIP_ROLES,
+  giving_preset_amounts: [25, 50, 100, 250],
+  giving_funds: [{ id: 'general', name: 'General Fund' }],
   setup_complete: false,
   updated_at: '',
 }

@@ -6,8 +6,11 @@ import {
   updateGivingRecord,
   deleteGivingRecord,
   computeGivingSummary,
+  getRecurringSubscriptions,
+  cancelRecurringSubscription,
   formatCurrency,
   formatMethod,
+  formatFrequency,
   type GivingSummary,
 } from './giving-service'
 import GivingImport from './GivingImport'
@@ -18,11 +21,11 @@ import Modal from '@/shared/components/Modal'
 import Spinner from '@/shared/components/Spinner'
 import EmptyState from '@/shared/components/EmptyState'
 import { displayName } from '@/features/people/people-service'
-import type { GivingRecord, GivingMethod, Person } from '@/shared/types'
+import type { GivingRecord, GivingMethod, Person, RecurringSubscription } from '@/shared/types'
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
-type Tab = 'records' | 'summary' | 'import'
+type Tab = 'records' | 'summary' | 'online' | 'recurring' | 'import'
 
 const inputCls = 'w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500'
 const labelCls = 'block text-xs font-medium text-gray-600 mb-1'
@@ -330,6 +333,230 @@ function RecordsTable({
   )
 }
 
+// ── Online Giving Panel ───────────────────────────────────────────────────────
+
+function OnlineGivingPanel({ records }: { records: GivingRecord[] }) {
+  const online = records.filter(r => r.is_online === true)
+  const summary = computeGivingSummary(online)
+  const max = Math.max(...summary.monthlyTotals.map(m => m.total), 1)
+
+  return (
+    <div className="space-y-6">
+      {/* Stats */}
+      <div className="grid grid-cols-3 gap-4">
+        <div className="bg-white border border-gray-200 rounded-2xl p-4 text-center">
+          <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Online YTD</p>
+          <p className="text-2xl font-bold text-gray-900">{formatCurrency(summary.ytd)}</p>
+        </div>
+        <div className="bg-white border border-gray-200 rounded-2xl p-4 text-center">
+          <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Online Gifts</p>
+          <p className="text-2xl font-bold text-gray-900">{online.length}</p>
+        </div>
+        <div className="bg-white border border-gray-200 rounded-2xl p-4 text-center">
+          <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Funds</p>
+          <p className="text-2xl font-bold text-gray-900">{summary.fundBreakdown.length}</p>
+        </div>
+      </div>
+
+      {/* Monthly trend */}
+      {online.length > 0 && (
+        <div className="bg-white border border-gray-200 rounded-2xl p-5">
+          <h3 className="text-sm font-semibold text-gray-700 mb-4">Online giving — last 12 months</h3>
+          <div className="flex items-end gap-1.5 h-24">
+            {summary.monthlyTotals.map(({ month, total }) => (
+              <div key={month} className="flex-1 flex flex-col items-center gap-1">
+                <div
+                  className="w-full bg-primary-500 rounded-t-sm transition-all hover:bg-primary-600"
+                  style={{ height: `${Math.round((total / max) * 80) + (total > 0 ? 4 : 0)}px` }}
+                  title={`${month}: ${formatCurrency(total)}`}
+                />
+                <span className="text-[9px] text-gray-400 rotate-45 origin-left mt-1 whitespace-nowrap">
+                  {month.slice(5)}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Fund breakdown */}
+      {summary.fundBreakdown.length > 0 && (
+        <div className="bg-white border border-gray-200 rounded-2xl p-5">
+          <h3 className="text-sm font-semibold text-gray-700 mb-3">Online giving by fund</h3>
+          {/* Bar chart */}
+          <div className="space-y-3 mb-4">
+            {summary.fundBreakdown.map(({ fund, total, pct }) => (
+              <div key={fund}>
+                <div className="flex justify-between text-sm mb-1">
+                  <span className="font-medium text-gray-800">{fund}</span>
+                  <span className="text-gray-500">{formatCurrency(total)} · {pct}%</span>
+                </div>
+                <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-full bg-primary-500 rounded-full transition-all" style={{ width: `${pct}%` }} />
+                </div>
+              </div>
+            ))}
+          </div>
+          {/* Breakdown table */}
+          <div className="border border-gray-100 rounded-xl overflow-hidden">
+            <table className="w-full text-sm">
+              <thead className="bg-gray-50 border-b border-gray-100">
+                <tr>
+                  <th className="px-4 py-2 text-left text-xs font-semibold text-gray-500">Fund</th>
+                  <th className="px-4 py-2 text-right text-xs font-semibold text-gray-500">Total</th>
+                  <th className="px-4 py-2 text-right text-xs font-semibold text-gray-500">% of Online</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-50">
+                {summary.fundBreakdown.map(({ fund, total, pct }) => (
+                  <tr key={fund} className="hover:bg-gray-50">
+                    <td className="px-4 py-2 font-medium text-gray-800">{fund}</td>
+                    <td className="px-4 py-2 text-right tabular-nums text-gray-700">{formatCurrency(total)}</td>
+                    <td className="px-4 py-2 text-right tabular-nums text-gray-500">{pct}%</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {online.length === 0 && (
+        <EmptyState
+          title="No online giving yet"
+          description="Online donations submitted via the giving embed will appear here."
+        />
+      )}
+    </div>
+  )
+}
+
+// ── Recurring Subscriptions Panel ─────────────────────────────────────────────
+
+function RecurringPanel() {
+  const [subs, setSubs]         = useState<RecurringSubscription[]>([])
+  const [loading, setLoading]   = useState(true)
+  const [cancelling, setCancelling] = useState<string | null>(null)
+
+  const reload = useCallback(async () => {
+    setLoading(true)
+    const all = await getRecurringSubscriptions()
+    setSubs(all)
+    setLoading(false)
+  }, [])
+
+  useEffect(() => { void reload() }, [reload])
+
+  const active = subs.filter(s => s.status === 'active')
+  const monthlyTotal = active.reduce((sum, s) => {
+    const monthly: Record<string, number> = {
+      weekly:    s.amount * 4.33,
+      bi_weekly: s.amount * 2.17,
+      monthly:   s.amount,
+      annually:  s.amount / 12,
+      one_time:  0,
+    }
+    return sum + (monthly[s.frequency] ?? 0)
+  }, 0)
+
+  async function handleCancel(id: string) {
+    setCancelling(id)
+    try {
+      await cancelRecurringSubscription(id)
+      await reload()
+    } finally {
+      setCancelling(null)
+    }
+  }
+
+  if (loading) return <div className="flex justify-center py-16"><Spinner /></div>
+
+  return (
+    <div className="space-y-5">
+      {/* Stats */}
+      <div className="grid grid-cols-2 gap-4">
+        <div className="bg-white border border-gray-200 rounded-2xl p-4 text-center">
+          <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Active Recurring Gifts</p>
+          <p className="text-2xl font-bold text-gray-900">{active.length}</p>
+          <p className="text-xs text-gray-400 mt-0.5">
+            {active.length === 1 ? '1 active recurring gift' : `${active.length} active recurring gifts`}
+          </p>
+        </div>
+        <div className="bg-white border border-gray-200 rounded-2xl p-4 text-center">
+          <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Est. Monthly Recurring</p>
+          <p className="text-2xl font-bold text-gray-900">{formatCurrency(monthlyTotal)}</p>
+          <p className="text-xs text-gray-400 mt-0.5">sum of active subscriptions</p>
+        </div>
+      </div>
+
+      {/* Table */}
+      {subs.length === 0 ? (
+        <EmptyState
+          title="No recurring gifts"
+          description="Donors who set up recurring giving via the embed form will appear here."
+        />
+      ) : (
+        <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+          <table className="w-full text-sm">
+            <thead className="border-b border-gray-100 text-left">
+              <tr>
+                <th className="px-5 py-3 text-xs font-semibold text-gray-500">Donor</th>
+                <th className="px-5 py-3 text-xs font-semibold text-gray-500">Amount</th>
+                <th className="px-5 py-3 text-xs font-semibold text-gray-500 hidden sm:table-cell">Frequency</th>
+                <th className="px-5 py-3 text-xs font-semibold text-gray-500 hidden md:table-cell">Fund</th>
+                <th className="px-5 py-3 text-xs font-semibold text-gray-500">Status</th>
+                <th className="px-5 py-3 text-xs font-semibold text-gray-500 hidden lg:table-cell">Started</th>
+                <th className="px-5 py-3" />
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-50">
+              {subs.map(s => (
+                <tr key={s.id} className="hover:bg-gray-50">
+                  <td className="px-5 py-3 font-medium text-gray-900">
+                    {s.donor_name ?? <span className="text-gray-400 italic">Unknown</span>}
+                    {s.donor_email && (
+                      <p className="text-xs text-gray-400 font-normal">{s.donor_email}</p>
+                    )}
+                  </td>
+                  <td className="px-5 py-3 font-semibold text-gray-900 tabular-nums">
+                    {formatCurrency(s.amount)}
+                  </td>
+                  <td className="px-5 py-3 text-gray-600 hidden sm:table-cell">
+                    {formatFrequency(s.frequency)}
+                  </td>
+                  <td className="px-5 py-3 text-gray-600 hidden md:table-cell">{s.fund_id}</td>
+                  <td className="px-5 py-3">
+                    <Badge variant={s.status === 'active' ? 'success' : s.status === 'paused' ? 'warning' : 'default'}>
+                      {s.status}
+                    </Badge>
+                  </td>
+                  <td className="px-5 py-3 text-gray-500 text-xs hidden lg:table-cell">
+                    {s.created_at.slice(0, 10)}
+                  </td>
+                  <td className="px-5 py-3 text-right">
+                    {s.status === 'active' && (
+                      cancelling === s.id
+                        ? <Spinner size="sm" />
+                        : (
+                          <button
+                            onClick={() => void handleCancel(s.id)}
+                            className="text-xs text-red-400 hover:text-red-600 font-medium"
+                          >
+                            Cancel
+                          </button>
+                        )
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── Main component ────────────────────────────────────────────────────────────
 
 export default function GivingDashboard() {
@@ -376,9 +603,11 @@ export default function GivingDashboard() {
   }
 
   const tabs: { id: Tab; label: string }[] = [
-    { id: 'records', label: 'Records' },
-    { id: 'summary', label: 'Summary' },
-    { id: 'import',  label: 'Import' },
+    { id: 'records',   label: 'All Giving' },
+    { id: 'online',    label: 'Online Only' },
+    { id: 'recurring', label: 'Recurring' },
+    { id: 'summary',   label: 'Summary' },
+    { id: 'import',    label: 'Import' },
   ]
 
   return (
@@ -388,7 +617,7 @@ export default function GivingDashboard() {
         <div className="flex border border-gray-200 rounded-lg overflow-hidden text-sm">
           {tabs.map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
-              className={`px-5 py-2 font-medium ${tab === t.id ? 'bg-primary-600 text-white' : 'text-gray-600 hover:bg-gray-50'}`}>
+              className={`px-4 py-2 font-medium ${tab === t.id ? 'bg-primary-600 text-white' : 'text-gray-600 hover:bg-gray-50'}`}>
               {t.label}
             </button>
           ))}
@@ -405,7 +634,7 @@ export default function GivingDashboard() {
         )}
       </div>
 
-      {loading ? (
+      {loading && tab !== 'recurring' ? (
         <div className="flex justify-center py-16"><Spinner /></div>
       ) : (
         <>
@@ -417,6 +646,8 @@ export default function GivingDashboard() {
               onDelete={handleDelete}
             />
           )}
+          {tab === 'online' && <OnlineGivingPanel records={records} />}
+          {tab === 'recurring' && <RecurringPanel />}
           {tab === 'summary' && summary && <SummaryPanel summary={summary} />}
           {tab === 'import' && <GivingImport onImported={() => { setTab('records'); void reload() }} />}
         </>

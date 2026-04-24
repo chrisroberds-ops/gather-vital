@@ -6,6 +6,7 @@ import {
   DEFAULT_TERMINOLOGY, DEFAULT_KIDS_ROOMS, DEFAULT_SERVING_TEAMS,
   DEFAULT_DASHBOARD_METRICS, DEFAULT_MODULES,
   type ServiceTime, type KidsRoom, type WeekDay, type ModuleConfig,
+  type GivingFund,
 } from '@/shared/types'
 import {
   PresetSelector, Toggle, COLOR_PRESETS,
@@ -19,7 +20,7 @@ import LogoUpload from '@/shared/components/LogoUpload'
 type SectionId =
   | 'identity' | 'branding' | 'services' | 'kids'
   | 'groups' | 'volunteers' | 'communications' | 'email' | 'dashboard'
-  | 'modules'
+  | 'modules' | 'giving'
 
 const SECTIONS: { id: SectionId; label: string; icon: string }[] = [
   { id: 'identity',       label: 'Identity',        icon: '🏛️' },
@@ -32,6 +33,7 @@ const SECTIONS: { id: SectionId; label: string; icon: string }[] = [
   { id: 'communications', label: 'Communications',   icon: '📬' },
   { id: 'email',          label: 'Email',            icon: '✉️' },
   { id: 'dashboard',      label: 'Dashboard',        icon: '📊' },
+  { id: 'giving',         label: 'Giving',           icon: '💳' },
 ]
 
 function RadioGroup<T extends string>({
@@ -207,6 +209,7 @@ export default function ChurchSettings() {
           {section === 'communications' && <CommunicationsSection />}
           {section === 'email'          && <EmailSection />}
           {section === 'dashboard'      && <DashboardSection />}
+          {section === 'giving'         && <GivingSection />}
         </div>
       </div>
     </div>
@@ -1072,5 +1075,249 @@ function EmailSection() {
         )}
       </div>
     </SectionCard>
+  )
+}
+
+// ── Section 11: Giving ────────────────────────────────────────────────────────
+
+function GivingSection() {
+  const { config, updateConfig } = useAppConfig()
+
+  // ── Stripe Connect state ──────────────────────────────────────────────────
+  const stripeAccountId = config.stripe_account_id ?? null
+  const stripeStatus: 'connected' | 'pending' | 'not_connected' =
+    stripeAccountId ? 'connected' : 'not_connected'
+
+  const [disconnecting, setDisconnecting] = useState(false)
+
+  function handleStartOnboarding() {
+    // TODO [Stripe Connect]: Replace this log with a redirect to your Stripe Connect onboarding URL.
+    // The real flow:
+    //   1. Your server calls stripe.oauth.authorizeUrl({ client_id, scope: 'read_write', ... })
+    //   2. Redirect the browser to that URL
+    //   3. After the church owner completes OAuth, Stripe redirects back to your /stripe-connect/callback
+    //   4. Your callback exchanges the code for stripe_account_id and saves it to AppConfig
+    // See: https://stripe.com/docs/connect/oauth-reference
+    console.log('TODO: Redirect to Stripe onboarding')
+    alert('Stripe onboarding not yet wired. See PROGRESS.md for implementation notes.')
+  }
+
+  async function handleDisconnect() {
+    setDisconnecting(true)
+    try {
+      // TEST_MODE: just clears the stripe_account_id.
+      // TODO [Stripe Connect]: In production, first call Stripe API to deauthorize the account:
+      //   await stripe.oauth.deauthorize({ client_id, stripe_user_id: stripeAccountId })
+      await updateConfig({ stripe_account_id: null })
+    } finally {
+      setDisconnecting(false)
+    }
+  }
+
+  // ── Fund config ───────────────────────────────────────────────────────────
+  const [funds, setFunds] = useState<GivingFund[]>(
+    config.giving_funds ?? [{ id: 'general', name: 'General Fund' }]
+  )
+  const [newFundName, setNewFundName] = useState('')
+
+  useEffect(() => {
+    setFunds(config.giving_funds ?? [{ id: 'general', name: 'General Fund' }])
+  }, [config.giving_funds])
+
+  function addFund() {
+    const name = newFundName.trim()
+    if (!name) return
+    const fundId = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+    if (funds.find(f => f.id === fundId)) return
+    setFunds([...funds, { id: fundId, name }])
+    setNewFundName('')
+  }
+
+  function removeFund(id: string) {
+    setFunds(funds.filter(f => f.id !== id))
+  }
+
+  // ── Preset amounts config ─────────────────────────────────────────────────
+  const [presets, setPresets] = useState<number[]>(
+    config.giving_preset_amounts ?? [25, 50, 100, 250]
+  )
+  const [newPreset, setNewPreset] = useState('')
+
+  useEffect(() => {
+    setPresets(config.giving_preset_amounts ?? [25, 50, 100, 250])
+  }, [config.giving_preset_amounts])
+
+  function addPreset() {
+    const val = parseFloat(newPreset)
+    if (isNaN(val) || val <= 0) return
+    if (presets.includes(val)) return
+    setPresets([...presets, val].sort((a, b) => a - b))
+    setNewPreset('')
+  }
+
+  function removePreset(val: number) {
+    setPresets(presets.filter(p => p !== val))
+  }
+
+  const { saving, saved, save } = useSave(async () => {
+    await updateConfig({ giving_funds: funds, giving_preset_amounts: presets })
+  })
+
+  return (
+    <div className="space-y-6">
+      {/* ── Stripe Connect ───────────────────────────────────────────────────── */}
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 space-y-4">
+        <div>
+          <h2 className="text-lg font-bold text-gray-900">Connect your bank account</h2>
+          <p className="text-sm text-gray-500 mt-0.5">
+            Link a Stripe account to accept online donations through the giving embed.
+          </p>
+        </div>
+
+        {/* Status indicator */}
+        <div className="flex items-center gap-3">
+          {stripeStatus === 'connected' && (
+            <>
+              <span className="w-2.5 h-2.5 rounded-full bg-green-500 flex-shrink-0" />
+              <div>
+                <p className="text-sm font-medium text-green-700">Connected</p>
+                <p className="text-xs text-gray-500 font-mono">{stripeAccountId}</p>
+              </div>
+            </>
+          )}
+          {stripeStatus === 'pending' && (
+            <>
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-400 flex-shrink-0" />
+              <div>
+                <p className="text-sm font-medium text-amber-700">Pending verification</p>
+                <p className="text-xs text-gray-500">Stripe may still be verifying your account details.</p>
+              </div>
+            </>
+          )}
+          {stripeStatus === 'not_connected' && (
+            <>
+              <span className="w-2.5 h-2.5 rounded-full bg-gray-300 flex-shrink-0" />
+              <p className="text-sm font-medium text-gray-500">Not connected</p>
+            </>
+          )}
+        </div>
+
+        {/* Actions */}
+        <div className="flex gap-2">
+          {stripeStatus === 'not_connected' && (
+            <Button onClick={handleStartOnboarding}>
+              Start Stripe Connect
+            </Button>
+          )}
+          {stripeStatus === 'connected' && (
+            <Button
+              variant="secondary"
+              onClick={() => void handleDisconnect()}
+              loading={disconnecting}
+            >
+              Disconnect
+            </Button>
+          )}
+        </div>
+
+        <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 text-xs text-blue-700 space-y-1">
+          <p className="font-medium">How Stripe Connect works</p>
+          <p>
+            Clicking "Start Stripe Connect" will redirect your church administrator to Stripe's
+            onboarding flow. After completing it, Stripe redirects back to Gather with an account ID
+            that is stored here. Once connected, donations submitted via the giving embed are processed
+            directly into your church's Stripe account. See <code>PROGRESS.md</code> for wiring instructions.
+          </p>
+        </div>
+      </div>
+
+      {/* ── Fund configuration ───────────────────────────────────────────────── */}
+      <SectionCard
+        title="Giving funds"
+        description="Funds donors can designate when giving online."
+        onSave={save}
+        saving={saving}
+        saved={saved}
+      >
+        <div className="space-y-3">
+          {funds.map(fund => (
+            <div key={fund.id} className="flex items-center gap-2 bg-gray-50 rounded-xl px-3 py-2">
+              <span className="flex-1 text-sm font-medium text-gray-800">{fund.name}</span>
+              <span className="text-xs text-gray-400 font-mono">{fund.id}</span>
+              {funds.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => removeFund(fund.id)}
+                  className="text-gray-300 hover:text-red-500 font-bold text-base leading-none ml-1"
+                >
+                  ×
+                </button>
+              )}
+            </div>
+          ))}
+
+          <div className="flex gap-2 mt-2">
+            <input
+              type="text"
+              value={newFundName}
+              onChange={e => setNewFundName(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addFund() } }}
+              placeholder="Add fund (e.g. Missions)"
+              className={inputCls}
+            />
+            <button
+              type="button"
+              onClick={addFund}
+              className="px-3 py-2 text-sm font-medium bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors whitespace-nowrap"
+            >
+              + Add
+            </button>
+          </div>
+        </div>
+      </SectionCard>
+
+      {/* ── Preset amounts ───────────────────────────────────────────────────── */}
+      <SectionCard
+        title="Preset donation amounts"
+        description="Quick-pick buttons shown on the giving embed form."
+        onSave={save}
+        saving={saving}
+        saved={saved}
+      >
+        <div className="flex flex-wrap gap-2">
+          {presets.map(p => (
+            <span key={p} className="flex items-center gap-1 bg-gray-100 text-gray-700 text-sm px-3 py-1.5 rounded-full font-medium">
+              ${p}
+              <button
+                type="button"
+                onClick={() => removePreset(p)}
+                className="text-gray-400 hover:text-red-500 font-bold leading-none ml-0.5"
+              >
+                ×
+              </button>
+            </span>
+          ))}
+        </div>
+        <div className="flex gap-2">
+          <input
+            type="number"
+            min="1"
+            step="1"
+            value={newPreset}
+            onChange={e => setNewPreset(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addPreset() } }}
+            placeholder="Amount (e.g. 500)"
+            className={`${inputCls} flex-1`}
+          />
+          <button
+            type="button"
+            onClick={addPreset}
+            className="px-3 py-2 text-sm font-medium bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors whitespace-nowrap"
+          >
+            + Add
+          </button>
+        </div>
+      </SectionCard>
+    </div>
   )
 }

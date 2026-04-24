@@ -18,6 +18,8 @@ import type {
   Event,
   EventRegistration,
   GivingRecord,
+  RecurringSubscription,
+  RecurringSubscriptionStatus,
   VisitorFollowup,
   FollowupTemplate,
   AttendanceLog,
@@ -152,6 +154,12 @@ export interface DatabaseService {
   createGivingRecord(r: CreateInput<GivingRecord>): Promise<GivingRecord>
   updateGivingRecord(id: string, r: Partial<GivingRecord>): Promise<GivingRecord>
   deleteGivingRecord(id: string): Promise<void>
+
+  // ── Recurring Subscriptions ───────────────────────────────────────────────────
+  getRecurringSubscriptions(filter?: { status?: RecurringSubscriptionStatus }): Promise<RecurringSubscription[]>
+  createRecurringSubscription(r: CreateInput<RecurringSubscription, 'created_at'>): Promise<RecurringSubscription>
+  updateRecurringSubscription(id: string, r: Partial<RecurringSubscription>): Promise<RecurringSubscription>
+  cancelRecurringSubscription(id: string): Promise<RecurringSubscription>
 
   // ── Visitor Follow-Up ────────────────────────────────────────────────────────
   getVisitorFollowups(personId?: string): Promise<VisitorFollowup[]>

@@ -23,6 +23,7 @@ import type {
   Event,
   EventRegistration,
   GivingRecord,
+  RecurringSubscription,
   VisitorFollowup,
   FollowupTemplate,
   AttendanceLog,
@@ -194,6 +195,7 @@ const store = {
   events: eventsData as Event[],
   eventRegistrations: eventRegistrationsData as EventRegistration[],
   givingRecords: givingRecordsData as GivingRecord[],
+  recurringSubscriptions: [] as RecurringSubscription[],
   visitorFollowup: visitorFollowupData as VisitorFollowup[],
   followupTemplates: followupTemplatesData as FollowupTemplate[],
   attendanceLogs: [] as AttendanceLog[],
@@ -739,6 +741,38 @@ export const inMemoryDb: DatabaseService = {
     store.givingRecords = store.givingRecords.filter(
       r => !(r.id === recordId && cid(r) === getChurchId())
     )
+  },
+
+  // ── Recurring Subscriptions ───────────────────────────────────────────────────
+  async getRecurringSubscriptions(filter) {
+    let subs = inChurch(store.recurringSubscriptions)
+    if (filter?.status) subs = subs.filter(s => s.status === filter.status)
+    return subs.sort((a, b) => b.created_at.localeCompare(a.created_at))
+  },
+
+  async createRecurringSubscription(data) {
+    const sub: RecurringSubscription = { ...stamp(data), id: id(), created_at: now() }
+    store.recurringSubscriptions.push(sub)
+    return sub
+  },
+
+  async updateRecurringSubscription(subId, data) {
+    const idx = store.recurringSubscriptions.findIndex(s => s.id === subId && cid(s) === getChurchId())
+    if (idx === -1) throw new Error(`RecurringSubscription ${subId} not found`)
+    store.recurringSubscriptions[idx] = { ...store.recurringSubscriptions[idx], ...data }
+    return store.recurringSubscriptions[idx]
+  },
+
+  async cancelRecurringSubscription(subId) {
+    const idx = store.recurringSubscriptions.findIndex(s => s.id === subId && cid(s) === getChurchId())
+    if (idx === -1) throw new Error(`RecurringSubscription ${subId} not found`)
+    // TODO: In real mode, call Stripe API to cancel the subscription before updating DB
+    store.recurringSubscriptions[idx] = {
+      ...store.recurringSubscriptions[idx],
+      status: 'cancelled',
+      cancelled_at: now(),
+    }
+    return store.recurringSubscriptions[idx]
   },
 
   // ── Visitor Follow-Up ────────────────────────────────────────────────────────
