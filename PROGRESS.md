@@ -1,7 +1,7 @@
 # Gather — Build Progress
 
 > Read `Gather-Church-Management-System-Spec.md` alongside this file.
-> **Current state: 745 tests passing across 38 test files + 30 stress tests (5 files). Last completed: Session V — Stress Test Suite (2026-04-25).**
+> **Current state: 775 tests passing across 43 test files + 30 stress tests (5 files). Last completed: Session W — Collapsible Grouped Sidebar Navigation (2026-04-24).**
 
 ---
 
@@ -824,8 +824,9 @@ The following flows were confirmed working end-to-end in the running app (`VITE_
 | Session T (2026-04-24) | 16 | 745 |
 | Session U (2026-04-24) | 0 | 745 |
 | Session V (2026-04-25) | 30 stress | **745 + 30** |
+| Session W (2026-04-24) | +30 new unit tests | **775 + 30 stress** |
 
-All 745 unit/integration tests pass. 30 additional stress tests in `src/tests/stress/`. TypeScript clean. No Firebase credentials required to run.
+All 775 unit/integration tests pass. 30 additional stress tests in `src/tests/stress/`. TypeScript clean. No Firebase credentials required to run.
 
 ---
 
@@ -1894,3 +1895,37 @@ Performance and scale stress tests covering all 10 major areas of the app. Tests
 **Secondary fix:** N+1 `db.getPerson()` calls in `getMemberAttendanceRates()` — replace with one `db.getPeople()` call and a Map lookup. Currently fast enough (83–138ms) but will matter in production Firestore.
 
 See `src/tests/stress/STRESS_RESULTS.md` for the complete results table and all suggested fixes.
+
+---
+
+## Session W — Collapsible Grouped Sidebar Navigation ✅ Complete (2026-04-24)
+
+**+30 new unit tests (775 total).** Baseline: 745 passing. TypeScript clean.
+
+### What was built
+
+Replaced the flat sidebar nav list in `src/layouts/AdminLayout.tsx` with 5 collapsible grouped sections. Groups auto-expand for the active route on load and persist open/closed state to localStorage.
+
+### Groups
+
+| Group | Emoji | Key Routes |
+|-------|-------|-----------|
+| People | 👥 | Directory, Households, Check-In, Visitors |
+| Ministry | 🏠 | Groups, Events, Volunteers, Giving |
+| Worship | 🎵 | Service Plans, Songs, Music Stand (new tab), Stage Display (new tab) |
+| Communicate | 💬 | Bulk Messaging, Notifications |
+| Admin | ⚙️ | App Settings, Church Setup, User Management |
+
+### Behavior
+
+- **Auto-expand:** On navigation, the group whose `pathPrefix` or item path matches `location.pathname` is automatically opened (via `useEffect` watching `location.pathname`)
+- **Chevron animation:** Right-pointing chevron rotates 90° when group is open (`transition-transform duration-200`)
+- **localStorage persistence:** Open groups stored under key `gather:sidebar_groups` as a JSON array of group IDs
+- **Collapsed desktop mode:** When sidebar is collapsed and not mobile, shows a flat icon-only list (no group structure) via `allVisibleItems`
+- **External items:** Music Stand (`/stand`) and Stage Display (`/display/service`) render as `<a target="_blank" rel="noopener noreferrer">` with a new-tab icon
+- **All guards preserved:** Tier checks, `isFinanceAdmin`, module guards, and terminology labels unchanged
+- **Muted group headers:** `text-xs font-semibold uppercase tracking-wide text-gray-400` — visually subordinate, not nav links themselves
+
+### Files changed
+
+- `src/layouts/AdminLayout.tsx` — complete rewrite of nav section (~420 lines)
