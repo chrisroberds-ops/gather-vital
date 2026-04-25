@@ -43,6 +43,8 @@ const CommunicationsLog = lazy(() => import('@/features/communications/Communica
 
 // Live pickup display
 const PickupDisplay = lazy(() => import('@/features/display/PickupDisplay'))
+// Service stage display (read-only confidence monitor)
+const ServiceDisplay = lazy(() => import('@/features/display/ServiceDisplay'))
 
 // Worship planning
 const WorshipDashboard = lazy(() => import('@/features/worship/WorshipDashboard'))
@@ -115,6 +117,12 @@ const router = createBrowserRouter([
   {
     path: '/display',
     element: <Wrap><PickupDisplay /></Wrap>,
+  },
+
+  // ── Service stage display — read-only confidence monitor (no auth) ──────────
+  {
+    path: '/display/service',
+    element: <Wrap><ServiceDisplay /></Wrap>,
   },
 
   // ── Music Stand (authenticated, full-screen, no admin chrome) ──────────────

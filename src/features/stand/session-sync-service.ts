@@ -140,6 +140,36 @@ export async function getActiveSession(planId: string): Promise<MusicStandSessio
   return sessions.find(s => s.is_active) ?? null
 }
 
+/**
+ * Returns the first active MusicStandSession across ALL service plans,
+ * along with the plan it belongs to.
+ * Used by the read-only `/display/service` stage monitor to auto-attach to a live session.
+ * Checks only plans from the last 7 days through 30 days ahead to keep the scan cheap.
+ */
+export async function getAnyActiveSession(): Promise<{
+  session: MusicStandSession
+  planId: string
+} | null> {
+  const allPlans = await db.getServicePlans()
+  // Narrow to a ±30-day window to avoid scanning the entire history
+  const today = new Date()
+  const cutoffPast = new Date(today); cutoffPast.setDate(today.getDate() - 7)
+  const cutoffFuture = new Date(today); cutoffFuture.setDate(today.getDate() + 30)
+  const cutoffPastStr = cutoffPast.toISOString().slice(0, 10)
+  const cutoffFutureStr = cutoffFuture.toISOString().slice(0, 10)
+
+  const relevant = allPlans.filter(
+    p => p.service_date >= cutoffPastStr && p.service_date <= cutoffFutureStr
+  )
+
+  for (const plan of relevant) {
+    const sessions = await db.getMusicStandSessions(plan.id)
+    const active = sessions.find(s => s.is_active)
+    if (active) return { session: active, planId: plan.id }
+  }
+  return null
+}
+
 // ── Page Turn Sync ────────────────────────────────────────────────────────────
 
 /**

@@ -1,7 +1,7 @@
 # Gather — Build Progress
 
 > Read `Gather-Church-Management-System-Spec.md` alongside this file.
-> **Current state: 729 tests passing across 37 test files. Last completed: Session S — Absence Tracking (2026-04-23).**
+> **Current state: 745 tests passing across 38 test files. Last completed: Session T — Service Stage Display (2026-04-24).**
 
 ---
 
@@ -820,9 +820,10 @@ The following flows were confirmed working end-to-end in the running app (`VITE_
 | Session P (2026-04-22) | 37 | 682 |
 | Session Q (2026-04-22) | 0 | 682 |
 | Session R (2026-04-23) | 31 | 713 |
-| Session S (2026-04-23) | 16 | **729** |
+| Session S (2026-04-23) | 16 | 729 |
+| Session T (2026-04-24) | 16 | **745** |
 
-All 729 tests pass. TypeScript clean. No Firebase credentials required to run.
+All 745 tests pass. TypeScript clean. No Firebase credentials required to run.
 
 ---
 
@@ -1672,3 +1673,67 @@ print-server/
 | File | Tests |
 |------|-------|
 | `src/tests/absence-service.test.ts` | 16 |
+
+---
+
+## Session T — Service Stage Display ✅ Complete (2026-04-24)
+
+**+16 tests (745 total).** Baseline: 729 tests.
+
+### What was built
+
+`/display/service` — a read-only stage confidence monitor for the worship team.
+Designed to run on a TV or monitor at the back of the stage so the entire worship team can see what song is currently active without needing their own device. No auth required (same pattern as the kids pickup display at `/display`).
+
+#### New function: `getAnyActiveSession()` (`src/features/stand/session-sync-service.ts`)
+- Scans all service plans within a ±7-day past / +30-day future window
+- Returns `{ session: MusicStandSession, planId: string } | null`
+- Used by `ServiceDisplay` on mount and during 5-second polling
+- Skips ended sessions, returns first active one found
+
+#### New component: `src/features/display/ServiceDisplay.tsx`
+**Three display states:**
+1. **Waiting** — no active `MusicStandSession`; animated ellipsis, shows plan name if known
+2. **Live** — active session with a song selected; two-pane layout:
+   - Large "Now" card: song title (6xl), key, BPM, artist, position badge
+   - Dimmed "Up next" card below a divider
+3. **Session ended** — brief amber "Session ended" banner (8s), then reverts to waiting
+
+**Data sync (two layers):**
+- `standBus.subscribe()` — real-time BroadcastChannel events: `session_started`, `session_ended`, `song_changed`
+- 5-second `setInterval` polling via `getAnyActiveSession()` — handles cross-device / page-refresh recovery; `page_turned` events are intentionally ignored (page number not relevant to this display)
+
+**Footer song strip:** When a session is live, shows all songs as pills — current song highlighted in white, past songs dimmed, upcoming songs in muted gray.
+
+**Live status header:** Red pulsing dot + "Live" badge + musician count when session is active.
+
+#### Route: `App.tsx`
+- Added `/display/service` route (no auth, no layout shell)
+- Added lazy import for `ServiceDisplay`
+
+#### WorshipDashboard link (`src/features/worship/WorshipDashboard.tsx`)
+- Added "Stage Display" button (monitor icon) alongside existing "Open Music Stand"
+- Opens `/display/service` in a new tab
+- Tooltip: "Open the read-only stage confidence monitor on a TV or display screen"
+
+### Test coverage (`src/tests/service-display.test.ts`)
+16 new tests across two suites:
+
+**`getAnyActiveSession`** (9 tests):
+- Returns null when no plans exist
+- Returns null when plans have no sessions
+- Returns null when sessions all inactive
+- Returns active session when one exists
+- Includes planId in result
+- Respects future window (35-day plan excluded)
+- Respects past window (10-day-old plan excluded)
+- Plans 5 days ago are within window
+- Skips ended sessions, finds next active
+
+**`session state consumed by ServiceDisplay`** (7 tests):
+- `current_song_id` starts null on session creation
+- `emitSongChange` updates `current_song_id`
+- `endSession` marks `is_active` false
+- `endSession` sets `ended_at` timestamp
+- `getAnyActiveSession` returns null after session ended
+- Multiple song changes: last one wins
