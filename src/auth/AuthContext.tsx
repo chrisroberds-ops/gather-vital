@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useRef } from 'react'
 import { AccessTier, type AppUser } from '@/shared/types'
-import { isTestMode, auth } from '@/config/firebase'
+import { isTestMode, auth, app } from '@/config/firebase'
 import { setChurchId, getChurchId, TEST_CHURCH_ID } from '@/services/church-context'
 import {
   signInWithEmailAndPassword,
@@ -10,6 +10,7 @@ import {
   onAuthStateChanged,
   type User as FirebaseUser,
 } from 'firebase/auth'
+import { getFirestore, doc as fsDoc, getDoc as fsGetDoc } from 'firebase/firestore'
 
 // ── Test users (matched from generated test_users.json) ─────────────────────
 import testUsersData from '@/test-data/test_users.json'
@@ -115,20 +116,43 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
       if (firebaseUser) {
-        // In real mode, derive tier and church_id from custom claims or a Firestore roles document.
-        // For now, default to Authenticated tier — production wiring deferred.
-        const appUser: AppUser = {
+        // Resolve church_id, tier, and isFinanceAdmin from the /users/{uid} Firestore document.
+        // The document is written once during onboarding (setup wizard) and updated by an admin
+        // to change a user's access level.
+        let church_id = ''
+        let tier = AccessTier.Authenticated
+        let isFinanceAdmin = false
+        let personId: string | undefined
+
+        try {
+          if (app) {
+            const firestoreDb = getFirestore(app)
+            const snap = await fsGetDoc(fsDoc(firestoreDb, 'users', firebaseUser.uid))
+            if (snap.exists()) {
+              const d = snap.data()
+              church_id = d.church_id ?? ''
+              tier = d.tier ?? AccessTier.Authenticated
+              isFinanceAdmin = d.isFinanceAdmin ?? false
+              personId = d.personId ?? undefined
+            }
+          }
+        } catch {
+          // Firestore unreachable (offline, misconfigured) — fall back to minimal profile.
+          // The user can still authenticate; they will be redirected to /setup if church_id is empty.
+        }
+
+        if (church_id) setChurchId(church_id)
+
+        setUser({
           uid: firebaseUser.uid,
-          tier: AccessTier.Authenticated,
-          isFinanceAdmin: false,
-          // TODO: resolve church_id from Firestore /users/{uid} document or custom claims
-          church_id: TEST_CHURCH_ID,
-          personId: undefined,
+          tier,
+          isFinanceAdmin,
+          church_id,
+          personId,
           email: firebaseUser.email ?? undefined,
           displayName: firebaseUser.displayName ?? undefined,
           photoURL: firebaseUser.photoURL ?? undefined,
-        }
-        setUser(appUser)
+        })
       } else {
         setUser(null)
       }

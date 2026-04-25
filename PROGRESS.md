@@ -1,7 +1,7 @@
 # Gather — Build Progress
 
 > Read `Gather-Church-Management-System-Spec.md` alongside this file.
-> **Current state: 745 tests passing across 38 test files. Last completed: Session T — Service Stage Display (2026-04-24).**
+> **Current state: 745 tests passing across 38 test files. Last completed: Session U — Firebase Production Backend (2026-04-24).**
 
 ---
 
@@ -821,7 +821,8 @@ The following flows were confirmed working end-to-end in the running app (`VITE_
 | Session Q (2026-04-22) | 0 | 682 |
 | Session R (2026-04-23) | 31 | 713 |
 | Session S (2026-04-23) | 16 | 729 |
-| Session T (2026-04-24) | 16 | **745** |
+| Session T (2026-04-24) | 16 | 745 |
+| Session U (2026-04-24) | 0 | **745** |
 
 All 745 tests pass. TypeScript clean. No Firebase credentials required to run.
 
@@ -1737,3 +1738,112 @@ Designed to run on a TV or monitor at the back of the stage so the entire worshi
 - `endSession` sets `ended_at` timestamp
 - `getAnyActiveSession` returns null after session ended
 - Multiple song changes: last one wins
+
+---
+
+## Session U — Firebase Production Backend ✅ Complete (2026-04-24)
+
+**+0 tests (745 total).** Baseline: 745 tests. No new tests — this session is pure production wiring; TEST_MODE and all existing tests are unaffected.
+
+### What was built
+
+#### `src/services/firebase-db.ts` — complete rewrite
+
+Replaced all `notImplemented` stubs with full Firestore implementations. Every method is multi-tenant: all reads/writes are automatically scoped to the church returned by `getChurchId()`.
+
+**Firestore schema (all subcollections under `churches/{church_id}/`):**
+
+| Subcollection | Entity |
+|---|---|
+| `people` | Person |
+| `households` | Household |
+| `household_members` | HouseholdMember |
+| `child_pickups` | ChildPickup |
+| `checkin_sessions` | CheckinSession |
+| `checkins` | Checkin |
+| `checkin_flags` | CheckinFlag |
+| `teams` | Team |
+| `team_members` | TeamMember |
+| `volunteer_schedules` | VolunteerSchedule |
+| `volunteer_blackouts` | VolunteerBlackout |
+| `groups` | Group |
+| `group_members` | GroupMember |
+| `group_meetings` | GroupMeeting |
+| `group_attendance` | GroupAttendance |
+| `events` | Event |
+| `event_registrations` | EventRegistration |
+| `giving_records` | GivingRecord |
+| `recurring_subscriptions` | RecurringSubscription |
+| `visitor_followups` | VisitorFollowup |
+| `followup_templates` | FollowupTemplate |
+| `attendance_logs` | AttendanceLog |
+| `communications_log` | CommunicationsLogEntry |
+| `email_templates` | EmailTemplate |
+| `attendance_entries` | AttendanceEntry |
+| `pickup_attempts` | PickupAttempt |
+| `songs` | Song |
+| `service_plans` | ServicePlan |
+| `service_plan_items` | ServicePlanItem |
+| `service_assignments` | ServiceAssignment |
+| `pickup_queue` | PickupQueueEntry |
+| `music_stand_sessions` | MusicStandSession |
+| `annotations` | MusicStandAnnotation |
+| `user_pdf_prefs` | UserPdfPreferences |
+| `confirmation_tokens` | ConfirmationToken |
+| `monthly_report_history` | MonthlyReportHistory |
+| `settings/app_config` | AppConfig (singleton doc) |
+
+**Top-level collections (not church-scoped):**
+
+| Collection | Entity |
+|---|---|
+| `churches/{id}` | Church |
+| `users/{uid}` | User role document (church_id, tier, isFinanceAdmin, personId) |
+
+**Implementation details:**
+
+- Firestore instance is lazily initialized on first use (`fs()` helper) — no-op in TEST_MODE since `firebaseDb` is never imported there
+- IDs: `crypto.randomUUID()` — globally unique, browser-native
+- Timestamps: all stored as ISO-8601 strings (matches the in-memory DB pattern, avoids Firestore Timestamp serialization)
+- `deletePerson` soft-deletes (sets `is_archived: true`) — matches in-memory DB behaviour
+- `searchPeople` — client-side substring match on first_name, last_name, email, phone (Firestore has no native full-text search)
+- `getGroups(includeHidden)` — fetches all, filters `is_visible` client-side (avoids composite index on a rarely-queried field)
+- `getAnnotations` — queries by `user_id` only, filters `song_id`/`pdf_url` client-side (avoids requiring a multi-field composite index)
+- `getUserPdfPreferences` — queries by `user_id`, filters `pdf_url` client-side (same reason)
+- `getVolunteerSchedule(teamId, personId)` — queries by `team_id` first (most selective), then filters `person_id` client-side
+- `deleteGroupMeeting` — cascades via `writeBatch`: deletes meeting doc + all its `group_attendance` records atomically
+- `reorderServicePlanItems` — batch-updates `position` field on each item in one Firestore write
+- `upsertGroupAttendance` — queries by meeting_id + person_id; updates if found, creates otherwise
+- `saveUserPdfPreferences` — same upsert pattern
+- `upsertMonthlyReportHistory` — upserts by year + month
+- `useConfirmationToken` — validates not-used and not-expired before marking used; throws descriptive errors matching the in-memory DB
+
+#### `src/auth/AuthContext.tsx` — production login wiring
+
+Replaced the `TODO: resolve church_id` placeholder in `onAuthStateChanged` with a real Firestore lookup:
+
+```
+onAuthStateChanged → getDoc('users/{uid}') → { church_id, tier, isFinanceAdmin, personId }
+```
+
+- If the `users/{uid}` document exists: uses its fields for tier, isFinanceAdmin, church_id, personId
+- If the document is missing (first-time login): defaults to `AccessTier.Authenticated`, empty church_id → redirects to `/setup`
+- If Firestore is unreachable (offline / misconfigured): falls back to `AccessTier.Authenticated` with empty church_id — non-fatal
+- `setChurchId(church_id)` is called immediately after resolving, so all subsequent `db.*` calls are correctly scoped
+- Import: `getFirestore`, `doc`, `getDoc` added from `firebase/firestore`; `app` added from `@/config/firebase`
+- TEST_MODE: the `if (isTestMode) return` guard in the effect prevents any Firestore access in test runs
+
+### Firestore security rules (to be deployed separately)
+
+The `users/{uid}` document should be writable only by an admin Cloud Function or the Firebase console — never from the client. Suggested rules sketch:
+
+```
+match /users/{uid} {
+  allow read: if request.auth.uid == uid;
+  allow write: if false; // server-side only
+}
+match /churches/{churchId}/{document=**} {
+  allow read, write: if request.auth != null
+    && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.church_id == churchId;
+}
+```
