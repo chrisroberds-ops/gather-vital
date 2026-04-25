@@ -1,7 +1,7 @@
 # Gather — Build Progress
 
 > Read `Gather-Church-Management-System-Spec.md` alongside this file.
-> **Current state: 745 tests passing across 38 test files. Last completed: Session U — Firebase Production Backend (2026-04-24).**
+> **Current state: 745 tests passing across 38 test files + 30 stress tests (5 files). Last completed: Session V — Stress Test Suite (2026-04-25).**
 
 ---
 
@@ -822,9 +822,10 @@ The following flows were confirmed working end-to-end in the running app (`VITE_
 | Session R (2026-04-23) | 31 | 713 |
 | Session S (2026-04-23) | 16 | 729 |
 | Session T (2026-04-24) | 16 | 745 |
-| Session U (2026-04-24) | 0 | **745** |
+| Session U (2026-04-24) | 0 | 745 |
+| Session V (2026-04-25) | 30 stress | **745 + 30** |
 
-All 745 tests pass. TypeScript clean. No Firebase credentials required to run.
+All 745 unit/integration tests pass. 30 additional stress tests in `src/tests/stress/`. TypeScript clean. No Firebase credentials required to run.
 
 ---
 
@@ -1847,3 +1848,49 @@ match /churches/{churchId}/{document=**} {
     && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.church_id == churchId;
 }
 ```
+
+---
+
+## Session V — Stress Test Suite ✅ Complete (2026-04-25)
+
+**+30 stress tests (745 unit tests unchanged).** Baseline: 745 passing.
+
+### What was built
+
+Performance and scale stress tests covering all 10 major areas of the app. Tests live in `src/tests/stress/` and are kept separate from the unit test suite. All tests use `@faker-js/faker` seeded at 99 for reproducibility.
+
+### Files
+
+| File | Tests | Areas Covered |
+|------|-------|---------------|
+| `src/tests/stress/stress-people-checkin.test.ts` | 5 | People Directory (#1), Kids Check-In (#2) |
+| `src/tests/stress/stress-giving-analytics.test.ts` | 4 | Giving/Finance (#3), Monthly Analytics (#9) |
+| `src/tests/stress/stress-events-volunteers.test.ts` | 7 | Events (#4), Volunteer Scheduling (#5) |
+| `src/tests/stress/stress-groups-comms.test.ts` | 6 | Groups & Attendance (#6), Communications (#7) |
+| `src/tests/stress/stress-worship-boot.test.ts` | 8 | Worship/Service Plans (#8), DB Boot (#10) |
+| `src/tests/stress/STRESS_RESULTS.md` | — | Full results, thresholds, recommended fixes |
+
+### Key findings
+
+| Finding | Result |
+|---------|--------|
+| Thresholds crossed | **1** (group member fan-out at 100+ groups) |
+| 🔴 BREAK events | **0** |
+| Slowest operation | `getGroupMembers()` × 100 groups in parallel = 309ms ⚠️ |
+| Fastest at scale | `getEvents()` — 0.1ms at 504 events |
+| People safe limit | 5,000+ (search: 31ms, load: 4ms) |
+| Check-in safe limit | 200 concurrent children → 1.7ms |
+| Giving safe limit | 25,000 records in computeGivingSummary → 44.8ms |
+| Boot time (large church 1,925 people) | 7.9ms |
+
+### Only threshold crossed
+
+**`getGroupMembers()` fan-out across 100+ groups** — 309ms at 100 groups, 322ms at 200 groups.
+
+**Root cause:** Each `getGroupMembers(groupId)` does a full O(n) linear scan of `store.groupMembers`. With 100 parallel calls via `Promise.all()`, this is effectively O(100n).
+
+**Recommended fix:** Add a `Map<groupId, GroupMember[]>` index in `in-memory-db.ts`, invalidated on any write to `store.groupMembers`. This would reduce 309ms → ~3ms.
+
+**Secondary fix:** N+1 `db.getPerson()` calls in `getMemberAttendanceRates()` — replace with one `db.getPeople()` call and a Map lookup. Currently fast enough (83–138ms) but will matter in production Firestore.
+
+See `src/tests/stress/STRESS_RESULTS.md` for the complete results table and all suggested fixes.
