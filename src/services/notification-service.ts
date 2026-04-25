@@ -96,6 +96,7 @@ export interface EmailPayload {
   body: string     // plain-text body
   personId?: string
   logoUrl?: string // if set, included as an image in the HTML email header
+  replyTo?: string // if set, added as Reply-To header so recipients can reply directly
 }
 
 // ── HTML builder ──────────────────────────────────────────────────────────────
@@ -133,6 +134,7 @@ async function sendViaResend(
       to: [payload.to],
       subject: payload.subject,
       text: payload.body,
+      ...(payload.replyTo ? { reply_to: payload.replyTo } : {}),
       ...(payload.logoUrl ? { html: buildHtmlBody(payload.body, payload.logoUrl) } : {}),
     }),
   })

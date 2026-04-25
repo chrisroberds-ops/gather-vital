@@ -63,6 +63,12 @@ export interface DatabaseService {
   updatePerson(id: string, p: Partial<Omit<Person, 'id' | 'created_at' | 'church_id'>>): Promise<Person>
   deletePerson(id: string): Promise<void>
   searchPeople(query: string): Promise<Person[]>
+  /**
+   * Returns Person records for all active, non-archived users with tier >= Staff (3).
+   * Used by the member-facing Contact Staff section.
+   * Never exposes phone numbers — callers must strip them before display.
+   */
+  getStaffMembers(): Promise<Person[]>
 
   // ── Households ──────────────────────────────────────────────────────────────
   getHouseholds(): Promise<Household[]>

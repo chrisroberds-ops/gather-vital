@@ -185,6 +185,25 @@ export const firebaseDb: DatabaseService = {
     )
   },
 
+  async getStaffMembers() {
+    // Query global users collection by church_id; filter tier >= 3 client-side
+    // (avoids composite Firestore index requirement)
+    const usersRef = collection(fs(), 'users')
+    const usersSnap = await getDocs(query(usersRef, where('church_id', '==', cid())))
+    const staffPersonIds = usersSnap.docs
+      .map(d => d.data())
+      .filter(u => (u.tier ?? 0) >= 3 && u.personId)
+      .map(u => u.personId as string)
+
+    if (staffPersonIds.length === 0) return []
+
+    const personDocs = await Promise.all(staffPersonIds.map(pid => getDoc(cd('people', pid))))
+    return personDocs
+      .filter(d => d.exists())
+      .map(d => ({ ...d.data(), id: d.id } as Person))
+      .filter(p => p.is_active && !p.is_archived)
+  },
+
   // ── Households ────────────────────────────────────────────────────────────
   async getHouseholds() { return getAll<Household>('households') },
 

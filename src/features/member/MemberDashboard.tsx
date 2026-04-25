@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '@/auth/AuthContext'
 import { db } from '@/services'
 import { updateScheduleStatus } from '@/features/volunteers/volunteer-service'
+import { sendEmail } from '@/services/notification-service'
 import { displayName, formatPhone, formatDate } from '@/shared/utils/format'
 import Avatar from '@/shared/components/Avatar'
 import Badge from '@/shared/components/Badge'
 import Card from '@/shared/components/Card'
+import Modal from '@/shared/components/Modal'
 import Spinner from '@/shared/components/Spinner'
 import type { Person, Group, VolunteerSchedule, EventRegistration, Event } from '@/shared/types'
 
@@ -16,6 +18,7 @@ export default function MemberDashboard() {
   const [groups, setGroups] = useState<Group[]>([])
   const [schedule, setSchedule] = useState<VolunteerSchedule[]>([])
   const [registrations, setRegistrations] = useState<Array<{ reg: EventRegistration; event: Event }>>([])
+  const [staffMembers, setStaffMembers] = useState<Person[]>([])
   const [loading, setLoading] = useState(true)
   const [updatingShift, setUpdatingShift] = useState<string | null>(null)
 
@@ -24,15 +27,17 @@ export default function MemberDashboard() {
 
     const today = new Date().toISOString().split('T')[0]
 
-    const [p, g, sched, regs, events] = await Promise.all([
+    const [p, g, sched, regs, events, staff] = await Promise.all([
       db.getPerson(user.personId),
       db.getPersonGroups(user.personId),
       db.getVolunteerSchedule(undefined, user.personId),
       db.getPersonEventRegistrations(user.personId),
       db.getEvents(),
+      db.getStaffMembers(),
     ])
     setPerson(p)
     setGroups(g)
+    setStaffMembers(staff)
     // Only upcoming
     setSchedule(sched.filter(s => s.scheduled_date >= today).slice(0, 5))
     // Combine registrations with event data
@@ -208,6 +213,13 @@ export default function MemberDashboard() {
         )}
       </div>
 
+      {/* Contact Staff */}
+      <ContactStaffSection
+        staffMembers={staffMembers}
+        memberName={person ? displayName(person) : (user?.displayName ?? 'Member')}
+        memberEmail={person?.email ?? user?.email}
+      />
+
       {/* What members can't see */}
       <div className="bg-gray-100 rounded-xl p-5 text-sm text-gray-500">
         <p className="font-medium text-gray-700 mb-1">What you can do as a member:</p>
@@ -239,5 +251,172 @@ function StatusBadge({ status }: { status: string }) {
     <Badge variant={variants[status] ?? 'default'}>
       {status}
     </Badge>
+  )
+}
+
+// ── Contact Staff ─────────────────────────────────────────────────────────────
+
+interface ContactStaffProps {
+  staffMembers: Person[]
+  memberName: string
+  memberEmail?: string
+}
+
+function ContactStaffSection({ staffMembers, memberName, memberEmail }: ContactStaffProps) {
+  const [modalStaff, setModalStaff] = useState<Person | null>(null)
+
+  return (
+    <div>
+      <h2 className="text-lg font-semibold text-gray-900 mb-3">Contact Staff</h2>
+      {staffMembers.length === 0 ? (
+        <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center">
+          <div className="text-3xl mb-2">👋</div>
+          <p className="text-sm text-gray-500">No staff contacts available — check back soon</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {staffMembers.map(staff => {
+            const hasEmail = Boolean(staff.email)
+            return (
+              <div
+                key={staff.id}
+                className={`bg-white rounded-2xl border border-gray-200 p-5 flex items-center gap-4 ${!hasEmail ? 'opacity-60' : ''}`}
+              >
+                <Avatar name={displayName(staff)} photoUrl={staff.photo_url} size="lg" />
+                <div className="flex-1 min-w-0">
+                  <div className="font-semibold text-gray-900 text-sm truncate">{displayName(staff)}</div>
+                  {staff.job_title && (
+                    <div className="text-xs text-gray-500 mt-0.5 truncate">{staff.job_title}</div>
+                  )}
+                  {!hasEmail && (
+                    <div className="text-xs text-gray-400 mt-1">No email on file</div>
+                  )}
+                </div>
+                <button
+                  onClick={() => setModalStaff(staff)}
+                  disabled={!hasEmail}
+                  className="flex-shrink-0 text-xs font-medium px-3 py-1.5 rounded-lg border border-primary-200 text-primary-700 hover:bg-primary-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none"
+                >
+                  Send Message
+                </button>
+              </div>
+            )
+          })}
+        </div>
+      )}
+
+      {modalStaff && (
+        <MessageModal
+          staff={modalStaff}
+          memberName={memberName}
+          memberEmail={memberEmail}
+          onClose={() => setModalStaff(null)}
+        />
+      )}
+    </div>
+  )
+}
+
+interface MessageModalProps {
+  staff: Person
+  memberName: string
+  memberEmail?: string
+  onClose: () => void
+}
+
+function MessageModal({ staff, memberName, memberEmail, onClose }: MessageModalProps) {
+  const [subject, setSubject] = useState(`Message from ${memberName}`)
+  const [message, setMessage] = useState('')
+  const [sending, setSending] = useState(false)
+  const [toast, setToast] = useState('')
+
+  async function handleSend() {
+    if (!message.trim() || !staff.email) return
+    setSending(true)
+    try {
+      await sendEmail({
+        to: staff.email,
+        subject,
+        body: message,
+        personId: staff.id,
+        replyTo: memberEmail,
+      })
+      await db.createCommunicationsLogEntry({
+        person_id: staff.id,
+        channel: 'email',
+        subject,
+        recipient: staff.email,
+        success: true,
+        sender_name: memberName,
+        is_bulk: false,
+      })
+      setToast('Message sent!')
+      setTimeout(() => { onClose() }, 1500)
+    } catch {
+      setToast('Failed to send — please try again.')
+    } finally {
+      setSending(false)
+    }
+  }
+
+  return (
+    <Modal isOpen title={`Message ${displayName(staff)}`} onClose={onClose} size="md">
+      <div className="space-y-4">
+        {toast && (
+          <div className={`text-sm px-4 py-2 rounded-lg ${toast.startsWith('Failed') ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
+            {toast}
+          </div>
+        )}
+
+        <div>
+          <label className="block text-xs font-medium text-gray-500 mb-1">To</label>
+          <div className="text-sm text-gray-900 px-3 py-2 bg-gray-50 rounded-lg border border-gray-200">
+            {displayName(staff)}
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor="msg-subject" className="block text-xs font-medium text-gray-500 mb-1">Subject</label>
+          <input
+            id="msg-subject"
+            type="text"
+            value={subject}
+            onChange={e => setSubject(e.target.value)}
+            className="w-full text-sm px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-300"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="msg-body" className="block text-xs font-medium text-gray-500 mb-1">
+            Message <span className="text-gray-400">({message.length}/1000)</span>
+          </label>
+          <textarea
+            id="msg-body"
+            rows={5}
+            maxLength={1000}
+            value={message}
+            onChange={e => setMessage(e.target.value)}
+            placeholder="Write your message…"
+            className="w-full text-sm px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-300 resize-none"
+          />
+        </div>
+
+        <div className="flex justify-end gap-3 pt-1">
+          <button
+            onClick={onClose}
+            className="text-sm px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={() => void handleSend()}
+            disabled={!message.trim() || sending}
+            className="text-sm font-medium px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {sending ? 'Sending…' : 'Send'}
+          </button>
+        </div>
+      </div>
+    </Modal>
   )
 }

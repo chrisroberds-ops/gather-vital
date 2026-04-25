@@ -67,6 +67,7 @@ import followupTemplatesData from '@/test-data/followup_templates.json'
 import appConfigData from '@/test-data/app_config.json'
 import churchesData from '@/test-data/churches.json'
 import songsData from '@/test-data/songs.json'
+import testUsersData from '@/test-data/test_users.json'
 
 // ── Church scoping helpers ────────────────────────────────────────────────────
 // Seed data predates multi-tenancy and lacks church_id.
@@ -328,6 +329,18 @@ export const inMemoryDb: DatabaseService = {
 
   async searchPeople(query) {
     return inChurch(store.people).filter(p => matchesSearch(p, query))
+  },
+
+  async getStaffMembers() {
+    // Find person IDs for users with tier >= 3 (Staff / Executive)
+    const staffPersonIds = new Set(
+      (testUsersData as Array<{ tier: number; personId?: string }>)
+        .filter(u => u.tier >= 3 && u.personId)
+        .map(u => u.personId as string)
+    )
+    return inChurch(store.people).filter(
+      p => staffPersonIds.has(p.id) && p.is_active && !p.is_archived
+    )
   },
 
   // ── Households ──────────────────────────────────────────────────────────────

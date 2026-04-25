@@ -108,6 +108,8 @@ export interface Person {
   training_completed?: boolean
   // Soft-delete / archive flag (set by deletePerson — never hard-deleted)
   is_archived?: boolean
+  // Staff role/title (shown on Contact Staff cards for members)
+  job_title?: string
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

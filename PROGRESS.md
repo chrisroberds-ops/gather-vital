@@ -1,7 +1,7 @@
 # Gather — Build Progress
 
 > Read `Gather-Church-Management-System-Spec.md` alongside this file.
-> **Current state: 775 tests passing across 43 test files + 30 stress tests (5 files). Last completed: Session W — Collapsible Grouped Sidebar Navigation (2026-04-24).**
+> **Current state: 789 tests passing across 44 test files + 30 stress tests (5 files). Last completed: Session X — Contact Staff (member-facing) (2026-04-25).**
 
 ---
 
@@ -825,8 +825,9 @@ The following flows were confirmed working end-to-end in the running app (`VITE_
 | Session U (2026-04-24) | 0 | 745 |
 | Session V (2026-04-25) | 30 stress | **745 + 30** |
 | Session W (2026-04-24) | +30 new unit tests | **775 + 30 stress** |
+| Session X (2026-04-25) | +14 | **789 + 30 stress** |
 
-All 775 unit/integration tests pass. 30 additional stress tests in `src/tests/stress/`. TypeScript clean. No Firebase credentials required to run.
+All 789 unit/integration tests pass. 30 additional stress tests in `src/tests/stress/`. TypeScript clean. No Firebase credentials required to run.
 
 ---
 
@@ -1929,3 +1930,37 @@ Replaced the flat sidebar nav list in `src/layouts/AdminLayout.tsx` with 5 colla
 ### Files changed
 
 - `src/layouts/AdminLayout.tsx` — complete rewrite of nav section (~420 lines)
+
+---
+
+## Session X — Contact Staff (member-facing) ✅ Complete (2026-04-25)
+
+**+14 tests (789 total).** Baseline: 775 passing. TypeScript clean.
+
+### What was built
+
+A "Contact Staff" section on the member dashboard (`/my`) lets authenticated members browse and message staff directly from their portal.
+
+### Feature details
+
+- `db.getStaffMembers()` — new method on `DatabaseService` returning `Person[]` for all active, non-archived users with `tier >= 3` (Staff / Executive). In-memory: joins `test_users.json` with `store.people`. Firebase: queries global `users` collection by `church_id`, filters `tier >= 3` client-side, fetches person docs.
+- `Person.job_title?: string` — new optional field added to the Person type and used on staff cards.
+- `EmailPayload.replyTo?: string` — new optional field on the email payload, passed as `reply_to` in the Resend API call so staff can reply directly to the member's email address.
+- Staff displayed in a responsive grid (2 cols desktop, 1 col mobile). Each card shows avatar (photo or initials), preferred/first name + last name, and `job_title` if set.
+- Staff with no email are rendered grayed out with a "No email on file" label; Send button is disabled.
+- Empty state: "No staff contacts available — check back soon" when no staff are returned.
+- Clicking "Send Message" opens a modal with: To (read-only), pre-filled Subject (`Message from [member name]`), Message textarea (required, max 1000 chars), Send and Cancel buttons.
+- On send: calls `sendEmail()` with `replyTo` set to the member's email, then calls `db.createCommunicationsLogEntry()` to log the send. Shows success toast and auto-closes.
+- Phone numbers are never exposed in this view.
+
+### Files changed
+
+| File | Change |
+|------|--------|
+| `src/shared/types/index.ts` | Added `job_title?: string` to `Person`; added `replyTo?: string` to `EmailPayload` |
+| `src/services/db-interface.ts` | Added `getStaffMembers(): Promise<Person[]>` |
+| `src/services/in-memory-db.ts` | Implemented `getStaffMembers()` using `test_users.json` join |
+| `src/services/firebase-db.ts` | Implemented `getStaffMembers()` via Firestore `users` collection query |
+| `src/services/notification-service.ts` | Added `replyTo` to `EmailPayload`; wired into `sendViaResend` as `reply_to` |
+| `src/features/member/MemberDashboard.tsx` | Added `staffMembers` state, `ContactStaffSection` and `MessageModal` components |
+| `src/tests/contact-staff.test.tsx` | 14 new tests (service unit + UI integration) |
